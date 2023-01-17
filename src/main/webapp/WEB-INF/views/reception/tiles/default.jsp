@@ -13,42 +13,7 @@
 <title>YH-HOSPITAL ${title}</title>
 </head>
 <body id="page-top">
-	<div id="wrapper">
-		<tiles:insertAttribute name="sidebar" />
-		<div id="content-wrapper" class="d-flex flex-column">
-			<div id="content">
-				<tiles:insertAttribute name="topbar" />
-				<tiles:insertAttribute name="container" />
-				<tiles:insertAttribute name="footer" />
-			</div>
-		</div>
-	</div>
-		<!-- Scroll to Top Button-->
-	<a class="scroll-to-top rounded" href="#page-top"> 
-		<i class="fas fa-angle-up"></i>
-	</a>
-	<!-- Logout Modal-->
-	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-					<button class="close" type="button" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">Ã</span>
-					</button>
-				</div>
-				<div class="modal-body">Select "Logout" below if you are ready
-					to end your current session.</div>
-				<div class="modal-footer">
-					<button class="btn btn-secondary" type="button"
-						data-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" href="login.html">Logout</a>
-				</div>
-			</div>
-		</div>
-	</div>
+	<tiles:insertAttribute name="container" />
 	<!-- Bootstrap core JavaScript-->
 	<script src="staff/vendor/jquery/jquery.min.js"></script>
 	<script src="staff/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -63,7 +28,6 @@
 	<script src="staff/js/demo/chart-pie-demo.js"></script>
 </body>
 </html>
-
 
 
 

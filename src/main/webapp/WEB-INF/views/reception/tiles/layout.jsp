@@ -10,7 +10,7 @@
 <link href="staff/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 <link href="staff/css/sb-admin-2.css" rel="stylesheet">
-<title>YH-HOSPITAL ${title}</title>
+<title>YH-HOSPITAL</title>
 </head>
 <body id="page-top">
 	<div id="wrapper">
@@ -27,6 +27,7 @@
 	<a class="scroll-to-top rounded" href="#page-top"> 
 		<i class="fas fa-angle-up"></i>
 	</a>
+
 	<!-- Logout Modal-->
 	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
