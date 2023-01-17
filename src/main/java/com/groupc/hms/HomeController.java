@@ -16,4 +16,14 @@ public class HomeController {
 		return "index";
 	}
 	
+	@RequestMapping(value = "/staff", method = RequestMethod.GET)
+	public String staffHome() {
+		return "staff/index";
+	}
+	
+	@RequestMapping(value = "/reception", method = RequestMethod.GET)
+	public String recptionHome() {
+		return "reception/index";
+	}
+	
 }
