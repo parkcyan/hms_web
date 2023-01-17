@@ -21,11 +21,9 @@
 	<script src="staff/vendor/jquery-easing/jquery.easing.min.js"></script>
 	<!-- Custom scripts for all pages-->
 	<script src="staff/js/sb-admin-2.js"></script>
-	<!-- Page level plugins -->
-	<script src="staff/vendor/chart.js/Chart.min.js"></script>
-	<!-- Page level custom scripts -->
-	<script src="staff/js/demo/chart-area-demo.js"></script>
-	<script src="staff/js/demo/chart-pie-demo.js"></script>
+	<script src="staff/js/staff.js"></script>
+	<!-- sweet alert -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 </html>
 
