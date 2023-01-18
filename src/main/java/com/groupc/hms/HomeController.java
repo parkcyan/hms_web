@@ -21,10 +21,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/index.st", method = RequestMethod.GET)
 	public String staffHome(HttpSession session, Model model) {
-		if (session.getAttribute("loginInfo") == null) {
-			model.addAttribute("title", "로그인");
-			return "default/staff/login";
-		} else return "staff/index";
+		return "staff/index";
 	}
 	
 	@RequestMapping(value = "/index.re", method = RequestMethod.GET)

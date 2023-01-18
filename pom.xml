@@ -186,13 +186,13 @@
 		    <artifactId>oraclepki</artifactId>
 		    <version>19.13.0.0</version>
 		</dependency>
-		      <!-- https://mvnrepository.com/artifact/com.oracle.database.security/osdt_core -->
+		<!-- https://mvnrepository.com/artifact/com.oracle.database.security/osdt_core -->
 		<dependency>
 		    <groupId>com.oracle.database.security</groupId>
 		    <artifactId>osdt_core</artifactId>
 		    <version>19.13.0.0</version>
 		</dependency>
-		   <!-- https://mvnrepository.com/artifact/com.oracle.database.security/osdt_cert -->
+		<!-- https://mvnrepository.com/artifact/com.oracle.database.security/osdt_cert -->
 		<dependency>
 		    <groupId>com.oracle.database.security</groupId>
 		    <artifactId>osdt_cert</artifactId>
