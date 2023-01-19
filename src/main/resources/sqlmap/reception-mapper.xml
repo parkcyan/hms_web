@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="reception">
-
+<!-- 로그인 -->
 <select id="login" resultType="Reception.vo.StaffVO">
 		select s.*, d.department_name from staff s, department d
 		where s.department_id = d.department_id  
 		and staff_id = #{id} and pw = #{pw}   
-	</select>
+</select>
+<!--환자리스트 -->
+<select id='get_patient_list' resultType="Reception.vo.PatientVO">
+  		select * from patient order by patient_id
+</select>
+<!-- 환자검색: 이름으로 -->
+<select id='get_name' resultType="Reception.vo.PatientVO">
+		select * from patient 
+		where name=#{name}
+</select>
 </mapper>

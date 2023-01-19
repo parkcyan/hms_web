@@ -38,6 +38,11 @@
 		<i class="far fa-fw fa-clipboard"></i> <span>신규등록</span>
 		</a>
 	</li>
+	<li class="nav-item">
+		<a class="nav-link" href="patient_list.re"> 
+		<i class="fas fa-fw fa-bed"></i> <span>환자 정보</span>
+		</a>
+	</li>
 
 	
 	<li class="nav-item">
