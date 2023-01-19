@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
+import firebase.HmsFirebase;
 import staff.StaffService;
 import staff.vo.MedicalReceiptVO;
 import staff.vo.PatientVO;
@@ -26,8 +28,8 @@ public class StaffController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(StaffController.class);
 	
-	@Autowired
-	private StaffService service;
+	@Autowired private StaffService service;
+	@Resource private HmsFirebase fb;
 	
 	private StaffVO getStaff(HttpSession session) {
 		return ((StaffVO) session.getAttribute("loginInfo"));

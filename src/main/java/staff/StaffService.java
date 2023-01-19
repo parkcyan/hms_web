@@ -19,7 +19,6 @@ public class StaffService {
 	
 	@Autowired
 	private StaffDAO dao;
-	private static final String RB_URL = "https://hmsmessenger-3a156-default-rtdb.asia-southeast1.firebasedatabase.app/";
 
 	public StaffVO loginStaff(Map<String, String> map) {
 		return dao.login_staff(map);
