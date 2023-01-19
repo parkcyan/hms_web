@@ -66,7 +66,7 @@ public class StaffController {
 	}
 	
 	@RequestMapping(value = "/patientInfo.st")
-	public String lookup(String id, Model model) {
+	public String patientInfo(String id, Model model) {
 		Map<String, Object> map = service.getPatient(id);
 		if (map == null) return "staff/404";
 		else {
@@ -75,6 +75,11 @@ public class StaffController {
 			}
 			return "staff/lookup/patientinfo";
 		}
+	}
+
+	@ResponseBody @RequestMapping(value = "/patientInfoAjax.st")
+	public String lookupAjax(String id) {
+		return new Gson().toJson(service.getPatientAjax(id));
 	}
 	
 	@ResponseBody @RequestMapping(value = "/updatePatient.st")
@@ -94,8 +99,13 @@ public class StaffController {
 	 * 진료(외래)
 	 */
 	@RequestMapping(value = "/outpatient.st")
-	public String outpatient(HttpSession session, Model model) {
+	public String outpatient() {
 		return "staff/outpatient/outpatient";
+	}
+	
+	@RequestMapping(value = "/outpatientRecord.st")
+	public String outpatientRecord() {
+		return "staff/outpatient/outpatientrecord";
 	}
 	
 	@ResponseBody @RequestMapping(value = "/getMedicalReceipt.st")

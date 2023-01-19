@@ -48,7 +48,7 @@
             <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 				<div class="bg-white py-2 collapse-inner rounded">
 				<a class="collapse-item" href="outpatient.st">진료</a>
-				<a class="collapse-item" href="outpatientrecord.st">진료기록 조회</a>
+				<a class="collapse-item" href="outpatientRecord.st">진료기록 조회</a>
 			</div>
 		</div>
     </li>

@@ -19,6 +19,7 @@ public class StaffService {
 	
 	@Autowired
 	private StaffDAO dao;
+	private static final String RB_URL = "https://hmsmessenger-3a156-default-rtdb.asia-southeast1.firebasedatabase.app/";
 
 	public StaffVO loginStaff(Map<String, String> map) {
 		return dao.login_staff(map);
@@ -26,6 +27,10 @@ public class StaffService {
 	
 	public List<PatientVO> getPatientList() {
 		return dao.get_patient_list();
+	}
+
+	public PatientVO getPatientAjax(String id) {
+		return dao.get_patient(id);
 	}
 	
 	public Map<String, Object> getPatient(String id) {
