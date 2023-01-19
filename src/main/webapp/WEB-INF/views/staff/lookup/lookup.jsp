@@ -41,7 +41,7 @@
 									<td id="age">${vo.social_id}</td>
 									<td id="birthdate">${vo.social_id}</td>
 									<td>${vo.phone_number}</td>
-									<td>${vo.gender}</td>
+									<td>${vo.gender eq 'M' ? '남' : '여'}</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -56,13 +56,24 @@
     <!-- Page level custom scripts -->
     <script src="staff/js/demo/datatables-demo.js"></script>
     <script>
+    	// 나이, 생일 format
     	$('#dataTable #age').each(function(){
-    		$(this).text(getAge($(this).text()))
+    		$(this).text(getAge($(this).text()) + "세")
     	})
     	$('#dataTable #birthdate').each(function(){
     		$(this).text(getBirthDate($(this).text()))
     	})
-
+    	
+    	// 항목 hover, click 이벤트
+    	$('#dataTable tr:not(:first-child)').hover(function(){
+    		 $(this).css('background-color','#D0E2F4');
+    		 $(this).css('cursor','pointer');
+    	}, function(){
+    		 $(this).css('background-color','white');
+    	})
+    	$('#dataTable tr:not(:first-child)').click(function(){
+    		location.href = 'patientInfo.st?id=' + $(this).children('td:first-child').text()
+    	})
     </script>
 </body>
 </html>

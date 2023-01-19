@@ -53,25 +53,29 @@
 		</div>
 	</div>
 	<script>
-		function login() {
+		function login() {		
 			if (emptyCheck()) {
-				$.ajax({
-					url: 'loginStaff.st',
-					data: { 
-						id : $("input[name=id]").val(), 
-						pw : $("input[name=pw]").val() 
-					},
-					success: function(response) {
-						if (response) {
-							location = '<c:url value="/index.st"/>';
-						} else {
-							swal("로그인 실패", "사번 또는 비밀번호가 일치하지 않습니다.", "error")
+				if (isNaN($("input[name=id]").val())) {
+					toast("error", "사번은 숫자만 입력할 수 있습니다.");
+				} else {
+					$.ajax({
+						url: 'loginStaff.st',
+						data: { 
+							id : $("input[name=id]").val(), 
+							pw : $("input[name=pw]").val() 
+						},
+						success: function(response) {
+							if (response) {
+								location = '<c:url value="/index.st"/>';
+							} else {
+								toast('error', '사번 또는 비밀번호를 확인해주세요.');
+							}
+						}, 
+						error: function(req,text) {
+							errorToast(req.status);
 						}
-					}, 
-					error: function(req,text) {
-						swal(text, req.status , "error")
-					}
-				});
+					});
+				}
 			}
 		}
 	</script>

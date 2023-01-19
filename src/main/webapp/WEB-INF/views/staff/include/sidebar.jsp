@@ -40,19 +40,27 @@
 	</li>
 	
 	<li class="nav-item">
-		<a class="nav-link" href="tables.html"> 
-		<i class="far fa-fw fa-clipboard"></i> <span>진료</span>
-		</a>
-	</li>
-	
+		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" 
+		aria-expanded="true" aria-controls="collapsePages">
+			<i class="far fa-fw fa-clipboard"></i>
+			<span>진료</span>
+            </a>
+            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+				<div class="bg-white py-2 collapse-inner rounded">
+				<a class="collapse-item" href="outpatient.st">진료</a>
+				<a class="collapse-item" href="outpatientrecord.st">진료기록 조회</a>
+			</div>
+		</div>
+    </li>
+
 	<li class="nav-item">
-		<a class="nav-link" href="tables.html"> 
+		<a class="nav-link" href="ward.st"> 
 		<i class="fas fa-fw fa-bed"></i> <span>병동</span>
 		</a>
 	</li>
 	
 	<li class="nav-item">
-		<a class="nav-link" href="tables.html"> 
+		<a class="nav-link" href="schedule.st"> 
 		<i class="fas fa-fw fa-calendar"></i> <span>일정</span>
 		</a>
 	</li>

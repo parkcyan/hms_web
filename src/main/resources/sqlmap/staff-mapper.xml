@@ -9,4 +9,57 @@
 	<select id="get_patient_list" resultType="staff.vo.PatientVO">
 		select * from patient   
 	</select>
+	<select id="get_patient" resultType="staff.vo.PatientVO">
+		select * from patient where patient_id = #{id} 
+	</select>
+	<update id="update_patient">
+		update patient set blood_type = #{blood_type}, height = #{height}, 
+		weight = #{weight}, underlying_disease = #{underlying_disease}, 
+		allergy = #{allergy} where patient_id = #{patient_id} 
+	</update>
+	<update id="update_patient_memo">
+		update patient set memo = #{memo} where patient_id = #{id} 
+	</update>
+	<select id="get_medical_record_patient_id" resultType="staff.vo.MedicalRecordVO">
+		select mr.medical_record_id, p.name as patient_name, s.name as staff_name, mr.memo, 
+		to_char(mr.treatment_date, 'yyyy-mm-dd hh24:mi') as treatment_date, mr.admission, 
+		mr.treatment_name, pr.prescription_record_id
+		from patient p, staff s, medical_record mr, prescription_record pr 
+		where p.patient_id = mr.patient_id
+		and s.staff_id = mr.staff_id 
+		and pr.medical_record_id(+) = mr.medical_record_id 
+		and p.patient_id = #{id} 
+		order by mr.treatment_date 
+	</select>
+	<select id="get_admission_record_patient_id" resultType="staff.vo.AdmissionRecordVO">
+		select ar.ward_id, ar.admission_record_id, p.patient_id, p.name as patient_name, s.name as staff_name, s.staff_id,  
+		d.department_name, mr.treatment_name, to_char(ar.admission_date, 'yyyy-mm-dd') as admission_date,
+		to_char(ar.discharge_date, 'yyyy-mm-dd') as discharge_date 
+		from medical_record mr, admission_record ar, ward w, patient p, staff s, department d 
+		where mr.medical_record_id = ar.medical_record_id
+		and s.staff_id = mr.staff_id 
+		and p.patient_id = mr.patient_id
+		and w.ward_id = ar.ward_id 
+		and s.department_id = d.department_id 
+		and p.patient_id = #{id} 
+		order by ar.admission_date 
+	</select>
+	<select id="get_medical_receipt" resultType="staff.vo.MedicalReceiptVO">
+		select mr.patient_id, p.name as patient_name, s.name as staff_name, to_char(mr.time, 'hh24:mi') as time, mr.memo 
+		from patient p, staff s, medical_receipt mr 
+		where p.patient_id = mr.patient_id 
+		and s.staff_id = mr.staff_id 
+		and to_char(mr.time, 'yyyy-mm-dd') = #{time}  
+		<choose>
+			<when test="option == 'department'">
+				and s.staff_id in (
+				select staff_id from staff where department_id = (select department_id from staff where staff_id = #{id}) and staff_level = 1
+				) 
+			</when>
+			<when test="option == 'doctor'">
+				and s.staff_id = #{id} 
+			</when>
+		</choose>
+		order by mr.time 
+	</select>
 </mapper>
