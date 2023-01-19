@@ -26,7 +26,7 @@
 							<div class="col mr-2">
 								<div
 									class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-									예약현황</div>
+									접수현황</div>
 								<div class="h5 mb-0 font-weight-bold text-gray-800">10명</div>
 							</div>
 							<div class="col-auto">
@@ -45,7 +45,7 @@
 							<div class="col mr-2">
 								<div
 									class="text-xs font-weight-bold text-success text-uppercase mb-1">
-									접수현황</div>
+									대기인원</div>
 								<div class="h5 mb-0 font-weight-bold text-gray-800">15명</div>
 							</div>
 							<div class="col-auto">
@@ -63,7 +63,7 @@
 						<div class="row no-gutters align-items-center">
 							<div class="col mr-2">
 								<div
-									class="text-xs font-weight-bold text-info text-uppercase mb-1">대기현황
+									class="text-xs font-weight-bold text-info text-uppercase mb-1">수납처리
 								</div>
 								<div class="row no-gutters align-items-center">
 									<div class="col-auto">

@@ -34,10 +34,11 @@
 
 	<!-- Nav Item - Pages Collapse Menu -->
 	<li class="nav-item">
-		<a class="nav-link" href="lookup.st"> 
-		<i class="far fa-fw fa-user"></i> <span>환자정보</span>
+		<a class="nav-link" href="tables.html"> 
+		<i class="far fa-fw fa-clipboard"></i> <span>신규등록</span>
 		</a>
 	</li>
+
 	
 	<li class="nav-item">
 		<a class="nav-link" href="tables.html"> 
@@ -46,10 +47,11 @@
 	</li>
 	
 	<li class="nav-item">
-		<a class="nav-link" href="tables.html"> 
+		<a class="nav-link" href="acceptance.re"> 
 		<i class="fas fa-fw fa-bed"></i> <span>수납</span>
 		</a>
 	</li>
+	
 
 
 	<!-- Divider -->
