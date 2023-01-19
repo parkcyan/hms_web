@@ -29,7 +29,7 @@ public class StaffController {
 	private static final Logger logger = LoggerFactory.getLogger(StaffController.class);
 	
 	@Autowired private StaffService service;
-	@Resource private HmsFirebase fb;
+	@Resource HmsFirebase fb;
 	
 	private StaffVO getStaff(HttpSession session) {
 		return ((StaffVO) session.getAttribute("loginInfo"));

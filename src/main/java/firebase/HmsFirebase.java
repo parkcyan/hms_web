@@ -1,28 +1,64 @@
 package firebase;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 @Service
 public class HmsFirebase {
-	
-//    private final FirebaseDatabase fbDb;
-//    private final DatabaseReference dbRef;
-//    
-//    private final DatabaseReference chatRoom;
-//    private final DatabaseReference member;
-//    private ValueEventListener notCheckedChatCountListener, getChatListener, getChatRoomListener, getNotificationListener;
-   
-    public HmsFirebase() {
-//    	fbDb = FirebaseDatabase.getInstance("https://hmsmessenger-3a156-default-rtdb.asia-southeast1.firebasedatabase.app/");
-//    	dbRef = fbDb.getReference();
-//        chatRoom = dbRef.child("chatRoom");
-//        member = dbRef.child("member");
-    }
 
+	private final String path = getClass().getResource("").getPath();
+	private final FirebaseDatabase fbDb;
+	private final DatabaseReference dbRef;
 
+	private final DatabaseReference chatRoom;
+	private final DatabaseReference member;
+	private ValueEventListener notCheckedChatCountListener, getChatListener, getChatRoomListener,
+			getNotificationListener;
+
+	public HmsFirebase() {
+		init();
+		fbDb = FirebaseDatabase
+				.getInstance("https://hmsmessenger-3a156-default-rtdb.asia-southeast1.firebasedatabase.app/");
+		dbRef = fbDb.getReference();
+		chatRoom = dbRef.child("chatRoom");
+		member = dbRef.child("member");
+	}
+
+	private void init() {
+		try {
+			FileInputStream serviceAccount = new FileInputStream(path + "serviceAccountKey.json");
+			FirebaseApp firebaseApp = null;
+			List<FirebaseApp> firebaseApps = FirebaseApp.getApps();
+			if (firebaseApps != null && !firebaseApps.isEmpty()) {
+				for (FirebaseApp app : firebaseApps) {
+					if (app.getName().equals(FirebaseApp.DEFAULT_APP_NAME)) {
+						firebaseApp = app;
+					}
+				}
+			} else {
+				FirebaseOptions options = new FirebaseOptions.Builder()
+						.setCredentials(GoogleCredentials.fromStream(serviceAccount))
+						.setDatabaseUrl("https://hmsmessenger-3a156-default-rtdb.asia-southeast1.firebasedatabase.app/")
+						.build();
+				firebaseApp = FirebaseApp.initializeApp(options);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void test() {
+		dbRef.child("test").setValue("test", null);
+	}
 
 }
