@@ -11,14 +11,13 @@
 	<div class="container-fluid">
 		<!-- Page Heading -->
 		<div class="d-sm-flex align-items-center justify-content-between mb-4">
-			<h1 class="h3 mb-0 text-gray-800">원무과</h1>
+			<h1 class="h3 mb-0 text-gray-800">원무과 </h1>
 			<a href="#"
 				class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
 				class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
 		</div>
 		<!-- Content Row -->
 		<div class="row">
-
 			<!-- Earnings (Monthly) Card Example -->
 			<div class="col-xl-3 col-md-6 mb-4">
 				<div class="card border-left-primary shadow h-100 py-2">
@@ -27,8 +26,8 @@
 							<div class="col mr-2">
 								<div
 									class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-									Earnings (Monthly)</div>
-								<div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+									예약현황</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800">10명</div>
 							</div>
 							<div class="col-auto">
 								<i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -46,8 +45,8 @@
 							<div class="col mr-2">
 								<div
 									class="text-xs font-weight-bold text-success text-uppercase mb-1">
-									Earnings (Annual)</div>
-								<div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+									접수현황</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800">15명</div>
 							</div>
 							<div class="col-auto">
 								<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -64,11 +63,11 @@
 						<div class="row no-gutters align-items-center">
 							<div class="col mr-2">
 								<div
-									class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+									class="text-xs font-weight-bold text-info text-uppercase mb-1">대기현황
 								</div>
 								<div class="row no-gutters align-items-center">
 									<div class="col-auto">
-										<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+										<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">7명</div>
 									</div>
 									<div class="col">
 										<div class="progress progress-sm mr-2">
@@ -95,8 +94,8 @@
 							<div class="col mr-2">
 								<div
 									class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-									Pending Requests</div>
-								<div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+									수납완료</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800">3명</div>
 							</div>
 							<div class="col-auto">
 								<i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -117,8 +116,7 @@
 					<!-- Card Header - Dropdown -->
 					<div
 						class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						<h6 class="m-0 font-weight-bold text-primary">Earnings
-							Overview</h6>
+						<h6 class="m-0 font-weight-bold text-primary">환자정보 : 기본정보 : 예약현황</h6>
 						<div class="dropdown no-arrow">
 							<a class="dropdown-toggle" href="#" role="button"
 								id="dropdownMenuLink" data-toggle="dropdown"
@@ -129,8 +127,8 @@
 								class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
 								aria-labelledby="dropdownMenuLink">
 								<div class="dropdown-header">Dropdown Header:</div>
-								<a class="dropdown-item" href="#">Action</a> <a
-									class="dropdown-item" href="#">Another action</a>
+								<a class="dropdown-item" href="#">신환등록</a> <a
+									class="dropdown-item" href="#">   </a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="#">Something else here</a>
 							</div>
@@ -151,7 +149,7 @@
 					<!-- Card Header - Dropdown -->
 					<div
 						class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						<h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+						<h6 class="m-0 font-weight-bold text-primary">오늘 예약리스트</h6>
 						<div class="dropdown no-arrow">
 							<a class="dropdown-toggle" href="#" role="button"
 								id="dropdownMenuLink" data-toggle="dropdown"
