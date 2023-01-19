@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -33,7 +35,7 @@ public class HmsFirebase {
 		chatRoom = dbRef.child("chatRoom");
 		member = dbRef.child("member");
 	}
-
+	
 	private void init() {
 		try {
 			FileInputStream serviceAccount = new FileInputStream(path + "serviceAccountKey.json");
@@ -57,8 +59,35 @@ public class HmsFirebase {
 		}
 	}
 
-	public void test() {
-		dbRef.child("test").setValue("test", null);
-	}
+	/**
+     * 아직 읽지않은 채팅 수 불러오기
+     */
+    public void getNotCheckedChatCount(String id) {
+        notCheckedChatCountListener = getNotCheckedChatCountListener();
+        member.child(id).child("count")
+                .addValueEventListener(getNotCheckedChatCountListener());
+    }
+
+    private ValueEventListener getNotCheckedChatCountListener() {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                int count = 0;
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    count += child.getValue(Integer.class);
+                }
+                	
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        };
+    }
+
+    public void removeNotCheckedChatCountListener(String id) {
+        member.child(id).child("count").removeEventListener(notCheckedChatCountListener);
+    }
 
 }
