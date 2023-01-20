@@ -62,32 +62,9 @@ public class HmsFirebase {
 	/**
      * 아직 읽지않은 채팅 수 불러오기
      */
-    public void getNotCheckedChatCount(String id) {
-        notCheckedChatCountListener = getNotCheckedChatCountListener();
+    public void getNotCheckedChatCount(String id, ValueEventListener listener) {
         member.child(id).child("count")
-                .addValueEventListener(getNotCheckedChatCountListener());
-    }
-
-    private ValueEventListener getNotCheckedChatCountListener() {
-        return new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                int count = 0;
-                for (DataSnapshot child : snapshot.getChildren()) {
-                    count += child.getValue(Integer.class);
-                }
-                	
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-
-            }
-        };
-    }
-
-    public void removeNotCheckedChatCountListener(String id) {
-        member.child(id).child("count").removeEventListener(notCheckedChatCountListener);
+                .addValueEventListener(listener);
     }
 
 }

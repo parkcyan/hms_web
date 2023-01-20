@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <!-- Topbar -->
+<input type="hidden" id="id" value="${loginInfo.staff_id}"/>
 <nav
 	class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -90,7 +91,7 @@
 			class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
 			role="button" data-toggle="dropdown" aria-haspopup="true"
 			aria-expanded="false"> <i class="fas fa-envelope fa-fw"></i> <!-- Counter - Messages -->
-				<span class="badge badge-danger badge-counter">7</span>
+				<span id="notCheckedCount" class="badge badge-danger badge-counter"></span>
 		</a> <!-- Dropdown - Messages -->
 			<div
 				class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -174,6 +175,11 @@
 			</div></li>
 
 	</ul>
-
 </nav>
 <!-- End of Topbar -->
+<script>
+	const eventSource = new EventSource('/hmsweb/getMessage.st?id=' + $('#id').val());
+	eventSource.onmessage = function(event){
+		$('#notCheckedCount').text(event.data);
+	};
+</script>
