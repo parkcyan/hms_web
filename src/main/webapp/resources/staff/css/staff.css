@@ -3,3 +3,77 @@
 textarea {
 	resize: none;
 }
+
+.flex {
+	display: flex;
+}
+
+.flexb {
+	display: flex;
+	justify-content: space-between;
+}
+
+.h600 {
+	height: 600px;
+}
+
+#spinner-mini {
+	margin-left: 5px;
+	width: 19px;
+	height: 19px;
+}
+
+/* patient info mini */
+
+.patient-mini-table {
+	padding: 10px 5px;
+	font-size: 13px;
+}
+
+#patient-mini-table td {
+	color: black;
+}
+
+#patient-mini-table td:first-child, #patient-mini-table td:nth-child(3) {
+	width: 65px;
+	font-weight: bold;
+	padding-left: 5px;
+}
+
+#patient-mini-table .form-control {
+	height: calc(1.0em + 0.5rem + 2px);
+	padding: 3px;
+	display: inline;
+	font-size: 13px;
+}
+
+#patient-mini-table .form-control:disabled {
+	background: white;
+}
+
+#patient-mini-table .input-mini {
+	width: 50px;
+}
+
+/* medical record */
+
+#receipt_table td, #receipt_table th, #old_medical_record td, #old_medical_record th {
+	padding: 3px;
+}
+
+#medical_record_table {
+	width: 100%;
+	border-collapse: separate;
+ 	border-spacing: 0 10px;
+}
+
+#medical_record_table td:first-child {
+	width: 20%;
+	color: black;
+	font-weight: bold;
+}
+
+#mediacl_record_table input:first-child, #mediacl_record_table input:nth-child(2) {
+	width: 40%;
+}
+

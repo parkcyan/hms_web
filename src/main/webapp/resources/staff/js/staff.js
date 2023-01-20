@@ -55,18 +55,32 @@ function getBirthDate(social_id) {
 	return year + "년 " + month + "월 " + day + "일";
 }
 
+function getPatient(patient_id) {
+	$.ajax({
+		url: 'patientInfoAjax.st',
+		data: {
+			id: patient_id
+		},
+		dataType: 'json',
+		success: function(res) {
+			$("#patient_name").val(res.name);
+			$("#age").val(getAge(res.social_id));
+			$("#gender").val(res.gender == 'M' ? '남' : '여');
+			$("#birthdate").val(getBirthDate(res.social_id));
+			$("#blood_type").val(res.blood_type);
+			$("#height").val(res.height);
+			$("#weight").val(res.weight);
+			$("#underlying_disease").val(res.underlying_disease == '' ? res.underlying_disease : '없음');
+			$("#allergy").val(res.allergy == '' ? res.allergy : '없음');
+		},
+		error: function(req, text) {
+			errorToast(req.status);
+		}
+	});
+}
 
-/**
-		public static String getBirthDay(String social_id) {
-		StringBuilder sb = new StringBuilder(social_id);
-		int year = Integer.parseInt(sb.substring(0, 2));
-		if (year < 22) year += 2000;
-		else year += 1900;
-		String month = sb.substring(2, 4);
-		String day = sb.substring(4);
-		return year + "-" + month + "-" + day;
-	}
-
-
-
- */
+function clearPatient() {
+	$("#info-mini").children("input").each(function(){
+		$(this).val("");
+	})
+}

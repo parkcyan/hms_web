@@ -27,6 +27,10 @@ public class StaffService {
 	public List<PatientVO> getPatientList() {
 		return dao.get_patient_list();
 	}
+
+	public PatientVO getPatientAjax(String id) {
+		return dao.get_patient(id);
+	}
 	
 	public Map<String, Object> getPatient(String id) {
 		Map<String, Object> map = new HashMap<>();

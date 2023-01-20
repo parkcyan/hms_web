@@ -6,8 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title></title>
-<link href="staff/vendor/datatables/dataTables.bootstrap4.css"
-	rel="stylesheet">
+<link href="staff/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 <style>
 #info td {
 	color: black;

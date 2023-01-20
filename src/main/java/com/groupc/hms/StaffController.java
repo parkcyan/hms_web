@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
+import firebase.HmsFirebase;
 import staff.StaffService;
 import staff.vo.MedicalReceiptVO;
 import staff.vo.PatientVO;
@@ -26,8 +28,8 @@ public class StaffController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(StaffController.class);
 	
-	@Autowired
-	private StaffService service;
+	@Autowired private StaffService service;
+	@Resource HmsFirebase fb;
 	
 	private StaffVO getStaff(HttpSession session) {
 		return ((StaffVO) session.getAttribute("loginInfo"));
@@ -66,7 +68,7 @@ public class StaffController {
 	}
 	
 	@RequestMapping(value = "/patientInfo.st")
-	public String lookup(String id, Model model) {
+	public String patientInfo(String id, Model model) {
 		Map<String, Object> map = service.getPatient(id);
 		if (map == null) return "staff/404";
 		else {
@@ -75,6 +77,11 @@ public class StaffController {
 			}
 			return "staff/lookup/patientinfo";
 		}
+	}
+
+	@ResponseBody @RequestMapping(value = "/patientInfoAjax.st")
+	public String lookupAjax(String id) {
+		return new Gson().toJson(service.getPatientAjax(id));
 	}
 	
 	@ResponseBody @RequestMapping(value = "/updatePatient.st")
@@ -94,8 +101,13 @@ public class StaffController {
 	 * 진료(외래)
 	 */
 	@RequestMapping(value = "/outpatient.st")
-	public String outpatient(HttpSession session, Model model) {
+	public String outpatient() {
 		return "staff/outpatient/outpatient";
+	}
+	
+	@RequestMapping(value = "/outpatientRecord.st")
+	public String outpatientRecord() {
+		return "staff/outpatient/outpatientrecord";
 	}
 	
 	@ResponseBody @RequestMapping(value = "/getMedicalReceipt.st")

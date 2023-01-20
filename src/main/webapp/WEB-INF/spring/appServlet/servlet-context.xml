@@ -32,6 +32,6 @@
 		<beans:property name="definitions" value="/WEB-INF/views/**/tiles/config.xml"/>
 	</beans:bean>
 	
-	<context:component-scan base-package="com.groupc.hms, app, staff" />
+	<context:component-scan base-package="com.groupc.hms, app, staff, firebase" />
 	
 </beans:beans>
