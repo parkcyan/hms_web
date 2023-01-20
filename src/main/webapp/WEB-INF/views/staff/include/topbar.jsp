@@ -123,28 +123,108 @@
 
 	</ul>
 </nav>
+<aside id="chatroom" class="card tabbed_sidebar ng-scope chat_sidebar">
+	<div class="popup-head card-header flexb">
+		<div class="popup-head-left pull-left">
+			<h1>Gurdeep Osahan</h1>
+			<br><small>Web Designer</small>
+		</div>
+		<div>
+			<button data-widget="remove" id="removeClass"
+				class="chat-header-button pull-right" type="button">
+				<i class="fas fa-times"></i>
+			</button>
+		</div>
+	</div>
+
+	<div id="chat" class="chat_box_wrapper chat_box_small chat_box_active"
+		style="opacity: 1; display: block; transform: translateX(0px);">
+		<div id="chat_box" class="chat_box touchscroll chat_box_colors_a">
+			<div class="chat_message_wrapper">
+				<p class="chat-member">남경선</p>
+				<ul class="chat_message">
+					<li>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+							Distinctio, eum?</p>
+					</li>
+					<li>
+						<p>
+							Lorem ipsum dolor sit amet.<span class="chat_message_time">13:38</span>
+						</p>
+					</li>
+				</ul>
+			</div>
+			<div class="chat_message_wrapper chat_message_right">
+				<ul class="chat_message">
+					<li>
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem
+							delectus distinctio dolor earum est hic id impedit ipsum minima
+							mollitia natus nulla perspiciatis quae quasi, quis recusandae,
+							saepe, sunt totam. <span class="chat_message_time">13:34</span>
+						</p>
+					</li>
+				</ul>
+			</div>
+			<div class="chat_message_wrapper">
+				<ul class="chat_message">
+					<li>
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque
+							ea mollitia pariatur porro quae sed sequi sint tenetur ut
+							veritatis.https://www.facebook.com/iamgurdeeposahan <span
+								class="chat_message_time">23 Jun 1:10am</span>
+						</p>
+					</li>
+				</ul>
+			</div>
+			<div class="chat_message_wrapper chat_message_right">
+				<ul class="chat_message">
+					<li>
+						<p>Lorem ipsum dolor sit amet, consectetur.</p>
+					</li>
+					<li>
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. <span
+								class="chat_message_time">Friday 13:34</span>
+						</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="chat_submit_box flexb">
+		<div class="gurdeep-chat-box">
+			<textarea placeholder="메시지를 입력해 주세요." id="submit_message"
+				name="submit_message" class="md-input form-control w-100 h-100"></textarea>
+		</div>
+		<a class="chat-send" href="#"><i class="fas fa-paper-plane"></i></a>
+	</div>
+</aside>
 <!-- End of Topbar -->
 <script>
 	let chatRoomList = '';
 	let id = $('#id').val();
 	let name = $('#name').val();
-	const getNotCheckedChatCount = new EventSource('/hmsweb/getNotCheckedChatCount.st?id=' + id);
-	getNotCheckedChatCount.onmessage = function(event){
+	const getNotCheckedChatCount = new EventSource(
+			'/hmsweb/getNotCheckedChatCount.st?id=' + id);
+	getNotCheckedChatCount.onmessage = function(event) {
 		$('#notCheckedCount').text(event.data);
 	};
 	const getChatRoom = new EventSource('/hmsweb/getChatRoom.st?id=' + id);
-	getChatRoom.onmessage = function(event){
+	getChatRoom.onmessage = function(event) {
 		let room = JSON.parse(event.data);
 		if (event.data == 'null' && chatRoomList != null) {
 			$('#chatRoomList a').remove();
-			$('#chatRoomList').append('<p class="ml-3 mt-3">참여중인 채팅방이 없습니다.</p>');	
+			$('#chatRoomList').append(
+					'<p class="ml-3 mt-3">참여중인 채팅방이 없습니다.</p>');
 		}
 		if (JSON.stringify(room) != JSON.stringify(chatRoomList)) {
 			$('#chatRoomList a').remove();
 			$('#chatRoomList p').remove();
 			$.each(room, function(i){	
 				let str = "";
-				str += '<a class="dropdown-item d-flex align-items-center" href="#">';
+				str += '<a id="addClass" class="dropdown-item d-flex align-items-center" href="#">';
 				str += '<div class="font-weight-bold">';
 				if (room[i].roomTitle.indexOf('#') != -1) {
 					let roomTitle = room[i].roomTitle.replace('#', '');
@@ -160,7 +240,16 @@
 				} else str += '<div class="small text-gray-500">' + getTime(room[i].lastChatTime) + ' | ' + room[i].lastChat + '</div>'
 				str += '</div></a>'
 				$('#chatRoomList').append(str);	
+				$("#addClass").click(function (e) {
+					e.preventDefault();
+					$('#chatroom').addClass('popup-box-on');
+				});
+					  
+				$("#removeClass").click(function () {
+					$('#chatroom').removeClass('popup-box-on');
+				});
 			})
+			
 		}
 		chatRoomList = room;
 	};
