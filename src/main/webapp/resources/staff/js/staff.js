@@ -16,6 +16,21 @@ function errorToast(req) {
 	toast("error", "오류가 발생했습니다.\nerror code : " + req);
 }
 
+function chatToast(name, content) {
+	const Toast = Swal.mixin({
+		toast: true,
+		position: 'bottom-left',
+		showConfirmButton: false,
+		width: '400px',
+		timer: 3000
+	});
+	Toast.fire({
+		icon: 'info',
+		title: name,
+		text: content
+	});
+}
+
 function emptyCheck() {
 	let ok = true;
 	$('.chk').each(function() {
@@ -83,4 +98,8 @@ function clearPatient() {
 	$("#info-mini").children("input").each(function(){
 		$(this).val("");
 	})
+}
+
+function getTime(timestamp) {
+	return timestamp.substring(11, 16);
 }

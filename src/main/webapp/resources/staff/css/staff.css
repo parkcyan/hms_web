@@ -13,6 +13,15 @@ textarea {
 	justify-content: space-between;
 }
 
+.flexc {
+	display: flex;
+	align-items: center;
+}
+
+.h25 {
+	height: 25px;
+}
+
 .h600 {
 	height: 600px;
 }
