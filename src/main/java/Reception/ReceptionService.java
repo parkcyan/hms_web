@@ -31,6 +31,7 @@ public class ReceptionService {
 	}
 	
 	public PatientVO patient_info(String name) {
-		return dao.get_patient_info();
+		return dao.get_patient_info(name);
 	}
+	
 	}

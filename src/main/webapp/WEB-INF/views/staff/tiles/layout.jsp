@@ -14,7 +14,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
 <script src="staff/vendor/jquery/jquery.js"></script>
 <script src="staff/vendor/jquery-easing/jquery.easing.js"></script>
-<script src="staff/js/staff.js"></script>
 <title>YH-HOSPITAL ${title}</title>
 </head>
 <body id="page-top">

@@ -22,7 +22,7 @@
 	<!-- Nav Item - Dashboard -->
 	<li class="nav-item active">
 		<a class="nav-link" href="index.st">
-			<i class="fas fa-fw fa-tachometer-alt"></i> <span>원무과</span>
+			<i class="fas fa-fw fa-tachometer-alt"></i> <span>Dashboard</span>
 		</a>
 	</li>
 
@@ -34,30 +34,41 @@
 
 	<!-- Nav Item - Pages Collapse Menu -->
 	<li class="nav-item">
-		<a class="nav-link" href="tables.html"> 
-		<i class="far fa-fw fa-clipboard"></i> <span>신규등록</span>
+		<a class="nav-link" href="ward.st"> 
+		<i class="fas fa-fw fa-bed"></i> <span>신규등록</span>
 		</a>
 	</li>
 	<li class="nav-item">
-		<a class="nav-link" href="patient_list.re"> 
-		<i class="fas fa-fw fa-bed"></i> <span>환자 정보</span>
+		<a class="nav-link" href="lookup."> 
+		<i class="far fa-fw fa-user"></i> <span>환자정보</span>
 		</a>
 	</li>
+	
+	<li class="nav-item">
+		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" 
+		aria-expanded="true" aria-controls="collapsePages">
+			<i class="far fa-fw fa-clipboard"></i>
+			<span>진료</span>
+            </a>
+            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+				<div class="bg-white py-2 collapse-inner rounded">
+				<a class="collapse-item" href="outpatient.st">진료</a>
+				<a class="collapse-item" href="outpatientrecord.st">진료기록 조회</a>
+			</div>
+		</div>
+    </li>
 
-	
 	<li class="nav-item">
-		<a class="nav-link" href="tables.html"> 
-		<i class="far fa-fw fa-clipboard"></i> <span>접수</span>
+		<a class="nav-link" href="ward.st"> 
+		<i class="fas fa-fw fa-bed"></i> <span>접수</span>
 		</a>
 	</li>
 	
 	<li class="nav-item">
-		<a class="nav-link" href="acceptance.re"> 
-		<i class="fas fa-fw fa-bed"></i> <span>수납</span>
+		<a class="nav-link" href="schedule.st"> 
+		<i class="fas fa-fw fa-calendar"></i> <span>수납</span>
 		</a>
 	</li>
-	
-
 
 	<!-- Divider -->
 	<hr class="sidebar-divider d-none d-md-block">

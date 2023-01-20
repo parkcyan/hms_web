@@ -54,9 +54,9 @@ public class ReceptionController {
 			model.addAttribute("name",name);
 			return "reception/patient/info";
 		}
-	//환자 검색조회하기
 
 	//신규 등록
+
 	
 	//수납조회
 	@RequestMapping(value = "/acceptance.re")
