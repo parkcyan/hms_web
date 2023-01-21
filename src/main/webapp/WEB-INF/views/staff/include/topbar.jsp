@@ -123,11 +123,11 @@
 
 	</ul>
 </nav>
+<!-- chatroom -->
 <aside id="chatroom" class="card tabbed_sidebar ng-scope chat_sidebar">
-	<div class="popup-head card-header flexb">
+	<div class="popup-head card-header flexb flexc">
 		<div class="popup-head-left pull-left">
-			<h1>Gurdeep Osahan</h1>
-			<br><small>Web Designer</small>
+			<h1 id="chatroom_title">Gurdeep Osahan</h1>
 		</div>
 		<div>
 			<button data-widget="remove" id="removeClass"
@@ -201,11 +201,17 @@
 		<a class="chat-send" href="#"><i class="fas fa-paper-plane"></i></a>
 	</div>
 </aside>
+<!-- End of chatroom -->
 <!-- End of Topbar -->
 <script>
-	let chatRoomList = '';
+	let chatRoomListCheck = '';
 	let id = $('#id').val();
 	let name = $('#name').val();
+	let chatroomKey = '';
+	let currentRoomTitle = '';
+	let getChatSse;
+	let chatListCheck = '';
+	
 	const getNotCheckedChatCount = new EventSource(
 			'/hmsweb/getNotCheckedChatCount.st?id=' + id);
 	getNotCheckedChatCount.onmessage = function(event) {
@@ -219,18 +225,19 @@
 			$('#chatRoomList').append(
 					'<p class="ml-3 mt-3">참여중인 채팅방이 없습니다.</p>');
 		}
-		if (JSON.stringify(room) != JSON.stringify(chatRoomList)) {
+		if (JSON.stringify(room) != JSON.stringify(chatRoomListCheck)) {
 			$('#chatRoomList a').remove();
 			$('#chatRoomList p').remove();
 			$.each(room, function(i){	
-				let str = "";
-				str += '<a id="addClass" class="dropdown-item d-flex align-items-center" href="#">';
+				let str = '';
+				str += '<a class="dropdown-item d-flex align-items-center" href="#">';
+				str += '<input type="hidden" value="' + room[i].key + '"/>'
 				str += '<div class="font-weight-bold">';
 				if (room[i].roomTitle.indexOf('#') != -1) {
 					let roomTitle = room[i].roomTitle.replace('#', '');
 					roomTitle = roomTitle.replace(name, '');
-					str += '<div class="text-truncate flexc h25"><i class="fas fa-fw fa-user mr-1"></i>' + roomTitle;
-				} else str += '<div class="text-truncate flexc h25"><i class="fas fa-fw fa-users mr-1"></i>' + room[i].roomTitle;
+					str += '<div class="text-truncate flexc h25"><i class="fas fa-fw fa-user mr-1"></i><p class="mb-0">' + roomTitle + '</p>';
+				} else str += '<div class="text-truncate flexc h25"><i class="fas fa-fw fa-users mr-1"></i><p class="mb-0">' + room[i].roomTitle + '</p>';
 				if (room[i].count != 0) {
 					str += '<span id="notCheckedCount" class="badge badge-danger badge-counter ml-1">' + room[i].count + '</span></div>';
 				} else str += '</div>'
@@ -240,17 +247,69 @@
 				} else str += '<div class="small text-gray-500">' + getTime(room[i].lastChatTime) + ' | ' + room[i].lastChat + '</div>'
 				str += '</div></a>'
 				$('#chatRoomList').append(str);	
-				$("#addClass").click(function (e) {
-					e.preventDefault();
-					$('#chatroom').addClass('popup-box-on');
-				});
-					  
-				$("#removeClass").click(function () {
-					$('#chatroom').removeClass('popup-box-on');
-				});
 			})
+			$("#chatRoomList a").click(function (e) {
+				e.preventDefault();
+				currentRoomTitle = $(this).children('div').children('div:eq(0)').children('p').text();
+				$('#chatroom_title').text(currentRoomTitle);
+				getChat($(this).children('input').val());
+				$('#chatroom').addClass('popup-box-on');
+			});
+				  
+			$("#removeClass").click(function () {
+				$('#chatroom').removeClass('popup-box-on');
+			});
 			
 		}
-		chatRoomList = room;
+		chatRoomListCheck = room;
 	};
+	
+	function getChat(key) {		
+		chatroomKey = key;
+		if (typeof getChatSse != "undefined") getChatSse.close();
+		getChatSse = new EventSource('/hmsweb/getChat.st?id=' + id + '&key=' + key);
+		getChatSse.onmessage = function(event) {
+			let chatList = JSON.parse(event.data);
+			if (JSON.stringify(chatList) != JSON.stringify(chatListCheck)) {
+				$('#chat_box div').remove();
+				$.each(chatList, function(i){
+					let str = '';
+					if (chatList[i].id == id) str += '<div class="chat_message_wrapper chat_message_right">'; 
+					else str += '<div class="chat_message_wrapper">';
+					if (i != 0 && chatList[i - 1].name != chatList[i].name) str += '<p class="chat-member">' + chatList[i].name + '</p>';
+					else if (i == 0) str += '<p class="chat-member">' + chatList[i].name + '</p>';
+					str += '<ul class="chat_message"><li><p>' + chatList[i].content;
+					if (i != chatList.length - 1 && getTime(chatList[i].time) != getTime(chatList[i + 1].time)) str += '<span class="chat_message_time">' + getTime(chatList[i].time) + '</span>';
+					else if (i == chatList.length - 1 ) str += '<span class="chat_message_time">' + getTime(chatList[i].time) + '</span>';
+					str += '</p></li></ul></div>';
+					$('#chat_box').append(str);
+				});
+				$("#chat").scrollTop($("#chat_box").height());
+				console.log($("#chat_box").height());
+			}
+			chatListCheck = chatList;
+		};
+		
+	}
+	
+	$('.chat-send').click(function (){
+		$.ajax({
+			url : 'sendChat.st',
+			data : {
+				title : currentRoomTitle,
+				key : chatroomKey,
+				id : id,
+				name : name,
+				content : $('#submit_message').val(),
+			},
+			success : function(response) {
+				$('#submit_message').val('');
+				getChat(chatroomKey);
+			},
+			error : function(req, text) {
+				errorToast(req.status);
+			}
+		});
+	});
+	
 </script>

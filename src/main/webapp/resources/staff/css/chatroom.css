@@ -90,7 +90,7 @@
 	background: #4e73df none repeat scroll 0 0 !important;
 	color: #fff;
 	width: 100%;
-	padding: 8px 15px;
+	padding: 10px;
 }
 
 .popup-head .md-user-image {
@@ -166,7 +166,7 @@
 }
 
 .chat_box.chat_box_colors_a .chat_message_wrapper ul.chat_message>li {
-	background: #FCFBF6 none repeat scroll 0 0;
+	background: whitesmoke none repeat scroll 0 0;
 	color: #000000;
 }
 
@@ -237,7 +237,7 @@
 
 .chat_box.chat_box_colors_a .chat_message_wrapper ul.chat_message>li:first-child::before
 	{
-	border-right-color: #FCFBF6;
+	border-right-color: whitesmoke;
 }
 
 .chat_box .chat_message_wrapper.chat_message_right ul.chat_message>li:first-child::before
@@ -275,6 +275,7 @@
 	font-size: 13px;
 	padding: 8px 16px;
 	position: relative;
+	margin: 5px 0;
 }
 
 .gurdeep-chat-box {
@@ -329,6 +330,10 @@
 	font-size: x-large;
 }
 
-.chat_message_right p, .chat_message_right span {
+.chat_message_right ul li p, .chat_message_right span {
 	color: white !important;
+}
+
+.chat_message_right .chat-member {
+	text-align: end;
 }
