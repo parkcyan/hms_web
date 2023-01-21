@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="appstaff">
+	<select id="get_staff" resultType="app.staff.vo.StaffVO">
+		select d.department_name, s.* from staff s, department d where s.department_id = d.department_id 
+	</select>
+	<select id="login_staff" resultType="app.staff.vo.StaffVO">
+		select s.*, d.department_name from staff s, department d
+		where s.department_id = d.department_id  
+		and staff_id = #{id} and pw = #{pw}   
+	</select>
+	<select id="get_patient" resultType="app.staff.vo.PatientVO">
+		select * from patient where name like '%' || #{patient_name} || '%'   
+	</select>
+	<select id="get_patient_from_id" resultType="app.staff.vo.PatientVO">
+		select * from patient where patient_id = #{id}
+	</select>
+	<update id="update_staff_introduction">
+		update staff set introduction = #{introduction} where staff_id = #{id} 
+	</update>
+	<update id="update_patient_memo">
+		update patient set memo = #{memo} where patient_id = #{id} 
+	</update>
+	<select id="get_medical_receipt" resultType="app.staff.vo.MedicalReceiptVO">
+		select p.name as patient_name, s.name as staff_name, to_char(mr.time, 'yyyy-mm-dd hh24:mi:ss') as time, mr.memo 
+		from patient p, staff s, medical_receipt mr 
+		where p.patient_id = mr.patient_id 
+		and s.staff_id = mr.staff_id 
+		and to_char(mr.time, 'yyyy-mm-dd') = #{time} 
+		and mr.staff_id = #{id} 
+		order by mr.time 
+	</select>
+	<select id="get_medical_record" resultType="app.staff.vo.MedicalRecordVO">
+		select mr.medical_record_id, p.name as patient_name, s.name as staff_name, mr.memo, 
+		to_char(mr.treatment_date, 'yyyy-mm-dd hh24:mi') as treatment_date, mr.admission, 
+		mr.treatment_name, pr.prescription_record_id
+		from patient p, staff s, medical_record mr, prescription_record pr 
+		where p.patient_id = mr.patient_id
+		and s.staff_id = mr.staff_id 
+		and pr.medical_record_id(+) = mr.medical_record_id 
+		and mr.treatment_date between #{first_date} and #{second_date} 
+		<choose>
+			<when test="option == 'department'">
+				and s.staff_id in (
+				select staff_id from staff where department_id = (select department_id from staff where staff_id = #{id}) and staff_level = 1
+				) 
+			</when>
+			<when test="option == 'doctor'">
+				and s.staff_id = #{id} 
+			</when>
+		</choose>
+		<if test="patient_name != ''">
+			and p.name like '%' || #{patient_name} || '%'  
+		</if>
+		order by mr.treatment_date 
+	</select>
+	<select id="get_prescription" resultType="app.staff.vo.PrescriptionVO">
+		select p.name as patient_name, p.social_id, s.name as staff_name, 
+		s.staff_id, to_char(mr.treatment_date, 'yyyy-mm-dd hh24:mi:ss') as treatment_date, pr.prescription_record_id, pr.prescription_name 
+		from patient p, staff s, prescription_record pr, medical_record mr
+		where mr.medical_record_id = pr.medical_record_id
+		and p.patient_id = mr.patient_id 
+		and s.staff_id = mr.staff_id 
+		and mr.medical_record_id = #{id} 
+	</select>
+		<update id="update_medical_record_memo">
+		update medical_record set memo = #{memo} where medical_record_id = #{id} 
+	</update>
+	<select id="get_admission_record_ward" resultType="app.staff.vo.AdmissionRecordVO">
+		select ar.ward_id, ar.admission_record_id, p.patient_id, p.name as patient_name, s.name as staff_name, s.staff_id,  
+		d.department_name, mr.treatment_name, to_char(ar.admission_date, 'yyyy-mm-dd') as admission_date,
+		to_char(ar.discharge_date, 'yyyy-mm-dd') as discharge_date 
+		from medical_record mr, admission_record ar, ward w, patient p, staff s, department d 
+		where mr.medical_record_id = ar.medical_record_id
+		and s.staff_id = mr.staff_id 
+		and p.patient_id = mr.patient_id
+		and w.ward_id = ar.ward_id 
+		and s.department_id = d.department_id 
+		and w.ward_id in (select ward_id from ward where ward_number = #{ward_number})
+		and (ar.discharge_date > (select current_date from dual) or discharge_date is null)
+		order by w.ward_id 
+	</select>
+	<select id="get_admission_record_mypatient" resultType="app.staff.vo.AdmissionRecordVO">
+		select ar.ward_id, ar.admission_record_id, p.patient_id, p.name as patient_name, s.name as staff_name, s.staff_id,  
+		d.department_name, mr.treatment_name, to_char(ar.admission_date, 'yyyy-mm-dd') as admission_date,
+		to_char(ar.discharge_date, 'yyyy-mm-dd') as discharge_date 
+		from medical_record mr, admission_record ar, ward w, patient p, staff s, department d 
+		where mr.medical_record_id = ar.medical_record_id
+		and s.staff_id = mr.staff_id 
+		and p.patient_id = mr.patient_id
+		and w.ward_id = ar.ward_id 
+		and s.department_id = d.department_id 
+		<choose>
+			<when test="option == 'department'">
+				and s.staff_id in (
+				select staff_id from staff where department_id = (select department_id from staff where staff_id = #{id}) and staff_level = 1
+				) 
+			</when>
+			<when test="option == 'doctor'">
+				and s.staff_id = #{id} 
+			</when>
+		</choose>
+		and (ar.discharge_date > (select current_date from dual) or discharge_date is null) 
+		order by w.ward_id 
+	</select>
+	<update id="update_discharge_date">
+		update admission_record set discharge_date = #{date} where admission_record_id = #{id} 
+	</update>
+	<select id="get_admission_memo" resultType="app.staff.vo.AdmissionMemoVO">
+		select am.admission_memo_id, s.staff_id, s.name, am.memo, to_char(write_date, 'yyyy-mm-dd hh24:mi:ss') as write_date 
+		from admission_memo am, staff s 
+		where am.writer_id = s.staff_id 
+		and admission_record_id = #{id} 
+		order by am.write_date 
+	</select>
+	<insert id="insert_admission_memo">
+		insert into admission_memo values (1, #{admission_record_id}, #{staff_id}, #{memo}, current_date)
+	</insert>
+	<delete id="delete_admission_memo">
+		delete from admission_memo where admission_memo_id = #{id} 
+	</delete>
+	<select id="get_schedule" resultType="app.staff.vo.ScheduleVO">
+		<choose>
+			<when test="staff_level == 1">
+				select schedule_id, staff_id, content, to_char(time, 'hh24:mi') as time 
+			    from doctor_schedule where staff_id = #{id} and to_char(time, 'yyyy-mm-dd') = #{date} 
+			    order by time 
+			</when>
+			<when test="staff_level == 2">
+				select schedule_id, staff_id, content, complete, to_char(time, 'hh24:mi') as time 
+				from nurse_schedule where staff_id = #{id} and to_char(time, 'yyyy-mm-dd') = #{date}
+				order by time  
+			</when>
+		</choose>
+	</select>
+	<insert id="insert_schedule">
+		<choose>
+			<when test="staff_level == 1">
+				insert into doctor_schedule values (1, #{id}, #{content}, to_date(#{date}, 'yyyy-mm-dd hh24:mi')) 
+			</when>
+			<when test="staff_level == 2">
+				insert into nurse_schedule values (1, #{id}, #{content}, 'N', to_date(#{date}, 'yyyy-mm-dd hh24:mi')) 
+			</when>
+		</choose>
+	</insert>
+	<delete id="delete_schedule">
+		<choose>
+			<when test="staff_level == 1">
+				delete from doctor_schedule where schedule_id = #{id} 
+			</when>
+			<when test="staff_level == 2">
+				delete from nurse_schedule where schedule_id = #{id} 
+			</when>
+		</choose>
+	</delete>
+	<update id="update_schedule">
+		<choose>
+			<when test="staff_level == 1">
+				update doctor_schedule set time = to_date(#{date}, 'yyyy-mm-dd hh24:mi'), content = #{content} where schedule_id = #{id} 
+			</when>
+			<when test="staff_level == 2">
+				update nurse_schedule set time = to_date(#{date}, 'yyyy-mm-dd hh24:mi'), content = #{content} where schedule_id = #{id} 
+			</when>
+		</choose>
+	</update>
+	<update id="update_schedule_complete">
+		update nurse_schedule set complete = #{complete} where schedule_id = #{id} 
+	</update>
+</mapper>

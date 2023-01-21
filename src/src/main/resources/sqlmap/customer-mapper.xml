@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="customer">
+	
+	
+	
+	
+	<!-- 일반 로그인 -->
+	<select id="login" resultType="app.customer.vo.CustomerVO">
+		SELECT p.*, a.*
+		FROM patient p INNER JOIN patient_account a ON p.patient_id = a.patient_id  
+		WHERE a.email = #{email} AND a.pw = #{pw} 
+	</select>
+	
+	<!-- 신원정보 확인 -->
+	<select id="customer_check" resultType="app.customer.vo.CustomerVO">
+		SELECT * 
+		FROM patient 
+		WHERE name = #{name} AND social_id = #{social_id}
+	</select>
+	
+	<!-- 이메일 확인 -->
+	<select id="email_check" resultType="app.customer.vo.AccountVO">
+		SELECT email
+		FROM patient_account
+		WHERE email = #{email}
+	</select>
+	
+	<!-- 환자등록 -->
+	<insert id="patient_insert">
+		INSERT INTO patient (patient_id, social_id, name, gender, phone_number)
+		VALUES (seq_patient_id.NEXTVAL, #{social_id}, #{name}, #{gender}, #{phone_number})
+	</insert>
+	
+	<!-- 회원가입 -->
+	<insert id="customer_join">
+		INSERT INTO patient_account(patient_id, email, pw, join_date)
+		VALUES (#{patient_id}, #{email}, #{pw}, sysdate)
+	</insert>
+	
+
+	
+
+	
+	
+	<!-- 환자정보 조회 -->
+	<select id="info" resultType="app.customer.vo.CustomerVO">
+		SELECT p.*, a.*
+		FROM patient p INNER JOIN patient_account a ON p.patient_id = a.patient_id  
+		WHERE p.patient_id = #{patient_id}  
+	</select>
+	
+	<!-- 예약정보 조회 -->
+	<select id="receipt_info" resultType="app.customer.vo.ReceiptVO">
+		SELECT s.staff_id, s.department_id, s.name, s.social_id, s.email, s.phone_number, s.introduction, d.department_name
+		FROM staff s 
+		INNER JOIN department d ON s.department_id = d.department_id
+		WHERE s.department_id = #{department_id}
+	</select>
+	
+	<!-- 진료이력 조회 -->
+	<select id="medical_list" resultType="app.customer.vo.MedicalRecordVO">
+		SELECT m.*, s.name staff_name, s.department_id, d.department_name, p.prescription_record_id, p.prescription_name, t.name patient_name
+		FROM medical_record m 
+		INNER JOIN staff s ON m.staff_id = s.staff_id 
+		INNER JOIN department d ON s.department_id = d.department_id
+		INNER JOIN prescription_record p ON m.medical_record_id = p.medical_record_id
+		INNER JOIN patient t ON m.patient_id = t.patient_id
+		WHERE m.patient_id = #{patient_id}
+	</select>
+	
+	<!-- 입원이력 조회 -->
+	<select id="admission_list" resultType="app.customer.vo.AdmissionRecordVO">
+		SELECT a.*, m.treatment_name, s.name, d.department_name, w.ward_number, w.bed
+		FROM admission_record a 
+		INNER JOIN medical_record m ON a.medical_record_id = m.medical_record_id 
+		INNER JOIN staff s ON m.staff_id = s.staff_id
+		INNER JOIN department d ON s.department_id = d.department_id
+		INNER JOIN ward w ON a.ward_id = w.ward_id
+		WHERE m.patient_id = #{patient_id}
+	</select>
+	
+	<!-- 진료예약 조회 -->
+	<select id="receipt_list" resultType="app.customer.vo.MedicalReceiptVO">
+		SELECT m.*, s.name, s.email, s.introduction, d.department_name, d.location
+		FROM medical_receipt m
+		INNER JOIN staff s ON m.staff_id = s.staff_id
+		INNER JOIN department d ON s.department_id = d.department_id
+		WHERE m.patient_id = #{patient_id}
+	</select>
+	
+	<!-- 진료일정 조회 -->
+	<select id="medical_schedule" resultType="app.customer.vo.MedicalReceiptVO">
+		SELECT m.*, s.name, s.email, s.introduction, d.department_name, d.location
+		FROM medical_receipt m
+		INNER JOIN staff s ON m.staff_id = s.staff_id
+		INNER JOIN department d ON s.department_id = d.department_id
+		WHERE m.staff_id = #{staff_id}
+	</select>
+	
+	<!-- 입원일정 조회 -->
+	<select id="admission_info" resultType="app.customer.vo.AdmissionRecordVO">
+		SELECT *
+		FROM(
+			SELECT a.*, m.treatment_name, s.name, d.department_name, w.ward_number, w.bed
+			FROM admission_record a 
+			INNER JOIN medical_record m ON a.medical_record_id = m.medical_record_id 
+			INNER JOIN staff s ON m.staff_id = s.staff_id
+			INNER JOIN department d ON s.department_id = d.department_id
+			INNER JOIN ward w ON a.ward_id = w.ward_id
+			WHERE m.patient_id = #{patient_id}
+			ORDER BY admission_date DESC)
+		WHERE ROWNUM = 1
+	</select>
+	
+	<!-- 의료진으로 검색 -->
+	<select id="search_by_name" resultType="app.customer.vo.StaffSearchVO">
+		SELECT *
+		FROM staff
+		WHERE name LIKE '%'||#{searchWord}||'%' OR introduction Like '%'||#{searchWord}||'%'
+		AND staff_level = 1
+	</select>
+	
+	<!-- 진료과로 검색 -->
+	<select id="search_by_department" resultType="app.customer.vo.StaffSearchVO">
+		SELECT s.*, d.department_name
+		FROM staff s
+		INNER JOIN department d ON s.department_id = d.department_id
+		WHERE d.department_name LIKE '%'||#{searchWord}||'%'
+		AND staff_level = 1
+	</select>
+	
+	<!-- 모바일 번호표 -->
+	<select id="list_number_ticket" resultType="app.customer.vo.MedicalReceiptVO">
+		SELECT m.*, s.name, d.department_name
+		FROM medical_receipt m
+		INNER JOIN staff s ON m.staff_id = s.staff_id
+		INNER JOIN department d ON s.department_id = d.department_id
+		WHERE time BETWEEN TO_DATE((#{today}),'YYYY-MM-DD') AND TO_DATE((#{today}+1),'YYYY-MM-DD')
+		ORDER BY time
+	</select>
+	
+	
+	<!-- 진료예약 -->
+	<insert id="insert_receipt">
+		INSERT INTO medical_receipt (patient_id, staff_id, time, memo)
+		VALUES (#{patient_id}, #{staff_id}, TO_DATE((#{time}),'YYYY-MM-DD HH24:MI:SS'), #{memo})
+	</insert>
+	
+	<!-- 예약취소 -->
+	<delete id="delete_receipt">
+		DELETE FROM medical_receipt
+		WHERE staff_id = #{staff_id} AND time = TO_DATE((#{time}),'YYYY-MM-DD HH24:MI:SS')
+	</delete>
+	
+	
+	
+</mapper>

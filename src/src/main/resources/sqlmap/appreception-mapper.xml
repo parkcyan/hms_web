@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="re">
+
+<!--예약 정보조회  -->
+<select id='appointment' resultType="app.reception.vo.MedicalReceiptVO" >
+	select p.name "환자이름", m.time, m.memo, s.name "담당의사"
+	from medical_receipt m inner join staff s
+	on m.staff_id = s.staff_id
+    inner join patient p
+    on m.patient_id = p.patient_id
+	where to_char(time, 'yyyy-mm-dd') = #{time}
+	order by time 
+	
+</select>
+
+<!-- 환자 상세정보조회 -->
+<select id='patient' resultType="app.staff.vo.PatientVO">
+select * from patient 
+</select>
+
+<!-- 로그인하기 -->
+<select id='login' resultType="app.staff.vo.StaffVO">
+select * from staff
+where staff_id=#{id} and pw = #{pw} 
+</select>
+
+
+	
+</mapper>
