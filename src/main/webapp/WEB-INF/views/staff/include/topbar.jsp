@@ -203,15 +203,20 @@
 </aside>
 <!-- End of chatroom -->
 <!-- End of Topbar -->
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
+<script src="staff/js/hmsfirebase.js"></script>
 <script>
-	let chatRoomListCheck = '';
-	let id = $('#id').val();
-	let name = $('#name').val();
-	let chatroomKey = '';
-	let currentRoomTitle = '';
-	let getChatSse;
-	let chatListCheck = '';
-	
+	getNotCheckedChatCount();
+	getChatRoom();
+	$('#messagesDropdown').click(function() {
+		$('#chatroom').removeClass('popup-box-on');
+	});
+	$('.chat-send').click(function () {
+		sendChat($('#submit_message').val());
+		$('#submit_message').val('');
+	});
+	/* 
 	const getNotCheckedChatCount = new EventSource(
 			'/hmsweb/getNotCheckedChatCount.st?id=' + id);
 	getNotCheckedChatCount.onmessage = function(event) {
@@ -311,5 +316,6 @@
 			}
 		});
 	});
+	*/
 	
 </script>

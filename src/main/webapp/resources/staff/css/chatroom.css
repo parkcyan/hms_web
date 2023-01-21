@@ -337,3 +337,22 @@
 .chat_message_right .chat-member {
 	text-align: end;
 }
+
+.chat_message_system ul, .chat_message_system li {
+	width: 100%;
+	max-width: 100% !important;
+}
+
+.chat_message_system li {
+	height: 23px;
+	background: lightblue !important;
+	padding: 0 !important;
+	display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    font-size: 11px !important;
+}
+
+.chat_message_system ul.chat_message>li:first-child::before {
+	border-right-color: transparent !important;
+}

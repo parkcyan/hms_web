@@ -58,7 +58,7 @@
 	<script src="staff/js/demo/chart-area-demo.js"></script>
 	<script src="staff/js/demo/chart-pie-demo.js"></script>
 	-->
-	<script>
+	<script>	
 		let lastChat = "";
 		const getNotification = new EventSource('/hmsweb/getNotification.st?id=' + $('#id').val());
 		getNotification.onmessage = function(event){
