@@ -58,19 +58,6 @@
 	<script src="staff/js/demo/chart-area-demo.js"></script>
 	<script src="staff/js/demo/chart-pie-demo.js"></script>
 	-->
-	<script>	
-		let lastChat = "";
-		const getNotification = new EventSource('/hmsweb/getNotification.st?id=' + $('#id').val());
-		getNotification.onmessage = function(event){
-			if ((JSON.stringify(event.data) != JSON.stringify(lastChat))) {
-				let chat = JSON.parse(event.data);
-				if (new Date().getTime() - new Date(chat.time).getTime() < 3000) {
-					chatToast(chat.name, chat.content);
-				}
-				lastChat = event.data;
-			}		
-		};
-	</script>
 </body>
 </html>
 

@@ -2,11 +2,18 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<!-- Topbar -->
+<style>
+	.dropdown-header i {
+		font-size: 16px;
+	}
+</style>
 <input type="hidden" id="id" value="${loginInfo.staff_id}"/>
 <input type="hidden" id="name" value="${loginInfo.name}"/>
-<nav
-	class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+<input type="hidden" id="department_id" value="${loginInfo.department_id}"/>
+<input type="hidden" id="department_name" value="${loginInfo.department_name}"/>
+<input type="hidden" id="staff_level" value="${loginInfo.staff_level}"/>
+<!-- Topbar -->
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
 	<!-- Sidebar Toggle (Topbar) -->
 	<button id="sidebarToggleTop"
@@ -94,10 +101,13 @@
 			aria-expanded="false"> <i class="fas fa-envelope fa-fw"></i> <!-- Counter - Messages -->
 				<span id="notCheckedCount" class="badge badge-danger badge-counter"></span>
 			</a> <!-- Dropdown - Messages -->
-			<div id="chatRoomList"
-				class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-				aria-labelledby="messagesDropdown">
-				<h6 class="dropdown-header">Messenger</h6>
+			<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+				<div class="dropdown-header flexb flexc">
+					<h6 class="mb-0">Messenger</h6>
+					<i class="fas fa-plus"></i>
+				</div>			
+				<div id="chatRoomList">
+				</div>
 			</div>
 		</li>
 
@@ -127,7 +137,7 @@
 <aside id="chatroom" class="card tabbed_sidebar ng-scope chat_sidebar">
 	<div class="popup-head card-header flexb flexc">
 		<div class="popup-head-left pull-left">
-			<h1 id="chatroom_title">Gurdeep Osahan</h1>
+			<h1 id="chatroom_title"></h1>
 		</div>
 		<div>
 			<button data-widget="remove" id="removeClass"
@@ -140,182 +150,121 @@
 	<div id="chat" class="chat_box_wrapper chat_box_small chat_box_active"
 		style="opacity: 1; display: block; transform: translateX(0px);">
 		<div id="chat_box" class="chat_box touchscroll chat_box_colors_a">
-			<div class="chat_message_wrapper">
-				<p class="chat-member">남경선</p>
-				<ul class="chat_message">
-					<li>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-							Distinctio, eum?</p>
-					</li>
-					<li>
-						<p>
-							Lorem ipsum dolor sit amet.<span class="chat_message_time">13:38</span>
-						</p>
-					</li>
-				</ul>
-			</div>
-			<div class="chat_message_wrapper chat_message_right">
-				<ul class="chat_message">
-					<li>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem
-							delectus distinctio dolor earum est hic id impedit ipsum minima
-							mollitia natus nulla perspiciatis quae quasi, quis recusandae,
-							saepe, sunt totam. <span class="chat_message_time">13:34</span>
-						</p>
-					</li>
-				</ul>
-			</div>
-			<div class="chat_message_wrapper">
-				<ul class="chat_message">
-					<li>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque
-							ea mollitia pariatur porro quae sed sequi sint tenetur ut
-							veritatis.https://www.facebook.com/iamgurdeeposahan <span
-								class="chat_message_time">23 Jun 1:10am</span>
-						</p>
-					</li>
-				</ul>
-			</div>
-			<div class="chat_message_wrapper chat_message_right">
-				<ul class="chat_message">
-					<li>
-						<p>Lorem ipsum dolor sit amet, consectetur.</p>
-					</li>
-					<li>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit. <span
-								class="chat_message_time">Friday 13:34</span>
-						</p>
-					</li>
-				</ul>
-			</div>
 		</div>
 	</div>
 	<div class="chat_submit_box flexb">
 		<div class="gurdeep-chat-box">
-			<textarea placeholder="메시지를 입력해 주세요." id="submit_message"
-				name="submit_message" class="md-input form-control w-100 h-100"></textarea>
+			<input placeholder="메시지를 입력해 주세요." id="submit_message"
+				name="submit_message" onkeyup="enterKey()" class="md-input form-control w-100 h-100"></input>
 		</div>
 		<a class="chat-send" href="#"><i class="fas fa-paper-plane"></i></a>
 	</div>
 </aside>
 <!-- End of chatroom -->
+<!-- staffList -->
+<aside id="staffListChat" class="card tabbed_sidebar ng-scope chat_sidebar">
+	<div class="popup-head card-header flexb flexc mb-2">
+		<div class="popup-head-left pull-left">
+			<h1>대화 상대 추가</h1>
+		</div>
+		<div>
+			<button data-widget="remove" id="removeStaffList"
+				class="chat-header-button pull-right" type="button">
+				<i class="fas fa-times"></i>
+			</button>
+		</div>
+	</div>
+	<div id="staffList">
+		<div id="staff_box">
+			<c:forEach items="${staffMap}" var="vo" varStatus="status">
+				<a class="dropdown-item flexc align-items-center" href="#">
+					<input type="hidden" value="${vo.value.staff_id}"/>
+					<input type="hidden" value="${vo.value.staff_level}"/>
+					<input type="hidden" value="${vo.value.department_id}"/>
+					<input type="hidden" value="${vo.value.name}"/>
+					<input type="hidden" value="${vo.value.department_name}"/>
+					<div class="font-weight-bold">
+						<div class="text-truncate flexc h25">
+							<i class="fas fa-fw fa-user mr-1"></i><p class="mb-0">${vo.value.name}</p>
+							<div class="small text-gray-500 ml-1">${vo.value.department_name} ${vo.value.staff_level eq 1 ? ' 의사' : ' 간호사'}</div>
+						</div>
+					</div>
+				</a>
+				<hr class="m-0"/>
+			</c:forEach>
+		</div>
+	</div>
+</aside>
+<!-- End of staffList -->
 <!-- End of Topbar -->
 <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
 <script src="staff/js/hmsfirebase.js"></script>
 <script>
+	$(document).keydown(function(event) {
+		// esc 입력 이벤트 
+	    if ( event.keyCode == 27 || event.which == 27 ) {
+	    	$('#chatroom').removeClass('popup-box-on');
+			$('#staffListChat').removeClass('popup-box-on');
+			setOnChat(false);
+	    }
+	});
+	// 미확인 채팅 수, 채팅방, 채팅 알림 수신
 	getNotCheckedChatCount();
 	getChatRoom();
+	getNotification();
+
+	// 메시지 창 열시 다른 창 종료
 	$('#messagesDropdown').click(function() {
 		$('#chatroom').removeClass('popup-box-on');
+		$('#staffListChat').removeClass('popup-box-on');
+		setOnChat(false);
 	});
-	$('.chat-send').click(function () {
-		sendChat($('#submit_message').val());
-		$('#submit_message').val('');
-	});
-	/* 
-	const getNotCheckedChatCount = new EventSource(
-			'/hmsweb/getNotCheckedChatCount.st?id=' + id);
-	getNotCheckedChatCount.onmessage = function(event) {
-		$('#notCheckedCount').text(event.data);
-	};
-	const getChatRoom = new EventSource('/hmsweb/getChatRoom.st?id=' + id);
-	getChatRoom.onmessage = function(event) {
-		let room = JSON.parse(event.data);
-		if (event.data == 'null' && chatRoomList != null) {
-			$('#chatRoomList a').remove();
-			$('#chatRoomList').append(
-					'<p class="ml-3 mt-3">참여중인 채팅방이 없습니다.</p>');
-		}
-		if (JSON.stringify(room) != JSON.stringify(chatRoomListCheck)) {
-			$('#chatRoomList a').remove();
-			$('#chatRoomList p').remove();
-			$.each(room, function(i){	
-				let str = '';
-				str += '<a class="dropdown-item d-flex align-items-center" href="#">';
-				str += '<input type="hidden" value="' + room[i].key + '"/>'
-				str += '<div class="font-weight-bold">';
-				if (room[i].roomTitle.indexOf('#') != -1) {
-					let roomTitle = room[i].roomTitle.replace('#', '');
-					roomTitle = roomTitle.replace(name, '');
-					str += '<div class="text-truncate flexc h25"><i class="fas fa-fw fa-user mr-1"></i><p class="mb-0">' + roomTitle + '</p>';
-				} else str += '<div class="text-truncate flexc h25"><i class="fas fa-fw fa-users mr-1"></i><p class="mb-0">' + room[i].roomTitle + '</p>';
-				if (room[i].count != 0) {
-					str += '<span id="notCheckedCount" class="badge badge-danger badge-counter ml-1">' + room[i].count + '</span></div>';
-				} else str += '</div>'
-				if (room[i].lastChat.indexOf('##') != -1) {
-					const lastChatArr = room[i].lastChat.split("##");
-					str += '<div class="small text-gray-500">' + getTime(room[i].lastChatTime) + ' | ' + lastChatArr[3] + '님이 링크를 공유했습니다.</div>'
-				} else str += '<div class="small text-gray-500">' + getTime(room[i].lastChatTime) + ' | ' + room[i].lastChat + '</div>'
-				str += '</div></a>'
-				$('#chatRoomList').append(str);	
-			})
-			$("#chatRoomList a").click(function (e) {
-				e.preventDefault();
-				currentRoomTitle = $(this).children('div').children('div:eq(0)').children('p').text();
-				$('#chatroom_title').text(currentRoomTitle);
-				getChat($(this).children('input').val());
-				$('#chatroom').addClass('popup-box-on');
-			});
-				  
-			$("#removeClass").click(function () {
-				$('#chatroom').removeClass('popup-box-on');
-			});
-			
-		}
-		chatRoomListCheck = room;
-	};
 	
-	function getChat(key) {		
-		chatroomKey = key;
-		if (typeof getChatSse != "undefined") getChatSse.close();
-		getChatSse = new EventSource('/hmsweb/getChat.st?id=' + id + '&key=' + key);
-		getChatSse.onmessage = function(event) {
-			let chatList = JSON.parse(event.data);
-			if (JSON.stringify(chatList) != JSON.stringify(chatListCheck)) {
-				$('#chat_box div').remove();
-				$.each(chatList, function(i){
-					let str = '';
-					if (chatList[i].id == id) str += '<div class="chat_message_wrapper chat_message_right">'; 
-					else str += '<div class="chat_message_wrapper">';
-					if (i != 0 && chatList[i - 1].name != chatList[i].name) str += '<p class="chat-member">' + chatList[i].name + '</p>';
-					else if (i == 0) str += '<p class="chat-member">' + chatList[i].name + '</p>';
-					str += '<ul class="chat_message"><li><p>' + chatList[i].content;
-					if (i != chatList.length - 1 && getTime(chatList[i].time) != getTime(chatList[i + 1].time)) str += '<span class="chat_message_time">' + getTime(chatList[i].time) + '</span>';
-					else if (i == chatList.length - 1 ) str += '<span class="chat_message_time">' + getTime(chatList[i].time) + '</span>';
-					str += '</p></li></ul></div>';
-					$('#chat_box').append(str);
-				});
-				$("#chat").scrollTop($("#chat_box").height());
-				console.log($("#chat_box").height());
-			}
-			chatListCheck = chatList;
-		};
-		
+	// 메시지 창 + 포인터 변경
+	$('.dropdown-header i').hover(function() {
+		$(this).css('cursor','pointer');
+	})
+	
+	// 대화 상대 추가창 
+	$('.dropdown-header i').click(function() {
+		$('#staffListChat').addClass('popup-box-on');
+	});
+	
+	// 대화 상대 추가
+	$('#staff_box a').click(function(e) {
+		e.preventDefault();
+		let staff_id = $(this).children('input:eq(0)').val();
+		let staff_level = $(this).children('input:eq(1)').val();
+		let department_id = $(this).children('input:eq(2)').val();
+		let name = $(this).children('input:eq(3)').val();
+		let department_name = $(this).children('input:eq(4)').val();
+		makeChatRoom(staff_id, staff_level, department_id, name, department_name);
+	});
+	
+	// 대화 상대 추가창 종료
+	$('#removeStaffList').click(function() {
+		$('#staffListChat').removeClass('popup-box-on');
+	});
+	
+	// 채팅 전송
+	$('.chat-send').click(function() {
+		let content = $('#submit_message').val();
+		if (content.trim() == "") toast('error', '채팅을 입력해 주세요.');
+		else if (content.indexOf("##") != -1) toast('error', '"##"는 입력할 수 없습니다.');
+		else {
+			if ($('#chat_box').children('div').length == 0 
+					|| getDate($('#chat_box').children('div:last-child').children('input').val()) != getDate(getCurrentTimeStamp())) {
+				sendDateBeforeChat($('#submit_message').val());
+			} else sendChat($('#submit_message').val());
+			$('#submit_message').val('');
+		}
+	});
+
+	// enter키 입력 이벤트
+	function enterKey() {
+		if (window.event.keyCode == 13) {
+			 $(".chat-send").trigger("click");
+		}
 	}
-	
-	$('.chat-send').click(function (){
-		$.ajax({
-			url : 'sendChat.st',
-			data : {
-				title : currentRoomTitle,
-				key : chatroomKey,
-				id : id,
-				name : name,
-				content : $('#submit_message').val(),
-			},
-			success : function(response) {
-				$('#submit_message').val('');
-				getChat(chatroomKey);
-			},
-			error : function(req, text) {
-				errorToast(req.status);
-			}
-		});
-	});
-	*/
-	
 </script>

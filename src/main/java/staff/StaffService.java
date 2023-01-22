@@ -61,12 +61,18 @@ public class StaffService {
 		return dao.get_medical_receipt(map);
 	}
 	
+	public List<StaffVO> getStaff() {
+		return dao.get_staff_list();
+	}
+	
     private String getDate(Timestamp time) {
         SimpleDateFormat year = new SimpleDateFormat("yyyy", Locale.KOREA);
         SimpleDateFormat month = new SimpleDateFormat("MM", Locale.KOREA);
         SimpleDateFormat day = new SimpleDateFormat("dd", Locale.KOREA);
         return year.format(time) + "-" + month.format(time) + "-" + day.format(time);
     }
+    
+   
 	
 	
 	

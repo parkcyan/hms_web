@@ -1,32 +1,26 @@
 package com.groupc.hms;
 
-import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import staff.StaffService;
 import staff.vo.MedicalReceiptVO;
 import staff.vo.PatientVO;
+import staff.vo.StaffChatVO;
 import staff.vo.StaffVO;
 
 @Controller
@@ -51,7 +45,13 @@ public class StaffController {
 		map.put("id", id);
 		map.put("pw", pw);
 		StaffVO vo = service.loginStaff(map);
+		List<StaffVO> list = service.getStaff();
+		LinkedHashMap<Integer, StaffChatVO> staffMap = new LinkedHashMap<>();
+		for (StaffVO staff : list) {
+			if (vo.getStaff_id() != staff.getStaff_id()) staffMap.put(staff.getStaff_id(), new StaffChatVO(staff));
+		}
 		session.setAttribute("loginInfo", vo);
+		session.setAttribute("staffMap", staffMap);
 		return vo != null;
 	}
 	
@@ -137,6 +137,16 @@ public class StaffController {
 	public String schedule(HttpSession session, Model model) {
 		session.setAttribute("title", "일정");
 		return "staff/schedule/schedule";
+	}
+	
+	/**
+	 * 채팅
+	 */
+	@ResponseBody @RequestMapping(value = "/getStaff.st", produces = "text/html; charset=UTF-8")
+	public String getStaff(Model model) {
+		List<StaffVO> list = service.getStaff();
+		model.addAttribute("staffList", list);
+		return new Gson().toJson(service.getStaff());
 	}
 
 }

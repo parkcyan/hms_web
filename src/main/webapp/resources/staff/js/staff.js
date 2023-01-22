@@ -16,19 +16,38 @@ function errorToast(req) {
 	toast("error", "오류가 발생했습니다.\nerror code : " + req);
 }
 
-function chatToast(name, content) {
-	const Toast = Swal.mixin({
-		toast: true,
-		position: 'bottom-left',
-		showConfirmButton: false,
-		width: '400px',
-		timer: 3000
-	});
-	Toast.fire({
-		icon: 'info',
-		title: name,
-		text: content
-	});
+function chatToast(title, content) {
+	gfn_toast({ "title": title, "contents": content });
+
+	function gfn_toast(option) {
+		if (!!$("#g_toast_container")) {
+			$("#g_toast_container").remove();
+		}
+		var optionDefault = { "title": title, "contents": content }
+		option = $.extend(optionDefault, option);
+
+		var toastDiv = '';
+		toastDiv += '<div id="g_toast_container" style="min-height: 250px;position:absolute;top:60px;">';
+		toastDiv += '<div id="g_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">';
+		toastDiv += '  <div class="toast-header bg-info text-white">';
+		toastDiv += '    <i class="fas fa-envelope fa-fw"></i>';
+		toastDiv += '    <strong class="mr-auto ml-3">' + option.title + '</strong>';
+		toastDiv += '    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">';
+		toastDiv += '      <span aria-hidden="true">&times;</span>';
+		toastDiv += '    </button>';
+		toastDiv += '  </div>';
+		toastDiv += '  <div class="toast-body">' + option.contents + '</div>';
+		toastDiv += '</div>';
+		toastDiv += '</div>';
+
+		$("body").append(toastDiv);
+
+		$("#g_toast_container").css("right", 24);
+		$("#g_toast_container").css("top", 70);
+
+		$("#g_toast").toast({ "animation": true, "autohide": true, "delay": 3000 });
+		$("#g_toast").toast('show');
+	}
 }
 
 function emptyCheck() {
@@ -108,4 +127,12 @@ function getCurrentTimeStamp() {
 
 function getTime(timestamp) {
 	return timestamp.substring(11, 16);
+}
+
+function getDate(timestamp) {
+	return timestamp.substring(0, 10);
+}
+
+function getDateFormat(timestamp) {
+	return timestamp.substring(0, 4) + '년 ' + timestamp.substring(5, 7) + '월 ' + timestamp.substring(8, 10) + '일';
 }

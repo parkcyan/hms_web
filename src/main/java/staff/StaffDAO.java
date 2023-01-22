@@ -52,5 +52,9 @@ public class StaffDAO {
 	public List<MedicalReceiptVO> get_medical_receipt(Map<String, String> map) {
 		return sql.selectList("staff.get_medical_receipt", map);
 	}
+	
+	public List<StaffVO> get_staff_list() {
+		return sql.selectList("staff.get_staff_list");
+	}
 
 }

@@ -1,4 +1,4 @@
-#chatroom {
+#chatroom, #staffListChat {
 	z-index: 99;
 	background: white;
 	display: none;
@@ -7,6 +7,11 @@
 	right: 1.5rem;
 	width: 318px;
 }
+
+#staffListChat {
+	height: 406px;
+}
+
 
 .chat_box .chat_message_wrapper ul.chat_message>li+li {
 	margin-top: 4px;
@@ -90,7 +95,7 @@
 	background: #4e73df none repeat scroll 0 0 !important;
 	color: #fff;
 	width: 100%;
-	padding: 10px;
+	padding: 10px 15px;
 }
 
 .popup-head .md-user-image {
@@ -355,4 +360,9 @@
 
 .chat_message_system ul.chat_message>li:first-child::before {
 	border-right-color: transparent !important;
+}
+
+#chatRoomList, #staff_box{
+	overflow-y: scroll;
+	height: 342px;
 }

@@ -62,4 +62,7 @@
 		</choose>
 		order by mr.time 
 	</select>
+	<select id="get_staff_list" resultType="staff.vo.StaffVO">
+		select d.department_name, s.* from staff s, department d where s.department_id = d.department_id order by s.staff_id 
+	</select>
 </mapper>

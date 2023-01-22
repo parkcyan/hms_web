@@ -21,6 +21,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/index.st", method = RequestMethod.GET)
 	public String staffHome(HttpSession session, Model model) {
+		session.setAttribute("title", "");
 		return "staff/index";
 	}
 	
