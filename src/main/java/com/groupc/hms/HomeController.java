@@ -19,6 +19,12 @@ public class HomeController {
 		return "index";
 	}
 	
+	@RequestMapping(value = "/index.ad", method = RequestMethod.GET)
+	public String adminHome(HttpSession session, Model model) {
+
+		return "admin/index";
+	}
+	
 	@RequestMapping(value = "/index.st", method = RequestMethod.GET)
 	public String staffHome(HttpSession session, Model model) {
 		if (session.getAttribute("loginInfo") == null) {
