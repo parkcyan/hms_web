@@ -140,7 +140,6 @@ function setChatRoomView(chatRoomList) {
 	$("#chatRoomList a").click(function(e) {
 		e.preventDefault();
 		removeGetChat();
-		setOnChat(false);
 		selectedKey = $(this).children('input:eq(0)').val();
 		selectedRoomTitle = $(this).children('input:eq(1)').val();
 		let roomTitle = $(this).children('div').children('div:eq(0)').children('p').text();
@@ -150,7 +149,6 @@ function setChatRoomView(chatRoomList) {
 	$("#removeClass").click(function() {
 		$('#chatroom').removeClass('popup-box-on');
 		removeGetChat();
-		setOnChat(false);
 	});
 }
 
@@ -176,6 +174,7 @@ function getChat() {
 }
 
 function removeGetChat() {
+	setOnChat(false);
 	db.ref('chatRoom/' + selectedKey + '/chat').off();
 }
 
@@ -204,7 +203,17 @@ function setChatView(chatList) {
 		str += '</p></li></ul></div>';
 		$('#chat_box').append(str);
 	});
-	$('#chatroom').addClass('popup-box-on');	
+	$('#chatroom').addClass('popup-box-on');
+	$('.chat_message').on('mousedown', function(){
+		if ((event.button == 2) || (event.which == 3)) {
+			let content = $(this).children('li').children('p').text().replace($(this).children('li').children('p').children('span').text(), '');
+			confirm('info', '공지사항 설정', '정말 "' + content + '"를 채팅방의 공지사항으로 등록하시겠습니까?', function(result) {
+				if (result) {
+					
+				}
+			});
+		}
+	});
 	$("#chat").scrollTop($("#chat_box").height());
 }
 
@@ -285,10 +294,66 @@ function getNotification() {
 		db.ref('member/' + id + '/lastChatRoom').once('value', (snapshot) => {
 			if (new Date().getTime() - new Date(lastChat.child('time').val()).getTime() < 3000 
 				&& snapshot.val().indexOf(selectedKey) != -1)  {
-				chatToast(lastChat.child('name').val(), lastChat.child('content').val());
+				chatToast(snapshot.val(), lastChat.child('content').val(), lastChat.child('name').val());
 			}
 		});
 	});
+}
+
+function chatToast(lastChatRoom, content, writerName) {
+	let title = '';
+	let arr = lastChatRoom.split("##");
+	if (arr[1].indexOf("#") != -1) title = writerName;
+	else title = arr[1] + ' (' + writerName + ')'; 
+	
+	gfn_toast({ "title": title, "contents": content, "lastChatRoom": lastChatRoom });
+
+	function gfn_toast(option) {
+		if (!!$("#g_toast_container")) {
+			$("#g_toast_container").remove();
+		}
+		var optionDefault = { "title": title, "contents": content }
+		option = $.extend(optionDefault, option);
+
+		var toastDiv = '';
+		toastDiv += '<div id="g_toast_container" style="min-height: 250px;position:absolute;top:60px;">';
+		toastDiv += '<div id="g_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">';
+		toastDiv += '  <div class="toast-header bg-info text-white">';
+		toastDiv += '    <i class="fas fa-envelope fa-fw"></i>';
+		toastDiv += '    <strong class="mr-auto ml-3">' + option.title + '</strong>';
+		toastDiv += '    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">';
+		toastDiv += '      <span aria-hidden="true">&times;</span>';
+		toastDiv += '    </button>';
+		toastDiv += '  </div>';
+		toastDiv += '  <div class="toast-body">' + option.contents + '</div>';
+		toastDiv += '</div>';
+		toastDiv += '</div>';
+
+		$("body").append(toastDiv);
+
+		$("#g_toast_container").css("right", 24);
+		$("#g_toast_container").css("top", 70);
+		$("#g_toast_container").hover(function() {
+			$(this).css('cursor', 'pointer');
+		})
+		$("#g_toast_container").click(function(){
+			$("#g_toast").toast('hide');
+			removeGetChat();
+			let optionArr = option.lastChatRoom.split("##");
+			let roomTitle = '';
+			if (optionArr[1].indexOf("#") != -1) {
+				selectedRoomTitle = optionArr[1];
+				roomTitle = selectedRoomTitle.replace('#', '');
+				roomTitle = roomTitle.replace(name, '');		
+			} 
+			selectedKey = optionArr[0];
+			$('#chatroom_title').text(roomTitle);
+			getChat();
+		});
+
+		$("#g_toast").toast({ "animation": true, "autohide": true, "delay": 3000 });
+		$("#g_toast").toast('show');
+	}
 }
 
 /**
@@ -300,5 +365,5 @@ function setOnChat(onChat) {
 }
 
 $(window).on("beforeunload", function() {
-	setOnChat(false);
+	removeGetChat();
 });

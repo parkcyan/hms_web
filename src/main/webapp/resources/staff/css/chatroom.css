@@ -1,4 +1,4 @@
-#chatroom, #staffListChat {
+#chatroom, #staffListChat, #dialog_createGroupChatRoom {
 	z-index: 99;
 	background: white;
 	display: none;
@@ -10,6 +10,11 @@
 
 #staffListChat {
 	height: 406px;
+}
+
+#dialog_createGroupChatRoom {
+	width: 600px;
+	height: 500px;
 }
 
 

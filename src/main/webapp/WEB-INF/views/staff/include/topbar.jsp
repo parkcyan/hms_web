@@ -168,6 +168,10 @@
 			<h1>대화 상대 추가</h1>
 		</div>
 		<div>
+			<button data-widget="remove" id="createGroupChatRoomDialog"
+				class="chat-header-button pull-right" type="button">
+				<i class="fas fa-fw fa-users"></i>
+			</button>
 			<button data-widget="remove" id="removeStaffList"
 				class="chat-header-button pull-right" type="button">
 				<i class="fas fa-times"></i>
@@ -196,6 +200,55 @@
 	</div>
 </aside>
 <!-- End of staffList -->
+<!-- createGroupChatRoom -->
+<aside id="dialog_createGroupChatRoom" class="card tabbed_sidebar ng-scope chat_sidebar">
+	<div class="popup-head card-header flexb flexc mb-2">
+		<div class="popup-head-left pull-left">
+			<h1>그룹 채팅방 생성</h1>
+		</div>
+		<div>
+			<button data-widget="remove" id="remove_dialog_createGroupChatRoom"
+				class="chat-header-button pull-right" type="button">
+				<i class="fas fa-times"></i>
+			</button>
+		</div>
+	</div>
+	<div id="staffList">
+		<form class="mr-3 ml-3">
+			<div class="form-group">
+				<label for="groupChatRoomTitle">채팅방 제목</label> 
+				<input type="text" class="form-control" id="groupChatRoomTitle" placeholder="제목">
+				<small id="emailHelp" class="form-text text-muted">'#'은 입력할 수 없습니다.</small>
+			</div>
+			<label for="groupChatRoomTitle">채팅방 참가자</label> 
+			<div class="form-control mb-3" style="height: 60px;">
+				
+			</div>
+			<div class="form-control p-0" style="height: 180px;">
+				<div id="staff_box_group" class="h-100">
+					<c:forEach items="${staffMap}" var="vo" varStatus="status">
+					<a class="dropdown-item flexc align-items-center" href="#">
+						<input type="hidden" value="${vo.value.staff_id}"/>
+						<input type="hidden" value="${vo.value.staff_level}"/>
+						<input type="hidden" value="${vo.value.department_id}"/>
+						<input type="hidden" value="${vo.value.name}"/>
+						<input type="hidden" value="${vo.value.department_name}"/>
+						<div class="font-weight-bold">
+							<div class="text-truncate flexc h25">
+								<i class="fas fa-fw fa-user mr-1"></i><p class="mb-0">${vo.value.name}</p>
+								<div class="small text-gray-500 ml-1">${vo.value.department_name} ${vo.value.staff_level eq 1 ? ' 의사' : ' 간호사'}</div>
+							</div>
+						</div>
+					</a>
+					<hr class="m-0"/>
+					</c:forEach>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary mt-3">생성</button>
+		</form>
+	</div>
+</aside>
+<!-- End of createGroupChatRoom-->
 <!-- End of Topbar -->
 <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
@@ -206,7 +259,7 @@
 	    if ( event.keyCode == 27 || event.which == 27 ) {
 	    	$('#chatroom').removeClass('popup-box-on');
 			$('#staffListChat').removeClass('popup-box-on');
-			setOnChat(false);
+			removeGetChat();
 	    }
 	});
 	// 미확인 채팅 수, 채팅방, 채팅 알림 수신
@@ -218,7 +271,7 @@
 	$('#messagesDropdown').click(function() {
 		$('#chatroom').removeClass('popup-box-on');
 		$('#staffListChat').removeClass('popup-box-on');
-		setOnChat(false);
+		removeGetChat();
 	});
 	
 	// 메시지 창 + 포인터 변경
@@ -245,6 +298,17 @@
 	// 대화 상대 추가창 종료
 	$('#removeStaffList').click(function() {
 		$('#staffListChat').removeClass('popup-box-on');
+	});
+	
+	// 그룹 채팅방 개설창 
+	$('#createGroupChatRoomDialog').click(function() {
+		$('#dialog_createGroupChatRoom').addClass('popup-box-on');
+		$('#staffListChat').removeClass('popup-box-on');
+	});
+	
+	// 그룹 채팅방 개설창 종료
+	$('#remove_dialog_createGroupChatRoom').click(function() {
+		$('#dialog_createGroupChatRoom').removeClass('popup-box-on');
 	});
 	
 	// 채팅 전송
