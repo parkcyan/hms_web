@@ -18,6 +18,11 @@ textarea {
 	align-items: center;
 }
 
+.flexc {
+	display: flex;
+	justify-content: space-around;
+}
+
 .h25 {
 	height: 25px;
 }

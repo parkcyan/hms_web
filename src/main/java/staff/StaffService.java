@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import staff.vo.MedicalReceiptVO;
 import staff.vo.PatientVO;
+import staff.vo.ScheduleVO;
 import staff.vo.StaffVO;
 
 @Service
@@ -61,6 +62,20 @@ public class StaffService {
 		return dao.get_medical_receipt(map);
 	}
 	
+	/**
+	 * 일정
+	 */
+	public List<ScheduleVO> getSchedule(StaffVO vo, String date) {
+		Map<String, String> map = new HashMap<>();
+		map.put("id", String.valueOf(vo.getStaff_id()));
+		map.put("staff_level", String.valueOf(vo.getStaff_level()));
+		map.put("date", date);
+		return dao.get_schedule_list(map);
+	}
+	
+	/**
+	 * 채팅
+	 */
 	public List<StaffVO> getStaff() {
 		return dao.get_staff_list();
 	}

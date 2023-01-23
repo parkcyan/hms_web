@@ -139,6 +139,11 @@ public class StaffController {
 		return "staff/schedule/schedule";
 	}
 	
+	@ResponseBody @RequestMapping(value = "/getSchedule.st")
+	public String getSchedule(HttpSession session, String date) {
+		return new Gson().toJson(service.getSchedule(getStaff(session), date));
+	}
+	
 	/**
 	 * 채팅
 	 */

@@ -98,6 +98,12 @@ function clearPatient() {
 	})
 }
 
+function getTimeStamp(date) {
+	var today = new Date(date);
+	today.setHours(today.getHours() + 9);
+    return today.toISOString().replace('T', ' ').substring(0, 19);
+}
+
 function getCurrentTimeStamp() {
     var today = new Date();
     today.setHours(today.getHours() + 9);

@@ -12,6 +12,7 @@ import staff.vo.MedicalReceiptVO;
 import staff.vo.AdmissionRecordVO;
 import staff.vo.MedicalRecordVO;
 import staff.vo.PatientVO;
+import staff.vo.ScheduleVO;
 import staff.vo.StaffVO;
 
 @Repository
@@ -55,6 +56,10 @@ public class StaffDAO {
 	
 	public List<StaffVO> get_staff_list() {
 		return sql.selectList("staff.get_staff_list");
+	}
+	
+	public List<ScheduleVO> get_schedule_list(Map<String, String> map) {
+		return sql.selectList("staff.get_schedule_list", map);
 	}
 
 }

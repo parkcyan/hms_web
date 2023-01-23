@@ -65,4 +65,18 @@
 	<select id="get_staff_list" resultType="staff.vo.StaffVO">
 		select d.department_name, s.* from staff s, department d where s.department_id = d.department_id order by s.staff_id 
 	</select>
+	<select id="get_schedule_list" resultType="staff.vo.ScheduleVO">
+		<choose>
+			<when test="staff_level == 1">
+				select schedule_id, staff_id, content, to_char(time, 'hh24:mi') as time 
+			    from doctor_schedule where staff_id = #{id} and to_char(time, 'yyyy-mm-dd') = #{date} 
+			    order by time 
+			</when>
+			<when test="staff_level == 2">
+				select schedule_id, staff_id, content, complete, to_char(time, 'hh24:mi') as time 
+				from nurse_schedule where staff_id = #{id} and to_char(time, 'yyyy-mm-dd') = #{date}
+				order by time  
+			</when>
+		</choose>
+	</select>
 </mapper>
