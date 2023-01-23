@@ -65,6 +65,20 @@
 	<select id="get_staff_list" resultType="staff.vo.StaffVO">
 		select d.department_name, s.* from staff s, department d where s.department_id = d.department_id order by s.staff_id 
 	</select>
+	<select id="get_admission_record_ward" resultType="staff.vo.AdmissionRecordVO">
+		select ar.ward_id, ar.admission_record_id, p.patient_id, p.name as patient_name, s.name as staff_name, s.staff_id,  
+		d.department_name, mr.treatment_name, to_char(ar.admission_date, 'yyyy-mm-dd') as admission_date,
+		to_char(ar.discharge_date, 'yyyy-mm-dd') as discharge_date 
+		from medical_record mr, admission_record ar, ward w, patient p, staff s, department d 
+		where mr.medical_record_id = ar.medical_record_id
+		and s.staff_id = mr.staff_id 
+		and p.patient_id = mr.patient_id
+		and w.ward_id = ar.ward_id 
+		and s.department_id = d.department_id 
+		and w.ward_id in (select ward_id from ward where ward_number like #{ward_number} || '%')
+		and (ar.discharge_date > (select current_date from dual) or discharge_date is null)
+		order by w.ward_id 
+	</select>
 	<select id="get_schedule_list" resultType="staff.vo.ScheduleVO">
 		<choose>
 			<when test="staff_level == 1">

@@ -16,6 +16,14 @@ function errorToast(req) {
 	toast("error", "오류가 발생했습니다.\nerror code : " + req);
 }
 
+String.prototype.replaceAt = function(index, replacement) {
+    if (index >= this.length) {
+        return this.valueOf();
+    }
+ 
+    return this.substring(0, index) + replacement + this.substring(index + 1);
+}
+
 function emptyCheck() {
 	let ok = true;
 	$('.chk').each(function() {

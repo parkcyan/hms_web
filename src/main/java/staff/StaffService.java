@@ -10,6 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import staff.vo.AdmissionRecordVO;
 import staff.vo.MedicalReceiptVO;
 import staff.vo.PatientVO;
 import staff.vo.ScheduleVO;
@@ -63,6 +64,13 @@ public class StaffService {
 	}
 	
 	/**
+	 * 병동
+	 */
+	public List<AdmissionRecordVO> getAdmissionRecordWard(String ward_number) {
+		return dao.get_admission_record_ward(ward_number);
+	}
+	
+	/**
 	 * 일정
 	 */
 	public List<ScheduleVO> getSchedule(StaffVO vo, String date) {
@@ -87,10 +95,5 @@ public class StaffService {
         return year.format(time) + "-" + month.format(time) + "-" + day.format(time);
     }
     
-   
-	
-	
-	
-
 
 }

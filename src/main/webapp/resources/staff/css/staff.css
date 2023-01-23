@@ -5,21 +5,21 @@ textarea {
 }
 
 .flex {
-	display: flex;
+	display: flex !important;
 }
 
 .flexb {
-	display: flex;
+	display: flex !important;
 	justify-content: space-between;
 }
 
 .flexc {
-	display: flex;
+	display: flex !important;
 	align-items: center;
 }
 
-.flexc {
-	display: flex;
+.flexa {
+	display: flex !important;
 	justify-content: space-around;
 }
 
@@ -31,10 +31,18 @@ textarea {
 	height: 600px;
 }
 
+#spinner {
+	margin-left: 5px;
+	width: 28px;
+	height: 28px;
+	font-size: 15px;
+}
+
 #spinner-mini {
 	margin-left: 5px;
 	width: 19px;
 	height: 19px;
+	font-size: 12px;
 }
 
 /* patient info mini */

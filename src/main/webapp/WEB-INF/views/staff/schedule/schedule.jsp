@@ -137,7 +137,10 @@
 			<div class="col-lg-5 mb-4">
 				<div class="card shadow h-100">
 					<div class="card-header py-3">
-						<h6 class="m-0 font-weight-bold text-primary">일정 목록</h6>
+						<div class="flex">
+							<h6 class="m-0 font-weight-bold text-primary">일정 목록</h6>
+							<div id="spinner-mini" class="spinner-border text-primary" role="status"> </div>
+						</div>
 					</div>
 					<div class="card-body">
 						<table id="schedule_table" class="table">
@@ -158,11 +161,13 @@
 		</div>
 	</div>
 	<script src="staff/js/calendar/popper.js"></script>
-	<!-- 날짜 클릭시 뷰 동작도 main.js에서 정의함 -->
+	<!-- 날짜 클릭시 뷰 동작은 calendar/main.js에서 정의함 -->
 	<script src="staff/js/calendar/main.js"></script>
 	<script src="staff/vendor/bootstrap/js/bootstrap-timepicker.js"></script>
 	<script>
 	  	$('#timepicker1').timepicker();
+	  	
+	  	// 오늘 스케줄 조회
 	  	getSchedule(new Date());
 	</script>
 </body>

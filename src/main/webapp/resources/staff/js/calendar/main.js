@@ -173,6 +173,7 @@
 })(jQuery);
 
 function getSchedule(date) {
+	$("#spinner-mini").css('display', 'block');
 	$.ajax({
 		url: 'getSchedule.st',
 		data: {
@@ -202,9 +203,11 @@ function getSchedule(date) {
 					$(this).css('background-color', 'white');
 				})
 			}
+			$("#spinner-mini").css('display', 'none');
 		},
 		error: function(req, text) {
 			errorToast(req.status);
+			$("#spinner-mini").css('display', 'none');
 		}
 	})
 }
