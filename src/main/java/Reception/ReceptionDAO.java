@@ -33,4 +33,10 @@ public class ReceptionDAO {
 	public PatientVO get_patient_info(String name) {
 		return sql.selectOne("reception.patient_info", name);
 	}
+	
+	public void patient_insert(PatientVO vo) {
+	 sql.insert("reception.patient_insert", vo);
+	
+
+	}
 }

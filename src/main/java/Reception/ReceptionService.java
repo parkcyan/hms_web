@@ -34,4 +34,7 @@ public class ReceptionService {
 		return dao.get_patient_info(name);
 	}
 	
+	public void patient_insert(PatientVO vo) {
+	   dao.patient_insert(vo);
 	}
+}

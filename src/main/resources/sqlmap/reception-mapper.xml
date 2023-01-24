@@ -16,4 +16,10 @@
 		select * from patient 
 		where name=#{name}
 </select>
+<!-- 신규환자 -->
+<insert id='patient_insert'>
+  insert into patient (name, gender, phone_number, social_id)
+	values (#{name}, #{gender}, #{phone_number},#{social_id});
+</insert> 
+
 </mapper>

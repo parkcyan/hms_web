@@ -49,13 +49,23 @@ public class ReceptionController {
 	 * System.out.println(); return "reception/patient/info"; }
 	 */
 	//환자 이름 받아오기_2
-		@RequestMapping(value="/patient_info")
+		@RequestMapping(value="/patient_info.re")
 		public String get_info(@RequestParam String name, Model model) {
 			model.addAttribute("name",name);
 			return "reception/patient/info";
 		}
 
-	//신규 등록
+	//신규 등록 화면
+		@RequestMapping(value="registration.re")
+		public String registration() {
+			return "reception/registration/registration";
+		}	
+		//신규 등록 저장	
+		@RequestMapping("/insert.re")
+		public String insert(PatientVO vo) {
+			service.patient_insert(vo);
+			return "redicrect:registration.re";
+		}
 
 	
 	//수납조회

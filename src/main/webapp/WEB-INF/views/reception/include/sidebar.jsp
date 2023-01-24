@@ -12,7 +12,7 @@
 		<div class="sidebar-brand-icon">
 			<img id="logo" src="staff/img/logo.png"/>
 		</div>
-		<div class="sidebar-brand-text mx-3"> YH-HOSPITAL
+		<div class="sidebar-brand-text mx-3"> YM-HOSPITAL
 		</div>
 	</a>
 
@@ -34,39 +34,32 @@
 
 	<!-- Nav Item - Pages Collapse Menu -->
 	<li class="nav-item">
-		<a class="nav-link" href="ward.st"> 
+		<a class="nav-link" href="registration.re"> 
 		<i class="fas fa-fw fa-bed"></i> <span>신규등록</span>
 		</a>
 	</li>
 	<li class="nav-item">
-		<a class="nav-link" href="lookup."> 
-		<i class="far fa-fw fa-user"></i> <span>환자정보</span>
-		</a>
-	</li>
-	
-	<li class="nav-item">
 		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" 
 		aria-expanded="true" aria-controls="collapsePages">
 			<i class="far fa-fw fa-clipboard"></i>
-			<span>진료</span>
+			<span>환자정보</span>
             </a>
             <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 				<div class="bg-white py-2 collapse-inner rounded">
-				<a class="collapse-item" href="outpatient.st">진료</a>
+				<a class="collapse-item" href="patient_list.re">기본정보</a>
 				<a class="collapse-item" href="outpatientrecord.st">진료기록 조회</a>
 			</div>
 		</div>
     </li>
-
 	<li class="nav-item">
-		<a class="nav-link" href="ward.st"> 
-		<i class="fas fa-fw fa-bed"></i> <span>접수</span>
+		<a class="nav-link" href="lookup."> 
+		<i class="far fa-fw fa-user"></i> <span>접수</span>
 		</a>
 	</li>
 	
 	<li class="nav-item">
-		<a class="nav-link" href="schedule.st"> 
-		<i class="fas fa-fw fa-calendar"></i> <span>수납</span>
+		<a class="nav-link" href="ward.st"> 
+		<i class="fas fa-fw fa-bed"></i> <span>수납</span>
 		</a>
 	</li>
 
