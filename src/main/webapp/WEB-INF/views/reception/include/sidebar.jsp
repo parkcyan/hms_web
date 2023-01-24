@@ -47,18 +47,18 @@
             <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 				<div class="bg-white py-2 collapse-inner rounded">
 				<a class="collapse-item" href="patient_list.re">기본정보</a>
-				<a class="collapse-item" href="outpatientrecord.st">진료기록 조회</a>
+				<a class="collapse-item" href="medical_record.re">진료기록 조회</a>
 			</div>
 		</div>
     </li>
 	<li class="nav-item">
-		<a class="nav-link" href="lookup."> 
+		<a class="nav-link" href="receipt.re"> 
 		<i class="far fa-fw fa-user"></i> <span>접수</span>
 		</a>
 	</li>
 	
 	<li class="nav-item">
-		<a class="nav-link" href="ward.st"> 
+		<a class="nav-link" href="acceptance.re"> 
 		<i class="fas fa-fw fa-bed"></i> <span>수납</span>
 		</a>
 	</li>

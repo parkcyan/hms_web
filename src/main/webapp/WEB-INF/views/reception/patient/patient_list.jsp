@@ -51,10 +51,10 @@
 		</div>
 	</div>
 	<!-- Page level plugins -->
-    <script src="staff/vendor/datatables/jquery.dataTables.js"></script>
-    <script src="staff/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="reception/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="reception/vendor/datatables/dataTables.bootstrap4.js"></script>
     <!-- Page level custom scripts -->
-    <script src="staff/js/demo/datatables-demo.js"></script>
+    <script src="reception/js/demo/datatables-demo.js"></script>
     <script>
     	// 나이, 생일 format
     	$('#dataTable #age').each(function(){
@@ -72,7 +72,7 @@
     		 $(this).css('background-color','white');
     	})
     	$('#dataTable tr:not(:first-child)').click(function(){
-    		location.href = 'patientInfo.st?id=' + $(this).children('td:first-child').text()
+    		location.href = 'patientInfo.re?id=' + $(this).children('td:first-child').text()
     	})
     </script>
 </body>

@@ -23,8 +23,8 @@ public class ReceptionDAO {
 		return sql.selectOne("reception.login", map);
 	}
 	
-	public List<AcceptanceVO> get_acceptance(String id){
-		return sql.selectList("reception.get_acceptance", id);
+	public List<AcceptanceVO> get_acceptance(String name){
+		return sql.selectList("reception.get_acceptance", name);
 	}
 	
 	public List<PatientVO> get_patient_list() {
@@ -37,6 +37,5 @@ public class ReceptionDAO {
 	public void patient_insert(PatientVO vo) {
 	 sql.insert("reception.patient_insert", vo);
 	
-
 	}
 }

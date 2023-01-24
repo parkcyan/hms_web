@@ -55,7 +55,7 @@ public class ReceptionController {
 			return "reception/patient/info";
 		}
 
-	//신규 등록 화면
+		//신규 등록 화면 요청
 		@RequestMapping(value="registration.re")
 		public String registration() {
 			return "reception/registration/registration";
@@ -66,11 +66,11 @@ public class ReceptionController {
 			service.patient_insert(vo);
 			return "redicrect:registration.re";
 		}
+		//
 
-	
-	//수납조회
-	@RequestMapping(value = "/acceptance.re")
-	public String acceptance(HttpSession session, Model model) {
+		//수납조회
+		@RequestMapping(value = "/acceptance.re")
+		public String acceptance_list(HttpSession session, Model model) {
 		session.setAttribute("title", "수납");
 		return "reception/acceptance/acceptance";
 	}

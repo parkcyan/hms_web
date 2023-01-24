@@ -9,6 +9,9 @@
 <link href="reception/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 </head>
 <body>
+<div class="container-fluid">
+<div class="row">
+			<div class="col-lg-3">
 <div class="card shadow mb-4 py-1 border-left-primary">
 <form method ='post' action ='insert.re'>
 					<div class="card-body patient-mini-table">
@@ -34,11 +37,23 @@
 							
 						</table>
 						<div class="d-sm-flex flex-row-reverse mt-3">
-							<a onclick="insertMedicalRecord()" class="btn btn-primary" href='registration.re'>취소</a>
-							<a onclick="insertMedicalRecord()" class="btn btn-primary">저장</a>
-						</div>
-						
+					
+							<button type="button" class="btn btn-primary ptient-insert" href='patientInfo.re'>등록</button>
+							<button type='button' class="btn btn-primary" onclick ="history.go(-1)">취소</button>
+				
+						</div>					
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
 </body>
+<script>
+$('.patient-insert').click(function(){
+	if(emptyCheck())
+		$('form').submit();
+
+});
+
+</script>
 </html>
