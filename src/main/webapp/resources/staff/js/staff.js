@@ -106,6 +106,14 @@ function clearPatient() {
 	})
 }
 
+function timeStampOperator(date, operator, num) {
+	if (operator == 'month') {
+		var today = new Date(date);
+		today.setMonth(today.getMonth() + num);
+    	return today.toISOString().replace('T', ' ').substring(0, 19);
+	}
+}
+
 function getTimeStamp(date) {
 	var today = new Date(date);
 	today.setHours(today.getHours() + 9);

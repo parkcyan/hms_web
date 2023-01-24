@@ -116,8 +116,13 @@ public class StaffController {
 	}
 	
 	@ResponseBody @RequestMapping(value = "/getMedicalReceipt.st")
-	public String getMedicalReceipt(HttpSession session, Model model) {
+	public String getMedicalReceipt(HttpSession session) {
 		return new Gson().toJson(service.getMedicalReceipt(getStaff(session)));
+	}
+	
+	@ResponseBody @RequestMapping(value = "/getMedicalRecord.st")
+	public String getMedicalRecord(HttpSession session, String first_date, String second_date, String patient_name, String option) {
+		return new Gson().toJson(service.getMedicalRecord(getStaff(session), first_date, second_date, patient_name, option));
 	}
 	
 	/**

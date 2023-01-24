@@ -8,59 +8,39 @@
 <title></title>
 </head>
 <style>
-.ward {
-	width: 19%;
-}
-
+.ward { width: 19%; }
 .ward p {
 	font-weight: bold;
 	margin-bottom: 3px;
 }
-
 .ward-table {
 	width: 100%;
 	font-size: 0.8rem;
 }
-
 .ward-table tr td {
 	width: 25%;
 	text-align: center;
 	padding: 3px;
 	vertical-align: middle;
 }
-
 #admission_record_table td:first-child {
 	background: whitesmoke;
 	font-weight: bold;
 	width: 30%;
 }
-
 #admission_memo_table td, #admission_memo_table th, #admission_record_search_table td, #admission_record_search_table th {
 	padding: 0.3rem;
 }
-
-#admission_memo_table span {
-	font-weight: bold;
-}
-
-#admission_memo_table tbody {
-    overflow-y: scroll;
-}
-
+#admission_memo_table span { font-weight: bold; }
+#admission_memo_table tbody { overflow-y: scroll; }
 #admission_memo_table tbody tr td:last-child {
 	vertical-align: middle;
 	text-align: center;
 	color: red;
 	font-size: 1.2rem;
 }
-
-.form-check {
-	font-size: 0.8rem;
-}
-
-.form-check-input {
-	margin-top: 0.2rem;
-}
+.form-check { font-size: 0.8rem; }
+.form-check-input { margin-top: 0.2rem; }
 </style>
 <body>
 	<input type="hidden" id="patient_id"/>
@@ -231,7 +211,7 @@
 				<div class="card shadow h-100">
 					<div class="card-header py-3">
 						<div class="flex">
-							<h6 class="m-0 font-weight-bold text-primary">환자 검색</h6>
+							<h6 class="m-0 font-weight-bold text-primary">병동 환자 검색</h6>
 							<div id="spinner-mini" class="spinner-border text-primary" role="status" style="display: none;"></div>
 						</div>
 					</div>

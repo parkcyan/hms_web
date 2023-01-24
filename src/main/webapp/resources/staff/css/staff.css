@@ -23,6 +23,10 @@ textarea {
 	justify-content: space-around;
 }
 
+.fwb {
+	font-weight: bold;
+}
+
 .h25 {
 	height: 25px;
 }

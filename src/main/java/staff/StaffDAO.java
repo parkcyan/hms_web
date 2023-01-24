@@ -43,6 +43,10 @@ public class StaffDAO {
 		return sql.update("staff.update_patient_memo", map);
 	}
 	
+	public List<MedicalRecordVO> get_medical_record(Map<String, String> map) {
+		return sql.selectList("staff.get_medical_record", map);
+	}
+	
 	public List<MedicalRecordVO> get_medical_record_patient_id(String id) {
 		return sql.selectList("staff.get_medical_record_patient_id", id);
 	}

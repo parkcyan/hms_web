@@ -20,6 +20,30 @@
 	<update id="update_patient_memo">
 		update patient set memo = #{memo} where patient_id = #{id} 
 	</update>
+	<select id="get_medical_record" resultType="staff.vo.MedicalRecordVO">
+		select mr.medical_record_id, p.name as patient_name, s.name as staff_name, mr.memo, 
+		to_char(mr.treatment_date, 'yyyy-mm-dd hh24:mi') as treatment_date, mr.admission, 
+		mr.treatment_name, pr.prescription_record_id
+		from patient p, staff s, medical_record mr, prescription_record pr 
+		where p.patient_id = mr.patient_id
+		and s.staff_id = mr.staff_id 
+		and pr.medical_record_id(+) = mr.medical_record_id 
+		and mr.treatment_date between #{first_date} and #{second_date} 
+		<choose>
+			<when test="option == 'department'">
+				and s.staff_id in (
+				select staff_id from staff where department_id = (select department_id from staff where staff_id = #{id}) and staff_level = 1
+				) 
+			</when>
+			<when test="option == 'doctor'">
+				and s.staff_id = #{id} 
+			</when>
+		</choose>
+		<if test="patient_name != ''">
+			and p.name like '%' || #{patient_name} || '%'  
+		</if>
+		order by mr.treatment_date 
+	</select>
 	<select id="get_medical_record_patient_id" resultType="staff.vo.MedicalRecordVO">
 		select mr.medical_record_id, p.name as patient_name, s.name as staff_name, mr.memo, 
 		to_char(mr.treatment_date, 'yyyy-mm-dd hh24:mi') as treatment_date, mr.admission, 

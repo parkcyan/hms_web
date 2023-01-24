@@ -23,7 +23,7 @@
 	<div class="container-fluid">
 		<h1 class="h3 mb-4 text-gray-800">환자 진료</h1>
 		<div class="row">
-			<div class="col-lg-3">
+			<div class="col-lg-3 mb-4">
 				<div class="card shadow mb-4 py-1 border-left-primary">
 					<div class="card-body patient-mini-table">
 						<table id="patient-mini-table">
@@ -64,7 +64,7 @@
 						</table>
 					</div>
 				</div>
-				<div class="card shadow mb-4">
+				<div class="card shadow" style="height: 60%;">
 					<div class="card-header py-3">
 						<h6 class="m-0 font-weight-bold text-primary">과거 진료기록</h6>
 					</div>
@@ -82,7 +82,7 @@
 				</div>
 			</div>
 			<div class="col-lg-6 mb-4">
-				<div class="card shadow mb-4 py-1 border-left-info h600">
+				<div class="card shadow py-1 border-left-info h600">
 					<div class="card-body">
 						<table id="medical_record_table">
 							<tr>
@@ -113,7 +113,7 @@
 				</div>
 			</div>
 			<div class="col-lg-3 mb-4">
-				<div class="card shadow mb-4 h600">
+				<div class="card shadow h600">
 					<div class="card-header py-3">
 						<h6 class="m-0 font-weight-bold text-primary">진료 예약/대기 목록</h6>
 					</div>

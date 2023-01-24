@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import staff.vo.AdmissionMemoVO;
 import staff.vo.AdmissionRecordVO;
 import staff.vo.MedicalReceiptVO;
+import staff.vo.MedicalRecordVO;
 import staff.vo.PatientVO;
 import staff.vo.ScheduleVO;
 import staff.vo.StaffVO;
@@ -55,6 +56,9 @@ public class StaffService {
 		return dao.update_patient_memo(map) == 1;
 	}
 	
+	/**
+	 * 진료
+	 */
 	public List<MedicalReceiptVO> getMedicalReceipt(StaffVO vo) {
 		Map<String, String> map = new HashMap<>();
 		map.put("id", String.valueOf(vo.getStaff_id()));
@@ -62,6 +66,16 @@ public class StaffService {
 		map.put("option", "doctor");
 		//map.put("date", getDate(new Timestamp(System.currentTimeMillis())));
 		return dao.get_medical_receipt(map);
+	}
+
+	public List<MedicalRecordVO> getMedicalRecord(StaffVO vo, String first_date, String second_date, String patient_name, String option) {
+		Map<String, String> map = new HashMap<>();
+		map.put("id", String.valueOf(vo.getStaff_id()));
+		map.put("first_date", first_date);
+		map.put("second_date", second_date);
+		map.put("patient_name", patient_name);
+		map.put("option", option);
+		return dao.get_medical_record(map);
 	}
 	
 	/**
