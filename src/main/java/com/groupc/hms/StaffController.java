@@ -134,6 +134,16 @@ public class StaffController {
 		return new Gson().toJson(service.getAdmissionRecordWard(ward_number));
 	}
 	
+	@ResponseBody @RequestMapping(value = "/getAdmissionRecordSearch.st")
+	public String getAdmissionRecordSearch(HttpSession session, String option, String patient_name) {
+		return new Gson().toJson(service.getAdmissionRecordSearch(getStaff(session), option, patient_name));
+	}
+	
+	@ResponseBody @RequestMapping(value = "/getAdmissionMemo.st")
+	public String getAdmissionMemo(String id) {
+		return new Gson().toJson(service.getAdmissionMemo(id));
+	}
+	
 	/**
 	 * 일정
 	 */

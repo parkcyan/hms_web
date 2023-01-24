@@ -126,6 +126,10 @@ function getDate(timestamp) {
 	return timestamp.substring(0, 10);
 }
 
+function getMonthDay(timestamp) {
+	return timestamp.substring(5, 10);
+}
+
 function getDateFormat(timestamp) {
 	return timestamp.substring(0, 4) + '년 ' + timestamp.substring(5, 7) + '월 ' + timestamp.substring(8, 10) + '일';
 }

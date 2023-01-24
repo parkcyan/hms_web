@@ -79,6 +79,39 @@
 		and (ar.discharge_date > (select current_date from dual) or discharge_date is null)
 		order by w.ward_id 
 	</select>
+	<select id="get_admission_record_search" resultType="staff.vo.AdmissionRecordVO">
+		select ar.ward_id, ar.admission_record_id, p.patient_id, p.name as patient_name, s.name as staff_name, s.staff_id,  
+		d.department_name, mr.treatment_name, to_char(ar.admission_date, 'yyyy-mm-dd') as admission_date,
+		to_char(ar.discharge_date, 'yyyy-mm-dd') as discharge_date 
+		from medical_record mr, admission_record ar, ward w, patient p, staff s, department d 
+		where mr.medical_record_id = ar.medical_record_id
+		and s.staff_id = mr.staff_id 
+		and p.patient_id = mr.patient_id
+		and w.ward_id = ar.ward_id 
+		and s.department_id = d.department_id 
+		<choose>
+			<when test="option == 'department'">
+				and s.staff_id in (
+				select staff_id from staff where department_id = (select department_id from staff where staff_id = #{id}) and staff_level = 1
+				) 
+			</when>
+			<when test="option == 'mypatient'">
+				and s.staff_id = #{id} 
+			</when>
+		</choose>
+		<if test="patient_name != ''">
+			and p.name like '%' || #{patient_name} || '%'  
+		</if>
+		and (ar.discharge_date > (select current_date from dual) or discharge_date is null) 
+		order by w.ward_id 
+	</select>
+	<select id="get_admission_memo" resultType="staff.vo.AdmissionMemoVO">
+		select am.admission_memo_id, s.staff_id, s.name, am.memo, to_char(write_date, 'yyyy-mm-dd hh24:mi:ss') as write_date 
+		from admission_memo am, staff s 
+		where am.writer_id = s.staff_id 
+		and admission_record_id = #{id} 
+		order by am.write_date 
+	</select>
 	<select id="get_schedule_list" resultType="staff.vo.ScheduleVO">
 		<choose>
 			<when test="staff_level == 1">

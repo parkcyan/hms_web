@@ -10,6 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import staff.vo.AdmissionMemoVO;
 import staff.vo.AdmissionRecordVO;
 import staff.vo.MedicalReceiptVO;
 import staff.vo.PatientVO;
@@ -68,6 +69,18 @@ public class StaffService {
 	 */
 	public List<AdmissionRecordVO> getAdmissionRecordWard(String ward_number) {
 		return dao.get_admission_record_ward(ward_number);
+	}
+	
+	public List<AdmissionRecordVO> getAdmissionRecordSearch(StaffVO vo, String option, String patient_name) {
+		Map<String, String> map = new HashMap<>();
+		map.put("id", String.valueOf(vo.getStaff_id()));
+		map.put("option", option);
+		map.put("patient_name", patient_name);
+		return dao.get_admission_record_search(map);
+	}
+	
+	public List<AdmissionMemoVO> getAdmissionMemo(String id) {
+		return dao.get_admission_memo(id);
 	}
 	
 	/**
