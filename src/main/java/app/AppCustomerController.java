@@ -157,10 +157,10 @@ public class AppCustomerController {
 	public void MedicalInsert(int patient_id, int staff_id, String time, String memo) {
 		System.out.println(patient_id + " " + staff_id + " " + time);
 		MedicalReceiptVO vo = new MedicalReceiptVO();
-		vo.setPatient_id(patient_id);
-		vo.setStaff_id(staff_id);
-		vo.setTime(time);
-		vo.setMemo(memo);
+//		vo.setPatient_id(patient_id);
+//		vo.setStaff_id(staff_id);
+//		vo.setTime(time);
+//		vo.setMemo(memo);
 		
 		service.insert_receipt(vo);
 		
@@ -170,8 +170,8 @@ public class AppCustomerController {
 	@RequestMapping(value = "/delete_medical.cu", produces = "text/html; charset=UTF-8")
 	public void MedicalDelete(int staff_id, String time) {
 		MedicalReceiptVO vo = new MedicalReceiptVO();
-		vo.setStaff_id(staff_id);
-		vo.setTime(time);
+//		vo.setStaff_id(staff_id);
+//		vo.setTime(time);
 		
 		service.delete_receipt(vo);
 	}
