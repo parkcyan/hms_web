@@ -21,9 +21,9 @@ public class ReceptionService {
 		return dao.login(map);
 		}
 	
-	public List<AcceptanceVO>getAcceptance(String id){
+	public List<AcceptanceVO>getAcceptance(String name){
 		
-		return dao.get_acceptance(id);
+		return dao.get_acceptance(name);
 		}
 	
 	public List<PatientVO>getPatientList(){
@@ -37,4 +37,6 @@ public class ReceptionService {
 	public void patient_insert(PatientVO vo) {
 	   dao.patient_insert(vo);
 	}
+
+	
 }

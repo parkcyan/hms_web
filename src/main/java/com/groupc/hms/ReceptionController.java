@@ -33,8 +33,7 @@ public class ReceptionController {
 	//환자 리스트 가져오기 
 	@RequestMapping(value ="/patient_list.re")
 	public String patient_list(HttpSession session, Model model) {
-		model.addAttribute("patientList",service.getPatientList());
-		
+		model.addAttribute("patientList",service.getPatientList());		
 		session.setAttribute("title", "환자 조회");
 		
 		 return "reception/patient/patient_list";
@@ -54,6 +53,13 @@ public class ReceptionController {
 			model.addAttribute("name",name);
 			return "reception/patient/info";
 		}
+		//진료기록 조회
+		@RequestMapping(value="/medical_record.re")
+		public String medical_record(){
+		
+			return "reception/patient/medical_record";
+		}
+		
 
 		//신규 등록 화면 요청
 		@RequestMapping(value="registration.re")
@@ -66,13 +72,17 @@ public class ReceptionController {
 			service.patient_insert(vo);
 			return "redicrect:registration.re";
 		}
-		//
+		//접수 조회
+		@RequestMapping("/receipt.re")
+		public String get_receipt() {
+			return "reception/receipt/receipt";
+		}
 
 		//수납조회
 		@RequestMapping(value = "/acceptance.re")
-		public String acceptance_list(HttpSession session, Model model) {
-		session.setAttribute("title", "수납");
-		return "reception/acceptance/acceptance";
-	}
+		public String acceptance_list(String name) {
+					return "reception/acceptance/acceptance";
+		}
+		
 
 }

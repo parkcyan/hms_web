@@ -14,7 +14,17 @@
 
 .textarea-mr {
 	height: 100px !important;
+}
+.tr{
+	margin:10px;
+}
+.tr td {
+	margin-top: 20px;
+}
 
+.btn {
+	margin-right: 20px;
+}
 </style>
 </head>
 <body>
@@ -24,13 +34,18 @@
 		<h1 class="h3 mb-4 text-gray-800">수납조회</h1>
 				<div class="row">
 			<div class="col-lg-3">
-				<div class="card shadow mb-4 py-1 border-left-primary">
 				
+		</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-lg-3">
+		<div class="card shadow mb-4 py-1 border-left-primary">			
 		<form
 		class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
 		<div class="input-group">
-			<input type="text" class="form-control bg-light border-0 small"
-				placeholder="Search for..." aria-label="Search"
+			<input type="text" class="form-control bg-light border-3 small"
+				placeholder="환자명을 입력하세요" aria-label="Search"
 				aria-describedby="basic-addon2">
 			<div class="input-group-append">
 				<button class="btn btn-primary" type="button">
@@ -40,11 +55,6 @@
 		</div>
 	</form>
 		</div>
-		</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-lg-3">
 				<div class="card shadow mb-4 py-1 border-left-primary">
 					<div class="card-body patient-mini-table">
 						<table id="patient-mini-table">
@@ -87,17 +97,17 @@
 				</div>
 			</div>
 			<div class="col-lg-6 mb-4">
-				<div class="card shadow mb-4 py-1 border-left-info h600">
+				<div class="card shadow mb-4 py-1 border-left-info h1000">
 					<div class="card-body">
 						<table id="medical_record_table">
+						<div class="py-3">
+						<h6 class="m-0 font-weight-bold text-primary">수납 내역</h6>
+					</div>
 							<tr>
 								<td>진료일자</td>
 								<td><input class="form-control w-50" id="patient_name_mr" type="text" disabled /></td>
 							</tr>
-							<tr>
-								<td>받을 금액</td>
-								<td><input class="form-control" id="memo_mr" type="text" disabled /></td>
-							</tr>
+			
 						
 							<tr>
 								<td>총진료비</td>
@@ -107,48 +117,49 @@
 								<td>진료비</td>
 								<td><input class="form-control" id="memo_mr" type="text" disabled /></td>
 							</tr>
-							</tr>
 							<tr>
-								<td>입원비</td>
-								<td><input class="form-control" id="memo_mr" type="text" disabled /></td>
-							</tr>
-							</tr>
-							<tr >
 								<td>검사비</td>
 								<td><input class="form-control" id="memo_mr" type="text" disabled /></td>
 							</tr>
-							</tr>
-							<tr >
-								<td>수술 및 처치비</td>
+								<tr>
+								<td>입원비</td>
 								<td><input class="form-control" id="memo_mr" type="text" disabled /></td>
 							</tr>
+							<tr>
+								<td>처치 및 처방비</td>
+								<td><input class="form-control" id="memo_mr" type="text" disabled /></td>
 							</tr>
+											
 						</table>
 						
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-3 mb-4">
-				<div class="card shadow mb-4 h600">
-					<div class="card-header py-3">
-						<h6 class="m-0 font-weight-bold text-primary">진료 예약/대기 목록</h6>
-					</div>
-					<div class="card-body">
-						<table id="receipt_table" class="table">
-							<thead>
-								<tr>
-									<th scope="col">시간</th>
-									<th scope="col">환자명</th>
-									<th scope="col">증상</th>
-								</tr>
-							</thead>
-							<tbody id="receipt">
-
-							</tbody>
+			<div class="card shadow mb-4 py-1 border-left-primary">
+					<div class="card-body patient-mini-table">
+						<table id="patient-mini-table">
+							<tr>
+								<td>받을 금액</td>
+								<td><input class="form-control" type="text" id="patient_name" disabled /></td>
+							</tr>
+							<tr>
+								<td>공단부담금</td>
+								<td><input class="form-control input-mini" id="gender"
+									type="text" disabled /></td>
+							</tr>
+							<td>환자부담금</td>
+								<td><input class="form-control input-mini" id="phone_number"
+									type="text" disabled /></td>	
 						</table>
+						<div class="d-sm-flex flex-row-reverse mt-3">
+					
+							<button type="button" class="btn btn-primary ptient-insert" href='patientInfo.re'>납부</button>
+							<button type='button' class="btn btn-primary" onclick ="history.go(-1)">취소</button>
+				
+						</div>					
 					</div>
 				</div>
-			</div>
+		
 		</div>
 	</div>
 	<script>
