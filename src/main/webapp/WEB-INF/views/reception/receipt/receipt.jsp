@@ -20,24 +20,24 @@ margin-right: 10px;
 	}
 .input-group{
  	margin:10px;
-}	
+}
+.calendar{margin-left: 100px;}
+
+.fa-calendar-alt{
+box-sizing: border-box;}
 </style>
 </head>
 <body>
 	<input type="hidden" id="patient_id"/>
 	<input type="hidden" id="time"/>
 	<div class="container-fluid">
-		<h1 class="h3 mb-4 text-gray-800">접수</h1>
+		<h1 class="h3 mb-4 text-gray-800">접수 및 예약확인</h1>
 				<div class="row">
 			<div class="col-lg-3">
 		
 		</div>
 		</div>
-		
-		<div class="row">
-		
-			<div class="col-lg-3">
-			<div class="card shadow mb-4 py-1 border-left-primary">			
+		<div class="card shadow mb-4 py-1">			
 		<form
 		class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
 		<div class="input-group">
@@ -46,52 +46,75 @@ margin-right: 10px;
 				aria-describedby="basic-addon2">
 			<div class="input-group-append">
 				<button class="btn btn-primary" type="button">
-					<i class="fas fa-search fa-sm"></i>
+					<i class="fas fa-search fa-calendar-alt"></i>
 				</button>
 			</div>
-		</div>
+			<div class="calendar form-group mb-0 flexb flexc">
+								<input type="text" class="form-control mb-0" id="date1" placeholder="날짜를 검색하세요">
+								<i class="far fa-calendar-alt ml-2"></i>
+							</div>
+		</div>		
 	</form>
+	
+	
 		</div>
-				<div class="card shadow mb-4 py-1 border-left-primary">
-					<div class="card-body patient-mini-table">
-						<table id="patient-mini-table">
-						<tr>
-								<td>환자번호</td>
-								<td><input class="form-control" type="text" id="patient_name" disabled /></td>
-							</tr>
+		
+		<div class="row">		
+	<div class="col-lg-4 mb-4">
+				<div class="card shadow mb-4 py-1 border-left-primary h600">
+					<div class="card-body">
+						<table id="medical_record_table">
+							<tr>
+								<div class="py-3">
+								<h6 class="m-0 font-weight-bold text-primary">예약 현황</h6>
+								</div>								
 							<tr>
 								<td>이름</td>
-								<td><input class="form-control" type="text" id="patient_name" disabled /></td>
+								<td><input class="form-control w-50" id="patient_name_mr" type="text" disabled /></td>
 							</tr>
 							<tr>
-								<td>성별</td>
-								<td><input class="form-control input-mini" id="gender"
-									type="text" disabled /></td>
+								<td>예약 시간</td>
+								<td><input class="form-control" id="memo_mr" type="text" disabled /></td>
 							</tr>
-							<td>연락처</td>
-								<td><input class="form-control input-mini" id="phone_number"
-									type="text" disabled /></td>
 							<tr>
-								<td>생년월일</td>
-								<td><input class="form-control" id="social_id" type="text" disabled /></td>
+								<td>진료과</td>
+								<td><input class="form-control" id="memo_mr" type="text" disabled /></td>
+							</tr>
+						
+							<tr>
+								<td>담당의</td>
+								<td><input class="form-control" id="memo_mr" type="text" disabled  /></td>
 							</tr>
 							
+							<tr>
+								<td>메모</td>
+								<td><textarea class="form-control textarea-mr" disabled ></textarea></td>
+							</tr>
+					
 						</table>
+						<div class="d-sm-flex flex-row-reverse mt-3">
+					
+							<button type="button" class="btn btn-primary ptient-insert" href='patientInfo.re'>접수</button>
+				
+						</div>								
 					</div>
 				</div>
-			
 			</div>
-			<div class="col-lg-6 mb-4">
+			<div class="col-lg-4 mb-4">
 				<div class="card shadow mb-4 py-1 border-left-info h600">
 					<div class="card-body">
 						<table id="medical_record_table">
+							<tr>
+								<div class="py-3">
+								<h6 class="m-0 font-weight-bold text-primary">접수</h6>
+								</div>								
 							<tr>
 								<td>이름</td>
 								<td><input class="form-control w-50" id="patient_name_mr" type="text" disabled /></td>
 							</tr>
 							<tr>
 								<td>접수 시간</td>
-								<td><input class="form-control" id="memo_mr" type="text" disabled /></td>
+								<td><input class="form-control w-150" id="memo_mr" type="text" disabled /></td>
 							</tr>
 							<tr>
 								<td>진료과</td>
@@ -110,19 +133,19 @@ margin-right: 10px;
 					
 						</table>
 						<div class="d-sm-flex flex-row-reverse mt-3">
-					
+											
+							<button type='button' class="btn btn-primary" onclick ="history.go(0)">취소</button>
 							<button type="button" class="btn btn-primary ptient-insert" href='patientInfo.re'>접수</button>
-							<button type='button' class="btn btn-primary" onclick ="history.go(-1)">취소</button>
 				
 						</div>			
 						
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-3 mb-4">
+			<div class="col-lg-4 mb-4">
 				<div class="card shadow mb-4 h600">
 					<div class="card-header py-3">
-						<h6 class="m-0 font-weight-bold text-primary">접수 및 예약현황</h6>
+						<h6 class="m-0 font-weight-bold text-primary">대기현황</h6>
 					</div>
 					<div class="card-body">
 						<table id="receipt_table" class="table">
@@ -144,6 +167,9 @@ margin-right: 10px;
 			
 		</div>
 	</div>
+	<script src="staff/js/calendar-picker/popper.min.js"></script>
+	<script src="staff/js/calendar-picker/picker.js"></script>
+	<script src="staff/js/calendar-picker/picker.date.js"></script>
 	<script>
 		$(document).ready(function () {
 			let json = "";

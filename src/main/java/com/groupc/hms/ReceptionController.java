@@ -2,6 +2,7 @@ package com.groupc.hms;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 import Reception.ReceptionService;
 import Reception.vo.AcceptanceVO;
@@ -38,6 +41,16 @@ public class ReceptionController {
 		
 		 return "reception/patient/patient_list";
 	}
+	
+	//환자 상세 정보
+	/*
+	 * @RequestMapping(value = "/patient_info.re") public String patient_info(String
+	 * id, Model model) { Map<String, Object> map = service.getPatientInfo(id); if
+	 * (map == null) return "staff/404"; else { for (String key : map.keySet()) {
+	 * model.addAttribute(key, map.get(key)); } return
+	 * "reception/patient/patient_info"; } }
+	 */
+	
 
 	/*
 	 * //환자 이름 받아오기_1
@@ -61,28 +74,34 @@ public class ReceptionController {
 		}
 		
 
-		//신규 등록 화면 요청
+		//신규 등록 화면 연결
 		@RequestMapping(value="registration.re")
 		public String registration() {
 			return "reception/registration/registration";
 		}	
 		//신규 등록 저장	
-		@RequestMapping("/insert.re")
-		public String insert(PatientVO vo) {
+		@RequestMapping(value="/new_patient.re")
+		public String new_patient(PatientVO vo) {
 			service.patient_insert(vo);
-			return "redicrect:registration.re";
+			return "redirect:patient_list.re";
 		}
 		//접수 조회
 		@RequestMapping("/receipt.re")
 		public String get_receipt() {
 			return "reception/receipt/receipt";
 		}
-
-		//수납조회
+		//수납 조회
 		@RequestMapping(value = "/acceptance.re")
-		public String acceptance_list(String name) {
-					return "reception/acceptance/acceptance";
+		public String get_acceptance(String name, Model model) {
+			List<AcceptanceVO> list = service.getAcceptance(name);
+			model.addAttribute("list"  ,list);
+			model.addAttribute("name"  ,name);
+			if(list != null) {				
+				System.out.println(list.size());
+			}
+		return "reception/acceptance/acceptance";
 		}
-		
+
+	
 
 }

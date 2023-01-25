@@ -19,7 +19,52 @@
 <!-- 신규환자 -->
 <insert id='patient_insert'>
   insert into patient (name, gender, phone_number, social_id)
-	values (#{name}, #{gender}, #{phone_number},#{social_id});
+	values (#{name}, #{gender}, #{phone_number},#{social_id})
 </insert> 
+
+<select id ='medical_receipt_time' resultType="Reception.vo.MedicalReceiptVO">
+select to_char(m.time, 'day')reserve_today,to_char(m.time,'mm/dd')reserve_date_short, 
+to_char(m.time,'hh24:mm')reserve_time, to_char(m.time,'yyyy-mm-dd')time, to_char(m.time, 'yymmddhh24mm') reserve_time_count,
+to_char(current_date, 'yymmddhh24mm') current_time,
+m.memo, p.name patient_name, s.name doctor_name,
+d.department_name department_name, d.location location
+from medical_receipt m inner join patient p
+on m.patient_id= p.patient_id
+inner join staff s
+on m.staff_id = s.staff_id
+inner join department d
+on s.department_id =d.department_id
+where  to_char(m.time,'yyyy-mm-dd')='2023-02-03'
+order by time desc
+</select>
+
+<select id ='medical_receipt_id' resultType="Reception.vo.MedicalReceiptVO">
+select to_char(m.time, 'day')reserve_today,to_char(m.time,'mm/dd')reserve_date_short, 
+to_char(m.time,'hh24:mm')reserve_time, to_char(m.time,'yyyy-mm-dd')time, to_char(m.time, 'yymmddhh24mm') reserve_time_count,
+to_char(current_date, 'yymmddhh24mm') current_time,
+m.memo, p.name patient_name, s.name doctor_name,
+d.department_name department_name, d.location location
+from medical_receipt m inner join patient p
+on m.patient_id= p.patient_id
+inner join staff s
+on m.staff_id = s.staff_id
+inner join department d
+on s.department_id =d.department_id
+where m.patient_id= #{id} 
+order by time desc
+</select>
+ <select id='get_acceptance' resultType="Reception.vo.AcceptanceVO">
+select a.medical_expenses, a.admission_fee, a.inspection_fee, a.operation_fee, a.acceptance_record_id,
+to_char(m.treatment_date, 'yyyy-mm-dd hh24:mm')acceptance_date,
+p.name patient, m.treatment_date, s.name doctor
+from acceptance a left join medical_record m
+on a.medical_record_id =m.medical_record_id
+left join patient p 
+on p.patient_id = m.patient_id
+left join staff s
+on s.staff_id =m.staff_id
+where p.name =#{name , jdbcType=VARCHAR}
+</select> 
+
 
 </mapper>

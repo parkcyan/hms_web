@@ -7,5 +7,5 @@ import lombok.Setter;
 public class AcceptanceVO {
 	int acceptance_record_id, medical_record_id,  medical_expenses,admission_fee,
 		inspection_fee,  operation_fee ;
-	String benefit ;
+	String benefit, patient,doctor,acceptance_date ;
 }
