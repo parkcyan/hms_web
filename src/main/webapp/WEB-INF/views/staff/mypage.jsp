@@ -20,7 +20,7 @@
 		<p class="mb-4">자신의 자기소개를 수정할 수 있습니다.</p>
 		<!-- DataTales Example -->
 		<div class="row">
-			<div class="col-lg-7 mb-4">
+			<div class="col-lg-6 mb-4">
 				<div class="card shadow mb-4 border-left-primary">
 					<div class="card-body">
 						<table id="mypage_table" class="table">

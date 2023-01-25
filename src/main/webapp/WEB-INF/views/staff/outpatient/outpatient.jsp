@@ -8,13 +8,8 @@
 <title></title>
 <link href="staff/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 <style>
-.tr-mr {
-	height: 100px;
-}
-
-.textarea-mr {
-	height: 100px !important;
-}
+.tr-mr { height: 100px; }
+.textarea-mr { height: 100px !important; }
 </style>
 </head>
 <body>

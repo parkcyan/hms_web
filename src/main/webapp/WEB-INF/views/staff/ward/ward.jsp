@@ -255,6 +255,7 @@
 	</div>
 	<script>
 		$(document).ready(function(){
+			console.log('${loginInfo.department_name}');
 			if ('${loginInfo.department_name}' == '6병동') $("#ward6").trigger('click');
 			else if ('${loginInfo.department_name}' == '7병동') $("#ward7").trigger('click');
 			else $("#ward5").trigger('click');
@@ -356,7 +357,7 @@
 						str += "<td style='display:none;'>" + res[i].admission_date + "</td>";
 						str += "<td style='display:none;'>" + res[i].discharge_date + "</td>";
 						str += "<td>" + res[i].patient_name + "</td>"
-						str += "<td>" + res[i].ward_id+ "</td>"
+						str += "<td>" + getWard(res[i].ward_id) + "</td>"
 						str += "<td>" + res[i].treatment_name + "</td>"
 						str += "<td>" + res[i].staff_name + "</td>"
 						str += "</tr>"

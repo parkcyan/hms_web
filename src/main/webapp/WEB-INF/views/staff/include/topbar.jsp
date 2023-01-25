@@ -225,7 +225,7 @@
 				
 			</div>
 			<div class="form-control p-0" style="height: 180px;">
-				<div id="staff_box_group" class="h-100">
+				<div id="staff_box_group" class="h-100" style="overflow-y: scroll;">
 					<c:forEach items="${staffMap}" var="vo" varStatus="status">
 					<a class="dropdown-item flexc align-items-center" href="#">
 						<input type="hidden" value="${vo.value.staff_id}"/>
@@ -244,7 +244,9 @@
 					</c:forEach>
 				</div>
 			</div>
-			<button type="submit" class="btn btn-primary mt-3">생성</button>
+			<div class="d-sm-flex flex-row-reverse mb-3 mt-3">
+				<button type="submit" class="btn btn-primary">생성</button>
+			</div>
 		</form>
 	</div>
 </aside>

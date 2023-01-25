@@ -9,7 +9,6 @@
 <link href="staff/css/calendar-picker/classic.css" rel="stylesheet">
 <link href="staff/css/calendar-picker/classic.date.css" rel="stylesheet">
 <style>
-
 .form-control:disabled { background: white; }
 .textarea-mr { height: 100px !important; }
 .form-check { font-size: 0.8rem; }
@@ -21,6 +20,9 @@
     display: block;
     height: 200px;
     overflow: auto;
+}
+#outpatient_record_table tbody::-webkit-scrollbar {
+	display: none;
 }
 #outpatient_record_table thead, #outpatient_record_table tbody tr {
     display: table;

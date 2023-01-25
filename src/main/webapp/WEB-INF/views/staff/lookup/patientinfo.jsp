@@ -15,8 +15,8 @@
 	padding-left: 5px;
 }
 #info td:nth-child(3) { width: 90px; }
-.form-control {	display: inline; }
-.form-control:disabled { background: white; }
+#info .form-control { display: inline; }
+#info .form-control:disabled { background: white; }
 .input-mini { width: 80px; }
 textarea { height: 75% !important; }
 </style>
@@ -27,7 +27,7 @@ textarea { height: 75% !important; }
 		<h1 class="h3 mb-2 text-gray-800">환자 상세정보 조회</h1>
 		<p class="mb-4">환자의 정보, 메모를 조회, 수정하거나 진료이력을 조회하실 수 있습니다.</p>
 		<div class="row">
-			<div class="col-lg-6 mb-4">
+			<div class="col-lg-5 mb-4">
 				<div class="card shadow py-1 border-left-primary" style="height: 24rem;">
 					<div class="card-body">
 						<table id="info">
@@ -81,7 +81,7 @@ textarea { height: 75% !important; }
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-6 mb-4">
+			<div class="col-lg-5 mb-4">
 				<div class="card shadow h-100"">
 					<div class="card-header py-3">
 						<h6 class="m-0 font-weight-bold text-primary">진료기록</h6>
@@ -115,7 +115,7 @@ textarea { height: 75% !important; }
 			
 		</div>
 		<div class="row">
-			<div class="col-lg-6 mb-4">
+			<div class="col-lg-5 mb-4">
 				<div class="card shadow" style="height: 24rem;">
 					<div class="card-header py-3">
 						<h6 class="m-0 font-weight-bold text-primary">메모</h6>
@@ -128,7 +128,7 @@ textarea { height: 75% !important; }
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-6 mb-4">
+			<div class="col-lg-5 mb-4">
 				<div class="card shadow h-100">
 					<div class="card-header py-3">
 						<h6 class="m-0 font-weight-bold text-primary">입원기록</h6>

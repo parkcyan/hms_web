@@ -127,8 +127,9 @@
 							</div>
 							<label for="groupChatRoomTitle">내용</label> 
 							<textarea class="form-control mb-3" style="height: 60px;"></textarea>
-							
-							<button type="submit" class="btn btn-primary">저장</button>
+							<div class="d-sm-flex flex-row-reverse mb-3 mt-3">
+								<button type="submit" class="btn btn-primary">생성</button>
+							</div>
 						</form>
 					</div>
 				</div>

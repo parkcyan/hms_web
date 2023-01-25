@@ -100,6 +100,12 @@ function getPatient(patient_id) {
 	});
 }
 
+function getWard(id) {
+	let ward_number = parseInt((id - 1) / 20) * 100 + 500 + parseInt(((id - 1) % 20) / 4) + 1;
+	let bed = id % 4 == 0 ? 4 : id % 4;
+	return ward_number + "호 " + bed + "번";
+}
+
 function clearPatient() {
 	$("#info-mini").children("input").each(function(){
 		$(this).val("");
