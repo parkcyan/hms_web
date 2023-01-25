@@ -22,13 +22,13 @@
 									<div class="text-center">
 										<h1 class="h4 text-gray-900 mb-4">로그인</h1>
 									</div>
-									<form class="user" action="loginStaff.st" method="post">
+									<form class="user" method="post">
 										<div class="form-group">
-											<input type="text" class="form-control form-control-user"
+											<input type="text" class="form-control form-control-user chk"
 												id="exampleInputEmail" placeholder="사번" name="id">
 										</div>
 										<div class="form-group">
-											<input type="password" class="form-control form-control-user"
+											<input type="password" class="form-control form-control-user chk"
 												id="exampleInputPassword" placeholder="비밀번호" name="pw">
 										</div>
 										<div class="form-group">
@@ -38,8 +38,7 @@
 													class="custom-control-label" for="customCheck">로그인 정보 기억</label>
 											</div>
 										</div>
-										<a onclick="$('form').submit()"
-											class="btn btn-primary btn-user btn-block">로그인</a>
+										<a onclick="login()" class="btn btn-primary btn-user btn-block">로그인</a>
 									</form>
 									<hr>
                                     <div class="text-center">
@@ -53,5 +52,32 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		function login() {		
+			if (emptyCheck()) {
+				if (isNaN($("input[name=id]").val())) {
+					toast("error", "사번은 숫자만 입력할 수 있습니다.");
+				} else {
+					$.ajax({
+						url: 'loginStaff.st',
+						data: { 
+							id : $("input[name=id]").val(), 
+							pw : $("input[name=pw]").val() 
+						},
+						success: function(response) {
+							if (response) {
+								location = '<c:url value="/index.st"/>';
+							} else {
+								toast('error', '사번 또는 비밀번호를 확인해주세요.');
+							}
+						}, 
+						error: function(req,text) {
+							errorToast(req.status);
+						}
+					});
+				}
+			}
+		}
+	</script>
 </body>
 </html>

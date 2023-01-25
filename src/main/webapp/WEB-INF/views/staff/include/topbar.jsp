@@ -2,30 +2,24 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
+<style>
+	.dropdown-header i {
+		font-size: 16px;
+	}
+</style>
+<input type="hidden" id="id" value="${loginInfo.staff_id}"/>
+<input type="hidden" id="name" value="${loginInfo.name}"/>
+<input type="hidden" id="department_id" value="${loginInfo.department_id}"/>
+<input type="hidden" id="department_name" value="${loginInfo.department_name}"/>
+<input type="hidden" id="staff_level" value="${loginInfo.staff_level}"/>
 <!-- Topbar -->
-<nav
-	class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
 	<!-- Sidebar Toggle (Topbar) -->
 	<button id="sidebarToggleTop"
 		class="btn btn-link d-md-none rounded-circle mr-3">
 		<i class="fa fa-bars"></i>
 	</button>
-
-	<!-- Topbar Search -->
-	<form
-		class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-		<div class="input-group">
-			<input type="text" class="form-control bg-light border-0 small"
-				placeholder="Search for..." aria-label="Search"
-				aria-describedby="basic-addon2">
-			<div class="input-group-append">
-				<button class="btn btn-primary" type="button">
-					<i class="fas fa-search fa-sm"></i>
-				</button>
-			</div>
-		</div>
-	</form>
 
 	<!-- Topbar Navbar -->
 	<ul class="navbar-nav ml-auto">
@@ -105,92 +99,236 @@
 			class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
 			role="button" data-toggle="dropdown" aria-haspopup="true"
 			aria-expanded="false"> <i class="fas fa-envelope fa-fw"></i> <!-- Counter - Messages -->
-				<span class="badge badge-danger badge-counter">7</span>
-		</a> <!-- Dropdown - Messages -->
-			<div
-				class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-				aria-labelledby="messagesDropdown">
-				<h6 class="dropdown-header">Message Center</h6>
-				<a class="dropdown-item d-flex align-items-center" href="#">
-					<div class="dropdown-list-image mr-3">
-						<img class="rounded-circle" src="staff/img/undraw_profile_1.svg"
-							alt="...">
-						<div class="status-indicator bg-success"></div>
-					</div>
-					<div class="font-weight-bold">
-						<div class="text-truncate">Hi there! I am wondering if you
-							can help me with a problem I've been having.</div>
-						<div class="small text-gray-500">Emily Fowler Â· 58m</div>
-					</div>
-				</a> <a class="dropdown-item d-flex align-items-center" href="#">
-					<div class="dropdown-list-image mr-3">
-						<img class="rounded-circle" src="staff/img/undraw_profile_2.svg"
-							alt="...">
-						<div class="status-indicator"></div>
-					</div>
-					<div>
-						<div class="text-truncate">I have the photos that you
-							ordered last month, how would you like them sent to you?</div>
-						<div class="small text-gray-500">Jae Chun Â· 1d</div>
-					</div>
-				</a> <a class="dropdown-item d-flex align-items-center" href="#">
-					<div class="dropdown-list-image mr-3">
-						<img class="rounded-circle" src="staff/img/undraw_profile_3.svg"
-							alt="...">
-						<div class="status-indicator bg-warning"></div>
-					</div>
-					<div>
-						<div class="text-truncate">Last month's report looks great,
-							I am very happy with the progress so far, keep up the good work!</div>
-						<div class="small text-gray-500">Morgan Alvarez Â· 2d</div>
-					</div>
-				</a> <a class="dropdown-item d-flex align-items-center" href="#">
-					<div class="dropdown-list-image mr-3">
-						<img class="rounded-circle"
-							src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="...">
-						<div class="status-indicator bg-success"></div>
-					</div>
-					<div>
-						<div class="text-truncate">Am I a good boy? The reason I ask
-							is because someone told me that people say this to all dogs, even
-							if they aren't good...</div>
-						<div class="small text-gray-500">Chicken the Dog Â· 2w</div>
-					</div>
-				</a> <a class="dropdown-item text-center small text-gray-500" href="#">Read
-					More Messages</a>
-			</div></li>
+				<span id="notCheckedCount" class="badge badge-danger badge-counter"></span>
+			</a> <!-- Dropdown - Messages -->
+			<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+				<div class="dropdown-header flexb flexc">
+					<h6 class="mb-0">Messenger</h6>
+					<i class="fas fa-plus"></i>
+				</div>			
+				<div id="chatRoomList">
+				</div>
+			</div>
+		</li>
 
 		<div class="topbar-divider d-none d-sm-block"></div>
 
 		<!-- Nav Item - User Information -->
-		<li class="nav-item dropdown no-arrow"><a
-			class="nav-link dropdown-toggle" href="#" id="userDropdown"
-			role="button" data-toggle="dropdown" aria-haspopup="true"
-			aria-expanded="false"> <span
-				class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas
-					McGee</span> <img class="img-profile rounded-circle"
-				src="staff/img/undraw_profile.svg">
-		</a> <!-- Dropdown - User Information -->
-			<div
-				class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-				aria-labelledby="userDropdown">
-				<a class="dropdown-item" href="#"> <i
-					class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Profile
-				</a> <a class="dropdown-item" href="#"> <i
-					class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Settings
-				</a> <a class="dropdown-item" href="#"> <i
-					class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i> Activity
-					Log
-				</a>
+		<li class="nav-item dropdown no-arrow">
+			<a class="nav-link dropdown-toggle" href="#" id="userDropdown"
+			role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+			<span class="mr-2 d-none d-lg-inline text-gray-600 small">${loginInfo.name}</span> 
+			</a> 
+			<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+				<a class="dropdown-item" href="mypage.st"> 
+					<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> 마이페이지
+				</a> 
 				<div class="dropdown-divider"></div>
 				<a class="dropdown-item" href="#" data-toggle="modal"
-					data-target="#logoutModal"> <i
-					class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-					Logout
+					data-target="#logoutModal"> 
+					<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+					로그아웃
 				</a>
 			</div></li>
 
 	</ul>
-
 </nav>
+<!-- chatroom -->
+<aside id="chatroom" class="card tabbed_sidebar ng-scope chat_sidebar">
+	<div class="popup-head card-header flexb flexc">
+		<div class="popup-head-left pull-left">
+			<h1 id="chatroom_title"></h1>
+		</div>
+		<div>
+			<button data-widget="remove" id="removeClass"
+				class="chat-header-button pull-right" type="button">
+				<i class="fas fa-times"></i>
+			</button>
+		</div>
+	</div>
+
+	<div id="chat" class="chat_box_wrapper chat_box_small chat_box_active"
+		style="opacity: 1; display: block; transform: translateX(0px);">
+		<div id="chat_box" class="chat_box touchscroll chat_box_colors_a">
+		</div>
+	</div>
+	<div class="chat_submit_box flexb">
+		<div class="gurdeep-chat-box">
+			<input placeholder="메시지를 입력해 주세요." id="submit_message"
+				name="submit_message" onkeyup="enterKey()" class="md-input form-control w-100 h-100"></input>
+		</div>
+		<a class="chat-send" href="#"><i class="fas fa-paper-plane"></i></a>
+	</div>
+</aside>
+<!-- End of chatroom -->
+<!-- staffList -->
+<aside id="staffListChat" class="card tabbed_sidebar ng-scope chat_sidebar">
+	<div class="popup-head card-header flexb flexc mb-2">
+		<div class="popup-head-left pull-left">
+			<h1>대화 상대 추가</h1>
+		</div>
+		<div>
+			<button data-widget="remove" id="createGroupChatRoomDialog"
+				class="chat-header-button pull-right" type="button">
+				<i class="fas fa-fw fa-users"></i>
+			</button>
+			<button data-widget="remove" id="removeStaffList"
+				class="chat-header-button pull-right" type="button">
+				<i class="fas fa-times"></i>
+			</button>
+		</div>
+	</div>
+	<div id="staffList">
+		<div id="staff_box">
+			<c:forEach items="${staffMap}" var="vo" varStatus="status">
+				<a class="dropdown-item flexc align-items-center" href="#">
+					<input type="hidden" value="${vo.value.staff_id}"/>
+					<input type="hidden" value="${vo.value.staff_level}"/>
+					<input type="hidden" value="${vo.value.department_id}"/>
+					<input type="hidden" value="${vo.value.name}"/>
+					<input type="hidden" value="${vo.value.department_name}"/>
+					<div class="font-weight-bold">
+						<div class="text-truncate flexc h25">
+							<i class="fas fa-fw fa-user mr-1"></i><p class="mb-0">${vo.value.name}</p>
+							<div class="small text-gray-500 ml-1">${vo.value.department_name} ${vo.value.staff_level eq 1 ? ' 의사' : ' 간호사'}</div>
+						</div>
+					</div>
+				</a>
+				<hr class="m-0"/>
+			</c:forEach>
+		</div>
+	</div>
+</aside>
+<!-- End of staffList -->
+<!-- createGroupChatRoom -->
+<aside id="dialog_createGroupChatRoom" class="card tabbed_sidebar ng-scope chat_sidebar">
+	<div class="popup-head card-header flexb flexc mb-2">
+		<div class="popup-head-left pull-left">
+			<h1>그룹 채팅방 생성</h1>
+		</div>
+		<div>
+			<button data-widget="remove" id="remove_dialog_createGroupChatRoom"
+				class="chat-header-button pull-right" type="button">
+				<i class="fas fa-times"></i>
+			</button>
+		</div>
+	</div>
+	<div id="staffList">
+		<form class="mr-3 ml-3">
+			<div class="form-group">
+				<label for="groupChatRoomTitle">채팅방 제목</label> 
+				<input type="text" class="form-control" id="groupChatRoomTitle" placeholder="제목">
+				<small id="emailHelp" class="form-text text-muted">'#'은 입력할 수 없습니다.</small>
+			</div>
+			<label for="groupChatRoomTitle">채팅방 참가자</label> 
+			<div class="form-control mb-3" style="height: 60px;">
+				
+			</div>
+			<div class="form-control p-0" style="height: 180px;">
+				<div id="staff_box_group" class="h-100">
+					<c:forEach items="${staffMap}" var="vo" varStatus="status">
+					<a class="dropdown-item flexc align-items-center" href="#">
+						<input type="hidden" value="${vo.value.staff_id}"/>
+						<input type="hidden" value="${vo.value.staff_level}"/>
+						<input type="hidden" value="${vo.value.department_id}"/>
+						<input type="hidden" value="${vo.value.name}"/>
+						<input type="hidden" value="${vo.value.department_name}"/>
+						<div class="font-weight-bold">
+							<div class="text-truncate flexc h25">
+								<i class="fas fa-fw fa-user mr-1"></i><p class="mb-0">${vo.value.name}</p>
+								<div class="small text-gray-500 ml-1">${vo.value.department_name} ${vo.value.staff_level eq 1 ? ' 의사' : ' 간호사'}</div>
+							</div>
+						</div>
+					</a>
+					<hr class="m-0"/>
+					</c:forEach>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary mt-3">생성</button>
+		</form>
+	</div>
+</aside>
+<!-- End of createGroupChatRoom-->
 <!-- End of Topbar -->
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
+<script src="staff/js/hmsfirebase.js"></script>
+<script>
+	$(document).keydown(function(event) {
+		// esc 입력 이벤트 
+	    if ( event.keyCode == 27 || event.which == 27 ) {
+	    	$('#chatroom').removeClass('popup-box-on');
+			$('#staffListChat').removeClass('popup-box-on');
+			removeGetChat();
+	    }
+	});
+	// 미확인 채팅 수, 채팅방, 채팅 알림 수신
+	getNotCheckedChatCount();
+	getChatRoom();
+	getNotification();
+
+	// 메시지 창 열시 다른 창 종료
+	$('#messagesDropdown').click(function() {
+		$('#chatroom').removeClass('popup-box-on');
+		$('#staffListChat').removeClass('popup-box-on');
+		removeGetChat();
+	});
+	
+	// 메시지 창 + 포인터 변경
+	$('.dropdown-header i').hover(function() {
+		$(this).css('cursor','pointer');
+	})
+	
+	// 대화 상대 추가창 
+	$('.dropdown-header i').click(function() {
+		$('#staffListChat').addClass('popup-box-on');
+	});
+	
+	// 대화 상대 추가
+	$('#staff_box a').click(function(e) {
+		e.preventDefault();
+		let staff_id = $(this).children('input:eq(0)').val();
+		let staff_level = $(this).children('input:eq(1)').val();
+		let department_id = $(this).children('input:eq(2)').val();
+		let name = $(this).children('input:eq(3)').val();
+		let department_name = $(this).children('input:eq(4)').val();
+		makeChatRoom(staff_id, staff_level, department_id, name, department_name);
+	});
+	
+	// 대화 상대 추가창 종료
+	$('#removeStaffList').click(function() {
+		$('#staffListChat').removeClass('popup-box-on');
+	});
+	
+	// 그룹 채팅방 개설창 
+	$('#createGroupChatRoomDialog').click(function() {
+		$('#dialog_createGroupChatRoom').addClass('popup-box-on');
+		$('#staffListChat').removeClass('popup-box-on');
+	});
+	
+	// 그룹 채팅방 개설창 종료
+	$('#remove_dialog_createGroupChatRoom').click(function() {
+		$('#dialog_createGroupChatRoom').removeClass('popup-box-on');
+	});
+	
+	// 채팅 전송
+	$('.chat-send').click(function() {
+		let content = $('#submit_message').val();
+		if (content.trim() == "") toast('error', '채팅을 입력해 주세요.');
+		else if (content.indexOf("##") != -1) toast('error', '"##"는 입력할 수 없습니다.');
+		else {
+			if ($('#chat_box').children('div').length == 0 
+					|| getDate($('#chat_box').children('div:last-child').children('input').val()) != getDate(getCurrentTimeStamp())) {
+				sendDateBeforeChat($('#submit_message').val());
+			} else sendChat($('#submit_message').val());
+			$('#submit_message').val('');
+		}
+	});
+
+	// enter키 입력 이벤트
+	function enterKey() {
+		if (window.event.keyCode == 13) {
+			 $(".chat-send").trigger("click");
+		}
+	}
+</script>
