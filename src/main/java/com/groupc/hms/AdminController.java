@@ -1,39 +1,33 @@
 package com.groupc.hms;
 
-import java.io.FileInputStream;
-import java.util.HashMap;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Base64;
+import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.io.FileInputStream;
-import java.net.http.HttpRequest;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
+import com.google.common.net.MediaType;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.Result;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+
+import admin.vo.PushListVO;
+import staff.vo.StaffVO;
 
 
 
@@ -41,56 +35,76 @@ import com.google.firebase.messaging.Notification;
 public class AdminController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(StaffController.class);
-
-	
-  @RequestMapping(value = "/push.ad", method = RequestMethod.GET)
-   public String home(HttpServletRequest request) {
-        try {
-           
-           
-           
-            FileInputStream refreshToken = 
-                  new FileInputStream("D:\\serviceAccountKey.json");
-            
-            FirebaseOptions options = FirebaseOptions.builder()
-                   .setCredentials(GoogleCredentials.fromStream(refreshToken))
-                   .build();
-            
-            //Firebase 처음 호출시에만 initializing 처리
-            if(FirebaseApp.getApps().isEmpty()) {
-               FirebaseApp.initializeApp(options);
-            }
-            
-            //메세지 작성
-            Notification noti = Notification.builder().setTitle("efg").setBody("abcd").build();
-            Message msg = Message.builder()
-                  .putData("title", "aaa")
-                  .putData("name", "aaa")
-                  .putData("body", "aaa")
-                  .putData("color", "#f45342")
-                  .setNotification(noti)
-                  .setToken("eGyKY9KTRtuNukCTMZ74l5:APA91bEvuCAj-7C_eFD4iwrewV1CgGQepXn3_InrA1q24DXznw_9LHlfBxgIgc6qrjErZZBC4Is2WftrWTWIIERHhR9v5IUVWahz5XGHUwYahE8Atmdwhf83Xoa-8u16kGvGtY397wux")
-                  .build();
-            
-            //메세지를 FirebaseMessaging에 보내기
-            String response = FirebaseMessaging.getInstance().send(msg);
-            //결과출력
-            System.out.println("Successfully: " + response);
-            
-         } catch (Exception e) {
-            e.printStackTrace();
-         }
-         return "admin/index";
-         }
+	@Autowired
+	@Qualifier("cteam")
+	private SqlSession sql;
 	
 	
-	
-	@RequestMapping(value = "/qr.ad")
-	public String qr() {
-	
-		return "admin/qr/qr";
+	//직원조회
+	@RequestMapping(value = "/staffList.ad", method = RequestMethod.GET)
+	public String staffList(Model model) {
+		List<StaffVO> list = sql.selectList("staff_list");
+		model.addAttribute("list", list);
+		
+		return "admin/staff/list";
 	}
 	
+	//직원정보
+	
+	//직원정보 수정
+	
+	//직원정보 삭제
+	
+	//신규사원등록
+	@RequestMapping(value = "/staffInsert.ad", method = RequestMethod.GET)
+	public String staffInsert(Model model) {
+	
+		return "admin/staff/new";
+	}
+	
+	
+	//푸시알림
+	@RequestMapping(value = "/push.ad", method = RequestMethod.GET)
+	public String pushList(Model model) {
+		List<PushListVO> list = sql.selectList("admin.push_list");
+		model.addAttribute("list", list);
+		return "admin/push";
+		
+	}
+	
+	//QR접수
+	@RequestMapping(value = "/selectqr.ad", method = RequestMethod.GET)
+	public String selectQR(int department_id, Model model) {
+		if (department_id > 0) {
+			List<StaffVO> list = sql.selectList("staff_select", department_id);
+			model.addAttribute("list", list);
+		}else {
+			
+		}
+		
+		return "default/admin/qr/selectqr";
+	}
+	
+	//QR생성
+	@RequestMapping(value = "/qr.ad", method = RequestMethod.GET)
+    public String goQr(String staff_id, Model model) throws Exception {
+		String img = getQRCodeImage(staff_id, 600, 600);
+		model.addAttribute("img", img);
+		
+		return "default/admin/qr/qr";
+    }
+	
+	// QR코드 이미지 생성
+	public static String getQRCodeImage(String text, int width, int height) throws WriterException, IOException {
+		QRCodeWriter qrCodeWriter = new QRCodeWriter();
+		BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
+
+		ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
+
+		MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
+
+		return Base64.getEncoder().encodeToString(pngOutputStream.toByteArray());
+	}
 	
 	
 }

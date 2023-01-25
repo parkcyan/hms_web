@@ -16,7 +16,7 @@
 <script src="staff/vendor/jquery/jquery.js"></script>
 <script src="staff/vendor/jquery-easing/jquery.easing.js"></script>
 <script src="staff/js/staff.js"></script>
-<title>YH-HOSPITAL ${title}</title>
+<title>YM-HOSPITAL ${title}</title>
 </head>
 <body id="page-top">
 	<div id="wrapper">
@@ -45,7 +45,7 @@
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">취소</button>
-					<a class="btn btn-primary" href="logoutStaff.st">로그아웃</a>
+					<a class="btn btn-primary" href="logoutstaff.st">로그아웃</a>
 				</div>
 			</div>
 		</div>
