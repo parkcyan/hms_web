@@ -6,6 +6,16 @@
 		where s.department_id = d.department_id  
 		and staff_id = #{id} and pw = #{pw}   
 	</select>
+	<select id="get_staff" resultType="staff.vo.StaffVO">
+		select s.*, d.department_name from staff s, department d
+		where s.department_id = d.department_id  
+		and staff_id = #{id} 
+	</select>
+	
+	<update id="update_staff_introduction">
+		update staff set introduction = #{introduction} where staff_id = #{id} 
+	</update>
+	
 	<select id="get_patient_list" resultType="staff.vo.PatientVO">
 		select * from patient   
 	</select>
@@ -20,6 +30,31 @@
 	<update id="update_patient_memo">
 		update patient set memo = #{memo} where patient_id = #{id} 
 	</update>
+	
+	<select id="get_medical_record" resultType="staff.vo.MedicalRecordVO">
+		select mr.medical_record_id, p.name as patient_name, s.name as staff_name, mr.memo, 
+		to_char(mr.treatment_date, 'yyyy-mm-dd hh24:mi') as treatment_date, mr.admission, 
+		mr.treatment_name, pr.prescription_record_id
+		from patient p, staff s, medical_record mr, prescription_record pr 
+		where p.patient_id = mr.patient_id
+		and s.staff_id = mr.staff_id 
+		and pr.medical_record_id(+) = mr.medical_record_id 
+		and mr.treatment_date between #{first_date} and #{second_date} 
+		<choose>
+			<when test="option == 'department'">
+				and s.staff_id in (
+				select staff_id from staff where department_id = (select department_id from staff where staff_id = #{id}) and staff_level = 1
+				) 
+			</when>
+			<when test="option == 'doctor'">
+				and s.staff_id = #{id} 
+			</when>
+		</choose>
+		<if test="patient_name != ''">
+			and p.name like '%' || #{patient_name} || '%'  
+		</if>
+		order by mr.treatment_date 
+	</select>
 	<select id="get_medical_record_patient_id" resultType="staff.vo.MedicalRecordVO">
 		select mr.medical_record_id, p.name as patient_name, s.name as staff_name, mr.memo, 
 		to_char(mr.treatment_date, 'yyyy-mm-dd hh24:mi') as treatment_date, mr.admission, 
@@ -31,6 +66,7 @@
 		and p.patient_id = #{id} 
 		order by mr.treatment_date 
 	</select>
+	
 	<select id="get_admission_record_patient_id" resultType="staff.vo.AdmissionRecordVO">
 		select ar.ward_id, ar.admission_record_id, p.patient_id, p.name as patient_name, s.name as staff_name, s.staff_id,  
 		d.department_name, mr.treatment_name, to_char(ar.admission_date, 'yyyy-mm-dd') as admission_date,
@@ -61,5 +97,70 @@
 			</when>
 		</choose>
 		order by mr.time 
+	</select>
+	<select id="get_staff_list" resultType="staff.vo.StaffVO">
+		select d.department_name, s.* from staff s, department d where s.department_id = d.department_id order by s.staff_id 
+	</select>
+	<select id="get_admission_record_ward" resultType="staff.vo.AdmissionRecordVO">
+		select ar.ward_id, ar.admission_record_id, p.patient_id, p.name as patient_name, s.name as staff_name, s.staff_id,  
+		d.department_name, mr.treatment_name, to_char(ar.admission_date, 'yyyy-mm-dd') as admission_date,
+		to_char(ar.discharge_date, 'yyyy-mm-dd') as discharge_date 
+		from medical_record mr, admission_record ar, ward w, patient p, staff s, department d 
+		where mr.medical_record_id = ar.medical_record_id
+		and s.staff_id = mr.staff_id 
+		and p.patient_id = mr.patient_id
+		and w.ward_id = ar.ward_id 
+		and s.department_id = d.department_id 
+		and w.ward_id in (select ward_id from ward where ward_number like #{ward_number} || '%')
+		and (ar.discharge_date > (select current_date from dual) or discharge_date is null)
+		order by w.ward_id 
+	</select>
+	<select id="get_admission_record_search" resultType="staff.vo.AdmissionRecordVO">
+		select ar.ward_id, ar.admission_record_id, p.patient_id, p.name as patient_name, s.name as staff_name, s.staff_id,  
+		d.department_name, mr.treatment_name, to_char(ar.admission_date, 'yyyy-mm-dd') as admission_date,
+		to_char(ar.discharge_date, 'yyyy-mm-dd') as discharge_date 
+		from medical_record mr, admission_record ar, ward w, patient p, staff s, department d 
+		where mr.medical_record_id = ar.medical_record_id
+		and s.staff_id = mr.staff_id 
+		and p.patient_id = mr.patient_id
+		and w.ward_id = ar.ward_id 
+		and s.department_id = d.department_id 
+		<choose>
+			<when test="option == 'department'">
+				and s.staff_id in (
+				select staff_id from staff where department_id = (select department_id from staff where staff_id = #{id}) and staff_level = 1
+				) 
+			</when>
+			<when test="option == 'mypatient'">
+				and s.staff_id = #{id} 
+			</when>
+		</choose>
+		<if test="patient_name != ''">
+			and p.name like '%' || #{patient_name} || '%'  
+		</if>
+		and (ar.discharge_date > (select current_date from dual) or discharge_date is null) 
+		order by w.ward_id 
+	</select>
+	<select id="get_admission_memo" resultType="staff.vo.AdmissionMemoVO">
+		select am.admission_memo_id, s.staff_id, s.name, am.memo, to_char(write_date, 'yyyy-mm-dd hh24:mi:ss') as write_date 
+		from admission_memo am, staff s 
+		where am.writer_id = s.staff_id 
+		and admission_record_id = #{id} 
+		order by am.write_date 
+	</select>
+	
+	<select id="get_schedule_list" resultType="staff.vo.ScheduleVO">
+		<choose>
+			<when test="staff_level == 1">
+				select schedule_id, staff_id, content, to_char(time, 'hh24:mi') as time 
+			    from doctor_schedule where staff_id = #{id} and to_char(time, 'yyyy-mm-dd') = #{date} 
+			    order by time 
+			</when>
+			<when test="staff_level == 2">
+				select schedule_id, staff_id, content, complete, to_char(time, 'hh24:mi') as time 
+				from nurse_schedule where staff_id = #{id} and to_char(time, 'yyyy-mm-dd') = #{date}
+				order by time  
+			</when>
+		</choose>
 	</select>
 </mapper>

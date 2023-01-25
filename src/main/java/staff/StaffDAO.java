@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import staff.vo.MedicalReceiptVO;
+import staff.vo.AdmissionMemoVO;
 import staff.vo.AdmissionRecordVO;
 import staff.vo.MedicalRecordVO;
 import staff.vo.PatientVO;
+import staff.vo.ScheduleVO;
 import staff.vo.StaffVO;
 
 @Repository
@@ -23,6 +25,14 @@ public class StaffDAO {
 	
 	public StaffVO login_staff(Map<String, String> map) {
 		return sql.selectOne("staff.login_staff", map);
+	}
+	
+	public StaffVO get_staff(String id) {
+		return sql.selectOne("staff.get_staff", id);
+	}
+	
+	public int update_staff_introduction(Map<String, String> map) {
+		return sql.update("staff.update_staff_introduction", map);
 	}
 	
 	public List<PatientVO> get_patient_list() {
@@ -41,6 +51,10 @@ public class StaffDAO {
 		return sql.update("staff.update_patient_memo", map);
 	}
 	
+	public List<MedicalRecordVO> get_medical_record(Map<String, String> map) {
+		return sql.selectList("staff.get_medical_record", map);
+	}
+	
 	public List<MedicalRecordVO> get_medical_record_patient_id(String id) {
 		return sql.selectList("staff.get_medical_record_patient_id", id);
 	}
@@ -52,5 +66,26 @@ public class StaffDAO {
 	public List<MedicalReceiptVO> get_medical_receipt(Map<String, String> map) {
 		return sql.selectList("staff.get_medical_receipt", map);
 	}
+	
+	public List<AdmissionRecordVO> get_admission_record_ward(String ward_number) {
+		return sql.selectList("staff.get_admission_record_ward", ward_number);
+	}
+	
+	public List<AdmissionRecordVO> get_admission_record_search(Map<String, String> map) {
+		return sql.selectList("staff.get_admission_record_search", map);
+	}
+	
+	public List<AdmissionMemoVO> get_admission_memo(String id) {
+		return sql.selectList("staff.get_admission_memo", id);
+	}
+	
+	public List<ScheduleVO> get_schedule_list(Map<String, String> map) {
+		return sql.selectList("staff.get_schedule_list", map);
+	}
+	
+	public List<StaffVO> get_staff_list() {
+		return sql.selectList("staff.get_staff_list");
+	}
+	
 
 }

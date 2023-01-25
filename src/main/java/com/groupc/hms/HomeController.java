@@ -9,8 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import firebase.HmsFirebase;
-
 @Controller
 public class HomeController {
 	
@@ -23,6 +21,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/index.st", method = RequestMethod.GET)
 	public String staffHome(HttpSession session, Model model) {
+		session.setAttribute("title", "");
 		return "staff/index";
 	}
 	

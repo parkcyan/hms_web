@@ -2,9 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <style>
-	#logo {
-		width: 30px;
-	}
+#logo { width: 30px; }
 </style>
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -12,7 +10,7 @@
 		<div class="sidebar-brand-icon">
 			<img id="logo" src="staff/img/logo.png"/>
 		</div>
-		<div class="sidebar-brand-text mx-3"> YH-HOSPITAL
+		<div class="sidebar-brand-text mx-3"> YM-HOSPITAL
 		</div>
 	</a>
 

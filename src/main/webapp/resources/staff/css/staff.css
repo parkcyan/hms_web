@@ -5,22 +5,52 @@ textarea {
 }
 
 .flex {
-	display: flex;
+	display: flex !important;
 }
 
 .flexb {
-	display: flex;
+	display: flex !important;
 	justify-content: space-between;
+}
+
+.flexc {
+	display: flex !important;
+	align-items: center;
+}
+
+.flexa {
+	display: flex !important;
+	justify-content: space-around;
+}
+
+.fwb {
+	font-weight: bold;
+}
+
+.h25 {
+	height: 25px;
+}
+
+.h500 {
+	height: 500px;
 }
 
 .h600 {
 	height: 600px;
 }
 
+#spinner {
+	margin-left: 5px;
+	width: 28px;
+	height: 28px;
+	font-size: 15px;
+}
+
 #spinner-mini {
 	margin-left: 5px;
 	width: 19px;
 	height: 19px;
+	font-size: 12px;
 }
 
 /* patient info mini */

@@ -15,7 +15,7 @@
 <script src="staff/vendor/jquery/jquery.js"></script>
 <script src="staff/vendor/jquery-easing/jquery.easing.js"></script>
 <script src="staff/js/staff.js"></script>
-<title>YH-HOSPITAL ${title}</title>
+<title>YM-HOSPITAL ${title}</title>
 </head>
 <body id="page-top">
 	<tiles:insertAttribute name="container" />
