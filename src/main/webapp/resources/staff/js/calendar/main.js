@@ -172,7 +172,7 @@
 
 })(jQuery);
 
-function getSchedule(date) {
+function getSchedule(date, event) {
 	$("#spinner-mini").css('display', 'block');
 	$.ajax({
 		url: 'getSchedule.st',
@@ -196,12 +196,14 @@ function getSchedule(date) {
 					str += "</tr>"
 				});
 				$('#schedule').append(str);
-				$('#schedule tr').hover(function() {
-					$(this).css('background-color', '#D0E2F4');
-					$(this).css('cursor', 'pointer');
-				}, function() {
-					$(this).css('background-color', 'white');
-				})
+				if (event) {
+					$('#schedule tr').hover(function() {
+						$(this).css('background-color', '#D0E2F4');
+						$(this).css('cursor', 'pointer');
+					}, function() {
+						$(this).css('background-color', 'white');
+					})
+				}		
 			}
 			$("#spinner-mini").css('display', 'none');
 		},

@@ -168,6 +168,16 @@ public class StaffController {
 		return new Gson().toJson(service.getAdmissionMemo(id));
 	}
 	
+	@ResponseBody @RequestMapping(value = "/insertAdmissionMemo.st")
+	public boolean insertAdmissionMemo(HttpSession session, String id, String memo) {
+		return service.insertAdmissionMemo(getStaff(session), id, memo);
+	}
+	
+	@ResponseBody @RequestMapping(value = "/deleteAdmissionMemo.st")
+	public boolean deleteAdmissionMemo(String id) {
+		return service.deleteAdmissionMemo(id);
+	}
+	
 	/**
 	 * 일정
 	 */

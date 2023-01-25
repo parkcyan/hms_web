@@ -41,6 +41,19 @@
 }
 .form-check { font-size: 0.8rem; }
 .form-check-input { margin-top: 0.2rem; }
+#admission_memo_table tbody {
+    display: block;
+    height: 350px;
+    overflow: auto;
+}
+#admission_memo_table tbody::-webkit-scrollbar {
+	display: none;
+}
+#admission_memo_table thead, #admission_memo_table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
 </style>
 <body>
 	<input type="hidden" id="patient_id"/>
@@ -188,10 +201,10 @@
 							<table id="admission_memo_table" class="table">
 								<thead>
 									<tr>
-										<th scope="col" style="width: 10%">시간</th>
-										<th scope="col">작성자</th>
-										<th scope="col" style="width: 70%">기록</th>
-										<th scope="col" style="text-align: center;">삭제</th>
+										<th scope="col" style="width: 12%">시간</th>
+										<th scope="col" style="width: 12%">작성자</th>
+										<th scope="col" style="width: 66%">기록</th>
+										<th scope="col" style="width: 10%; text-align: center;">삭제</th>
 									</tr>
 								</thead>
 								<tbody id="admission_memo">
@@ -201,8 +214,8 @@
 						</div>
 						<hr/>
 						<div class="flexa flexb">
-							<input type="text" class="form-control" style="width: 80%;"/>
-							<a onclick="insertAdmissionMemo()" class="btn btn-primary" style="width: 15%;">저장</a>
+							<input id="admission_memo_input" type="text" class="form-control" onkeyup="searchEnterKey('memo')" style="width: 80%;"/>
+							<a id="insert_memo_button" onclick="insertAdmissionMemo()" class="btn btn-primary" style="width: 15%;">저장</a>
 						</div>
 					</div>
 				</div>
@@ -217,7 +230,7 @@
 					</div>
 					<div class="card-body">
 						<div class="form-inline mb-1">
-							<input id="patient_name_search" onkeyup="searchEnterKey()" class="form-control mr-sm-2" placeholder="환자명" aria-label="Search">
+							<input id="patient_name_search" onkeyup="searchEnterKey('patient_name')" class="form-control mr-sm-2" placeholder="환자명" aria-label="Search">
 							<button id="patient_name_search_button" class="btn btn-primary my-2 my-sm-0" onclick="getAdmissionRecordSearch()">검색</button>
 						</div>
 						<small class="form-text text-muted mb-1">빈칸으로 검색할 시 설정된 조건에서 전체 검색됩니다.</small>
@@ -255,7 +268,6 @@
 	</div>
 	<script>
 		$(document).ready(function(){
-			console.log('${loginInfo.department_name}');
 			if ('${loginInfo.department_name}' == '6병동') $("#ward6").trigger('click');
 			else if ('${loginInfo.department_name}' == '7병동') $("#ward7").trigger('click');
 			else $("#ward5").trigger('click');
@@ -391,6 +403,7 @@
 		}
 		
 		function getAdmissionMemo() {
+			$("#spinner").css('display', 'inline');
 			$.ajax({
 				url: 'getAdmissionMemo.st',
 				dataType: 'json',
@@ -402,18 +415,79 @@
 					let str = "";
 					$.each(res, function (i) {
 						str += "<tr>"
-						str += "<td style='display:none;'>" + res[i].admission_memo_id + "</td>";
 						if (i == 0 || getDate(res[i].write_date) != getDate(res[i - 1].write_date)) {
-							str += "<td><span>" + getMonthDay(res[i].write_date) + '</span><br>' + getTime(res[i].write_date) + "</td>"
-						}  else str += "<td>" + getTime(res[i].write_date) + "</td>"
-						str += "<td>" + res[i].name+ "</td>"
-						str += "<td>" + res[i].memo + "</td>"
+							str += "<td style='width: 12%;'><span>" + getMonthDay(res[i].write_date) + '</span><br>' + getTime(res[i].write_date) + "</td>"
+						}  else str += "<td style='width: 12%;'>" + getTime(res[i].write_date) + "</td>"
+						str += "<td style='width: 12%;'>" + res[i].name+ "</td>"
+						str += "<td style='width: 66%;'>" + res[i].memo + "</td>"
 						if (${loginInfo.staff_id} == res[i].staff_id) {
-							str += "<td><i class='fas fa-times'></i></td>"
-						} else str += "<td></td>"
-						str += "</tr>"
+							str += "<td style='width: 10%;'><i class='fas fa-times'><p style='display:none;'>" + res[i].admission_memo_id + "</p></i></td>"
+						} else str += "<td style='width: 10%;'></td>"
+						str += "</tr>";	
 					});
 					$('#admission_memo').append(str);
+					$('#admission_memo i').hover(function() {
+						$(this).css('cursor', 'pointer');
+					});
+					$('#admission_memo i').click(function() {
+						let id = $(this).children('p').text();
+						confirm('warning', '환자상태기록 삭제', '정말로 환자상태기록을 삭제하시겠습니까?', function(res) {
+							if (res.isConfirmed) deleteAdmissionMemo(id);
+						})
+					});
+				},
+				error: function(req, text) {
+					errorToast(req.status);
+				},
+				complete: function() {
+					$("#spinner").css('display', 'none');
+				}
+			});
+		}
+		
+		function insertAdmissionMemo() {
+			$("#spinner").css('display', 'inline');
+			let memo = $('#admission_memo_input').val();
+			if ($('#admission_record_id').val() == '') {
+				toast('error', '선택된 환자가 없습니다.');
+			} else if (memo.trim() == '') {
+				toast('error', '기록을 작성해 주세요.');
+			} else {
+				$.ajax({
+					url: 'insertAdmissionMemo.st',
+					data: {
+						id: $('#admission_record_id').val(),
+						memo: memo
+					},
+					success: function(res) {
+						if (res) {
+							toast('success', '환자상태기록이 저장되었습니다.');
+							getAdmissionMemo();
+						} else {
+							toast('error', '환자상태기록을 저장하는데 실패했습니다.');
+						}
+					},
+					error: function(req, text) {
+						errorToast(req.status);
+					}
+				});
+			}
+		}
+		
+		function deleteAdmissionMemo(id) {
+			$("#spinner").css('display', 'inline');
+			$.ajax({
+				url: 'deleteAdmissionMemo.st',
+				data: {
+					id: id,
+				},
+				success: function(res) {
+					if (res) {
+						toast('success', '환자상태기록이 삭제되었습니다.');
+						getAdmissionMemo();
+					} else {
+						toast('error', '환자상태기록을 삭제하는데 실패했습니다.');
+					}
 				},
 				error: function(req, text) {
 					errorToast(req.status);
@@ -421,9 +495,10 @@
 			});
 		}
 		
-		function searchEnterKey() {
+		function searchEnterKey(keyword) {
 			if (window.event.keyCode == 13) {
-				 $("#patient_name_search_button").trigger("click");
+				if (keyword == 'patient_name') $("#patient_name_search_button").trigger("click");
+				else if (keyword == 'memo')  $("#insert_memo_button").trigger("click");
 			}
 		}
 	</script>

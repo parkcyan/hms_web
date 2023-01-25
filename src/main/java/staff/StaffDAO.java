@@ -75,6 +75,14 @@ public class StaffDAO {
 		return sql.selectList("staff.get_admission_record_search", map);
 	}
 	
+	public int insert_admission_memo(Map<String, String> map) {
+		return sql.insert("staff.insert_admission_memo", map);
+	}
+
+	public int delete_admission_memo(String id) {
+		return sql.delete("staff.delete_admission_memo", id);
+	}
+	
 	public List<AdmissionMemoVO> get_admission_memo(String id) {
 		return sql.selectList("staff.get_admission_memo", id);
 	}

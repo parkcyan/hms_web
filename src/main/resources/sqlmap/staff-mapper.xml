@@ -148,6 +148,12 @@
 		and admission_record_id = #{id} 
 		order by am.write_date 
 	</select>
+	<insert id="insert_admission_memo">
+		insert into admission_memo values (1, #{admission_record_id}, #{staff_id}, #{memo}, current_date)
+	</insert>
+	<delete id="delete_admission_memo">
+		delete from admission_memo where admission_memo_id = #{id} 
+	</delete>
 	
 	<select id="get_schedule_list" resultType="staff.vo.ScheduleVO">
 		<choose>

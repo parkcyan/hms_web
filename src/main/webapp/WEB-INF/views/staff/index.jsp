@@ -7,8 +7,9 @@
 <meta charset="utf-8">
 <title></title>
 <style>
-.main-button-card { 
-	padding: 10px; 
+.main-button-card { padding: 10px; }
+.main-button-card:hover {
+	cursor: pointer; 
 }
 .main-button {
 	display: flex;
@@ -38,7 +39,7 @@
 					<div class="card-body">
 						<div class="row">
 							<!-- Earnings (Monthly) Card Example -->
-							<div class="col-lg-6 mb-4">
+							<div class="col-lg-6 mb-4" onclick="location.href = 'lookup.st';">
 								<div class="card shadow h-100 py-2" style="background: var(--primary)">
 									<div class="main-button-card card-body">
 										<div class="w-100 h-100 main-button">
@@ -50,7 +51,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-6 mb-4">
+							<div class="col-lg-6 mb-4" onclick="location.href = 'outpatient.st';">
 								<div class="card shadow h-100 py-2" style="background: var(--primary)">
 									<div class="main-button-card card-body">
 										<div class="w-100 h-100 main-button">
@@ -65,7 +66,7 @@
 						</div>
 						<div class="row">
 							<!-- Earnings (Monthly) Card Example -->
-							<div class="col-lg-6 mb-4">
+							<div class="col-lg-6 mb-4" onclick="location.href = 'ward.st';">
 								<div class="card shadow h-100 py-2" style="background: var(--primary)">
 									<div class="main-button-card card-body">
 										<div class="w-100 h-100 main-button">
@@ -77,7 +78,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-6 mb-4">
+							<div class="col-lg-6 mb-4" onclick="location.href = 'schedule.st';">
 								<div class="card shadow h-100 py-2" style="background: var(--primary)">
 									<div class="main-button-card card-body">
 										<div class="w-100 h-100 main-button">
@@ -94,7 +95,7 @@
 				</div>
 			</div>
 
-			<div class="col-lg-5 mb-4 ">
+			<div class="col-lg-4 mb-4 ">
 				<div class="card shadow h400">
 					<div class="card-header py-3">
 						<div class="flex">
@@ -121,7 +122,7 @@
 	</div>
 	<script src="staff/js/calendar/main.js"></script>
 	<script>
-		getSchedule(new Date());
+		getSchedule(new Date(), false);
 	</script>
 </body>
 </html>

@@ -106,6 +106,18 @@ public class StaffService {
 		return dao.get_admission_memo(id);
 	}
 	
+	public boolean insertAdmissionMemo(StaffVO vo, String id, String memo) {
+		Map<String, String> map = new HashMap<>();
+		map.put("staff_id", String.valueOf(vo.getStaff_id()));
+		map.put("admission_record_id", id);
+		map.put("memo", memo);
+		return dao.insert_admission_memo(map) == 1;
+	}
+	
+	public boolean deleteAdmissionMemo(String id) {
+		return dao.delete_admission_memo(id) == 1;
+	}
+	
 	/**
 	 * 일정
 	 */

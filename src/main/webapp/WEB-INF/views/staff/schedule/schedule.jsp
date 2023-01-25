@@ -27,7 +27,6 @@
 			<div class="col-lg-5">
 				<div class="elegant-calencar d-md-flex mb-4">
 					<div class="wrap-header d-flex align-items-center">
-						<p id="reset">reset</p>
 						<div id="header" class="p-0">
 							<div
 								class="pre-button d-flex align-items-center justify-content-center">
@@ -169,7 +168,7 @@
 	  	$('#timepicker1').timepicker();
 	  	
 	  	// 오늘 스케줄 조회
-	  	getSchedule(new Date());
+	  	getSchedule(new Date(), true);
 	</script>
 </body>
 </html>
