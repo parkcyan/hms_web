@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <title></title>
 </head>
+<link href="staff/css/calendar-picker/classic.css" rel="stylesheet">
+<link href="staff/css/calendar-picker/classic.date.css" rel="stylesheet">
 <style>
 .ward { width: 19%; }
 .ward p {
@@ -184,8 +186,12 @@
 								<td id="admission_date"></td>
 							</tr>
 							<tr>
-								<td>퇴원일자</td>
-								<td id="discharge_date"></td>
+								<td style="vertical-align: middle;">퇴원일자</td>
+								<td>
+									<div class="calendar form-group mb-0 flexb flexc">
+										<input type="text" class="form-control" id="discharge_date"> <i class="far fa-calendar-alt ml-2"></i>
+									</div>
+								</td>
 							</tr>
 						</table>
 					</div>
@@ -266,11 +272,15 @@
 			</div>
 		</div>
 	</div>
+	<script src="staff/js/calendar-picker/popper.min.js"></script>
+	<script src="staff/js/calendar-picker/picker.js"></script>
+	<script src="staff/js/calendar-picker/picker.date.js"></script>
 	<script>
 		$(document).ready(function(){
 			if ('${loginInfo.department_name}' == '6병동') $("#ward6").trigger('click');
 			else if ('${loginInfo.department_name}' == '7병동') $("#ward7").trigger('click');
 			else $("#ward5").trigger('click');
+			$('#discharge_date').pickadate();
 		});
 		
 		function wardSelect(ward) {	
@@ -300,7 +310,9 @@
 							$('#staff_name').text(res[i].staff_name);
 							$('#department').text(res[i].department_name);
 							$('#admission_date').text(res[i].admission_date);
-							$('#discharge_date').text(res[i].discharge_date);
+							if (res[i].discharge_date != null) {
+								$('#discharge_date').val(res[i].discharge_date);
+							} else $('#discharge_date').val('-');
 							getPatient(res[i].patient_id);
 							getAdmissionMemo();
 						});
@@ -388,7 +400,9 @@
 						$('#staff_name').text($(this).children('td:eq(3)').text());
 						$('#department').text($(this).children('td:eq(4)').text());
 						$('#admission_date').text($(this).children('td:eq(5)').text());
-						$('#discharge_date').text($(this).children('td:eq(6)').text());
+						if ($(this).children('td:eq(6)').text() != null) {
+							$('#discharge_date').val($(this).children('td:eq(6)').text());
+						} else $('#discharge_date').val('-');
 						getPatient($(this).children('td:eq(0)').text());
 						getAdmissionMemo();
 					})

@@ -29,7 +29,6 @@
 
 			pre[0].addEventListener('click', function() { that.preMonth(); });
 			next[0].addEventListener('click', function() { that.nextMonth(); });
-			reset.addEventListener('click', function() { that.reset(); });
 			while (daysLen--) {
 				days[daysLen].addEventListener('click', function() { that.clickDay(this); });
 			}
