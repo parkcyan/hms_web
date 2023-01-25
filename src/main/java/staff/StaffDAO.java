@@ -27,6 +27,14 @@ public class StaffDAO {
 		return sql.selectOne("staff.login_staff", map);
 	}
 	
+	public StaffVO get_staff(String id) {
+		return sql.selectOne("staff.get_staff", id);
+	}
+	
+	public int update_staff_introduction(Map<String, String> map) {
+		return sql.update("staff.update_staff_introduction", map);
+	}
+	
 	public List<PatientVO> get_patient_list() {
 		return sql.selectList("staff.get_patient_list");
 	}

@@ -6,6 +6,16 @@
 		where s.department_id = d.department_id  
 		and staff_id = #{id} and pw = #{pw}   
 	</select>
+	<select id="get_staff" resultType="staff.vo.StaffVO">
+		select s.*, d.department_name from staff s, department d
+		where s.department_id = d.department_id  
+		and staff_id = #{id} 
+	</select>
+	
+	<update id="update_staff_introduction">
+		update staff set introduction = #{introduction} where staff_id = #{id} 
+	</update>
+	
 	<select id="get_patient_list" resultType="staff.vo.PatientVO">
 		select * from patient   
 	</select>
@@ -20,6 +30,7 @@
 	<update id="update_patient_memo">
 		update patient set memo = #{memo} where patient_id = #{id} 
 	</update>
+	
 	<select id="get_medical_record" resultType="staff.vo.MedicalRecordVO">
 		select mr.medical_record_id, p.name as patient_name, s.name as staff_name, mr.memo, 
 		to_char(mr.treatment_date, 'yyyy-mm-dd hh24:mi') as treatment_date, mr.admission, 
@@ -55,6 +66,7 @@
 		and p.patient_id = #{id} 
 		order by mr.treatment_date 
 	</select>
+	
 	<select id="get_admission_record_patient_id" resultType="staff.vo.AdmissionRecordVO">
 		select ar.ward_id, ar.admission_record_id, p.patient_id, p.name as patient_name, s.name as staff_name, s.staff_id,  
 		d.department_name, mr.treatment_name, to_char(ar.admission_date, 'yyyy-mm-dd') as admission_date,
@@ -136,6 +148,7 @@
 		and admission_record_id = #{id} 
 		order by am.write_date 
 	</select>
+	
 	<select id="get_schedule_list" resultType="staff.vo.ScheduleVO">
 		<choose>
 			<when test="staff_level == 1">

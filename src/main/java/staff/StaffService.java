@@ -28,6 +28,15 @@ public class StaffService {
 		return dao.login_staff(map);
 	}
 	
+	public StaffVO updateStaffIntroduction(StaffVO vo, String introduction) {
+		Map<String, String> map = new HashMap<>();
+		map.put("id", String.valueOf(vo.getStaff_id()));
+		map.put("introduction", introduction);
+		if (dao.update_staff_introduction(map) == 1) {
+			return dao.get_staff(String.valueOf(vo.getStaff_id()));
+		} else return null;
+	}
+	
 	public List<PatientVO> getPatientList() {
 		return dao.get_patient_list();
 	}

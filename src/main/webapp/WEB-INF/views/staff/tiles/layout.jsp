@@ -17,7 +17,7 @@
 <link href="staff/css/staff.css" rel="stylesheet">
 <link href="staff/css/chatroom.css" rel="stylesheet">
 <script src="staff/js/staff.js"></script>
-<title>YH-HOSPITAL ${title}</title>
+<title>YM-HOSPITAL ${title}</title>
 </head>
 <body id="page-top">
 	<div id="wrapper">

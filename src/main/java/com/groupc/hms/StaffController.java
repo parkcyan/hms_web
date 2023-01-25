@@ -63,6 +63,25 @@ public class StaffController {
 	}
 	
 	/**
+	 * 마이페이지
+	 */
+	
+	@RequestMapping(value = "/mypage.st")
+	public String mypage(HttpSession session) {
+		session.setAttribute("title", "마이페이지");
+		return "staff/mypage";
+	}
+	
+	@ResponseBody @RequestMapping(value = "/updateStaffIntroduction.st")
+	public boolean updateStaffIntroduction(HttpSession session, String introduction) {
+		StaffVO vo = service.updateStaffIntroduction(getStaff(session), introduction);
+		if (vo != null) {
+			session.setAttribute("loginInfo", vo);
+			return true;
+		} else return false;	
+	}
+	
+	/**
 	 * 환자 조회
 	 */
 	@RequestMapping(value = "/lookup.st")

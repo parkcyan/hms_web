@@ -120,7 +120,7 @@
 			<span class="mr-2 d-none d-lg-inline text-gray-600 small">${loginInfo.name}</span> 
 			</a> 
 			<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-				<a class="dropdown-item" href="#"> 
+				<a class="dropdown-item" href="mypage.st"> 
 					<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> 마이페이지
 				</a> 
 				<div class="dropdown-divider"></div>
