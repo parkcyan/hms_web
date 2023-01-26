@@ -23,4 +23,10 @@
 		AND s.department_id = #{department_id}
 		AND s.staff_level = 1
 	</select>
+	
+	<select id="staff_token" resultType="String">
+		SELECT device_id
+		FROM patient_account
+		WHERE patient_id = #{patient_id}
+	</select>
 </mapper>

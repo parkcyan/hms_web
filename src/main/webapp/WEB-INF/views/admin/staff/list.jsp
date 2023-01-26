@@ -36,7 +36,7 @@
 								</thead>
 								<tbody>
 									<c:forEach items="${list}" var="list">
-										<tr>
+										<tr class="text-center">
 											<td>${list.staff_id}</td>
 											<td>${list.name}</td>
 											<c:if test="${name eq '홍길동'}">
