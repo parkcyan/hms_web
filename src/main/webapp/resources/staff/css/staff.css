@@ -50,7 +50,7 @@ textarea {
 	font-size: 15px;
 }
 
-#spinner-mini {
+#spinner-mini, #spinner-mini-art {
 	margin-left: 5px;
 	width: 19px;
 	height: 19px;

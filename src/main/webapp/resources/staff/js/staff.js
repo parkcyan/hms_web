@@ -120,6 +120,7 @@ function timeStampOperator(date, operator, num) {
 	}
 }
 
+// 2022-01-01 00:00:00
 function getTimeStamp(date) {
 	var today = new Date(date);
 	today.setHours(today.getHours() + 9);
@@ -146,4 +147,56 @@ function getMonthDay(timestamp) {
 
 function getDateFormat(timestamp) {
 	return timestamp.substring(0, 4) + '년 ' + timestamp.substring(5, 7) + '월 ' + timestamp.substring(8, 10) + '일';
+}
+
+function getSchedule(date, event) {
+	$("#spinner-mini").css('display', 'inline');
+	$.ajax({
+		url: 'getSchedule.st',
+		data: {
+			date: getDate(getTimeStamp(date))
+		},
+		dataType: 'json',
+		success: function(res) {
+			$('#schedule *').remove();
+			let str = "";
+			if (Object.keys(res).length == 0) {
+				str += "<tr><td></td><td>일정이 없습니다.</td></tr>"
+				$('#schedule').append(str);
+			}
+			else {
+				$.each(res, function(i) {
+					str += "<tr>"
+					str += "<td style='display:none;'>" + res[i].schedule_id + "</td>";
+					str += "<td>" + res[i].time + "</td>";
+					str += "<td>" + res[i].content + "</td>"
+					str += "</tr>"
+				});
+				$('#schedule').append(str);
+				if (event) {
+					$('#schedule tr').hover(function() {
+						$(this).css('background-color', '#D0E2F4');
+						$(this).css('cursor', 'pointer');
+					}, function() {
+						$(this).css('background-color', 'white');
+					})
+					$('#schedule tr').click(function() {
+						$('#schedule_id').val($(this).children('td:eq(0)').text());
+						let time = $(this).children('td:eq(1)').text();
+						let hour = parseInt(time.substring(0, 2));
+						let meridiem = hour > 12 ? 'PM' : 'AM';
+						if (hour > 12) hour -= 12;
+						let minute = time.substring(3, 5);
+						$('#timepicker1').val(hour + ":" + minute + " " + meridiem);						
+						$('#schedule_content').val($(this).children('td:eq(2)').text());
+					});
+				}		
+			}
+			$("#spinner-mini").css('display', 'none');
+		},
+		error: function(req, text) {
+			errorToast(req.status);
+			$("#spinner-mini").css('display', 'none');
+		}
+	})
 }

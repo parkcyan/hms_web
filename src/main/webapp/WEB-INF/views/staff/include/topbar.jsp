@@ -3,9 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <style>
-	.dropdown-header i {
-		font-size: 16px;
-	}
+.dropdown-header i { font-size: 16px; }
 </style>
 <input type="hidden" id="id" value="${loginInfo.staff_id}"/>
 <input type="hidden" id="name" value="${loginInfo.name}"/>

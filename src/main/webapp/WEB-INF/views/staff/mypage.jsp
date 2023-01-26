@@ -34,7 +34,7 @@
 							<tr>
 								<td>자기소개 <i class="fas fa-pen"></i></td>
 								<td>
-									<textarea id="introduction" class="form-control">${loginInfo.introduction}</textarea>
+									<textarea id="introduction" class="form-control" spellcheck="false">${loginInfo.introduction}</textarea>
 								</td>
 							</tr>
 						</table>

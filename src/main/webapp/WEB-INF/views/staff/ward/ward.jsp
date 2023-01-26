@@ -25,6 +25,7 @@
 	padding: 3px;
 	vertical-align: middle;
 }
+.fa-calendar-alt { font-size: 1.5rem; }
 #admission_record_table td:first-child {
 	background: whitesmoke;
 	font-weight: bold;
@@ -165,10 +166,17 @@
 				</div>
 				<div class="card shadow mb-4">
 					<div class="card-header py-3">
-						<h6 class="m-0 font-weight-bold text-primary">환자입원정보</h6>
+						<div class="flex">
+							<h6 class="m-0 font-weight-bold text-primary">환자 입원 정보</h6>
+							<div id="spinner-mini-art" class="spinner-border text-primary" role="status" style="display: none;"></div>
+						</div>
 					</div>
 					<div class="card-body">
 						<table id="admission_record_table" class="table">
+							<tr style="display: none;">
+								<td>staff_id_reocrd</td>
+								<td id="staff_id_record"></td>
+							</tr>
 							<tr>
 								<td>병명</td>
 								<td id="treatment_name"></td>
@@ -194,11 +202,14 @@
 								</td>
 							</tr>
 						</table>
+						<div class="d-sm-flex flex-row-reverse mt-3">
+							<a onclick="updateDischargeDate()" class="btn btn-primary">퇴원일자 저장</a>
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-lg-5 mb-4">
-				<div class="card shadow h600">
+				<div class="card shadow h-100">
 					<div class="card-header py-3">
 						<h6 class="m-0 font-weight-bold text-primary">환자상태기록</h6>
 					</div>
@@ -282,6 +293,11 @@
 			else $("#ward5").trigger('click');
 			$('#discharge_date').pickadate();
 		});
+	
+		$('#discharge_date').click(function(e){
+			e.preventDefault();
+			toast('error', 'test');
+		});
 		
 		function wardSelect(ward) {	
 			$("#spinner").css('display', 'inline');
@@ -303,13 +319,14 @@
 						}, function() {
 							$(this).css('background-color', 'white');
 						});
-						$("#" + wardId).click(function() {
+						$("#" + wardId).click(function() {			
 							$('#patient_id').val(res[i].patient_id);
 							$('#admission_record_id').val(res[i].admission_record_id);
 							$('#treatment_name').text(res[i].treatment_name);
 							$('#staff_name').text(res[i].staff_name);
 							$('#department').text(res[i].department_name);
 							$('#admission_date').text(res[i].admission_date);
+							$('#staff_id_record').text(res[i].staff_id);
 							if (res[i].discharge_date != null) {
 								$('#discharge_date').val(res[i].discharge_date);
 							} else $('#discharge_date').val('-');
@@ -380,6 +397,7 @@
 						str += "<td style='display:none;'>" + res[i].department_name + "</td>";
 						str += "<td style='display:none;'>" + res[i].admission_date + "</td>";
 						str += "<td style='display:none;'>" + res[i].discharge_date + "</td>";
+						str += "<td style='display:none;'>" + res[i].staff_id + "</td>";
 						str += "<td>" + res[i].patient_name + "</td>"
 						str += "<td>" + getWard(res[i].ward_id) + "</td>"
 						str += "<td>" + res[i].treatment_name + "</td>"
@@ -400,9 +418,10 @@
 						$('#staff_name').text($(this).children('td:eq(3)').text());
 						$('#department').text($(this).children('td:eq(4)').text());
 						$('#admission_date').text($(this).children('td:eq(5)').text());
-						if ($(this).children('td:eq(6)').text() != null) {
+						if ($(this).children('td:eq(6)').text() != 'undefined') {
 							$('#discharge_date').val($(this).children('td:eq(6)').text());
 						} else $('#discharge_date').val('-');
+						$('#staff_id_record').text($(this).children('td:eq(7)').text());
 						getPatient($(this).children('td:eq(0)').text());
 						getAdmissionMemo();
 					})
@@ -460,13 +479,13 @@
 		}
 		
 		function insertAdmissionMemo() {
-			$("#spinner").css('display', 'inline');
 			let memo = $('#admission_memo_input').val();
 			if ($('#admission_record_id').val() == '') {
 				toast('error', '선택된 환자가 없습니다.');
 			} else if (memo.trim() == '') {
 				toast('error', '기록을 작성해 주세요.');
 			} else {
+				$("#spinner").css('display', 'inline');
 				$.ajax({
 					url: 'insertAdmissionMemo.st',
 					data: {
@@ -477,6 +496,7 @@
 						if (res) {
 							toast('success', '환자상태기록이 저장되었습니다.');
 							getAdmissionMemo();
+							 $('#admission_memo_input').val('');
 						} else {
 							toast('error', '환자상태기록을 저장하는데 실패했습니다.');
 						}
@@ -513,6 +533,41 @@
 			if (window.event.keyCode == 13) {
 				if (keyword == 'patient_name') $("#patient_name_search_button").trigger("click");
 				else if (keyword == 'memo')  $("#insert_memo_button").trigger("click");
+			}
+		}
+		
+		function updateDischargeDate() {
+			if ($('#admission_record_id').val() == '') {
+				toast('error', '선택된 환자가 없습니다.');
+			} else if ($('#staff_id_record').text() != $('#id').val()) {
+				toast('error', '환자의 담당의만 퇴원일자를 수정할 수 있습니다.');
+			} else {
+				let date = $('#discharge_date').val();
+				confirm('warning', '퇴원일자 수정', '정말로 퇴원일자(예정)를 "' + date + '" 로 수정하시겠습니까?' , function(res) {
+					if (res.isConfirmed) {
+						$('#spinner-mini-art').css('display', 'inline');
+						$.ajax({
+							url: 'updateDischargeDate.st',
+							data: {
+								date: date,
+								id: $('#admission_record_id').val()
+							},
+							success: function(res) {
+								if (res) {
+									toast('success', '환자의 퇴원일자(예정)를 수정했습니다.');
+								} else {
+									toast('error', '환자의 퇴원일자(예정)를 수정하는데 실패했습니다.');
+								}
+							},
+							error: function(req, text) {
+								errorToast(req.status);
+							}, 
+							complete: function() {
+								$('#spinner-mini-art').css('display', 'none');
+							}
+						});
+					}
+				})
 			}
 		}
 	</script>

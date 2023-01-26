@@ -30,7 +30,49 @@
 	<update id="update_patient_memo">
 		update patient set memo = #{memo} where patient_id = #{id} 
 	</update>
+	<select id="get_admission_record_patient_id" resultType="staff.vo.AdmissionRecordVO">
+		select ar.ward_id, ar.admission_record_id, p.patient_id, p.name as patient_name, s.name as staff_name, s.staff_id,  
+		d.department_name, mr.treatment_name, to_char(ar.admission_date, 'yyyy-mm-dd') as admission_date,
+		to_char(ar.discharge_date, 'yyyy-mm-dd') as discharge_date 
+		from medical_record mr, admission_record ar, ward w, patient p, staff s, department d 
+		where mr.medical_record_id = ar.medical_record_id
+		and s.staff_id = mr.staff_id 
+		and p.patient_id = mr.patient_id
+		and w.ward_id = ar.ward_id 
+		and s.department_id = d.department_id 
+		and p.patient_id = #{id} 
+		order by ar.admission_date 
+	</select>
+	<select id="get_medical_record_patient_id" resultType="staff.vo.MedicalRecordVO">
+		select mr.medical_record_id, p.name as patient_name, s.name as staff_name, mr.memo, 
+		to_char(mr.treatment_date, 'yyyy-mm-dd hh24:mi') as treatment_date, mr.admission, 
+		mr.treatment_name, pr.prescription_record_id
+		from patient p, staff s, medical_record mr, prescription_record pr 
+		where p.patient_id = mr.patient_id
+		and s.staff_id = mr.staff_id 
+		and pr.medical_record_id(+) = mr.medical_record_id 
+		and p.patient_id = #{id} 
+		order by mr.treatment_date 
+	</select>
 	
+	<select id="get_medical_receipt" resultType="staff.vo.MedicalReceiptVO">
+		select mr.patient_id, p.name as patient_name, s.name as staff_name, to_char(mr.time, 'hh24:mi') as time, mr.memo 
+		from patient p, staff s, medical_receipt mr 
+		where p.patient_id = mr.patient_id 
+		and s.staff_id = mr.staff_id 
+		and to_char(mr.time, 'yyyy-mm-dd') = #{time}  
+		<choose>
+			<when test="option == 'department'">
+				and s.staff_id in (
+				select staff_id from staff where department_id = (select department_id from staff where staff_id = #{id}) and staff_level = 1
+				) 
+			</when>
+			<when test="option == 'doctor'">
+				and s.staff_id = #{id} 
+			</when>
+		</choose>
+		order by mr.time 
+	</select>
 	<select id="get_medical_record" resultType="staff.vo.MedicalRecordVO">
 		select mr.medical_record_id, p.name as patient_name, s.name as staff_name, mr.memo, 
 		to_char(mr.treatment_date, 'yyyy-mm-dd hh24:mi') as treatment_date, mr.admission, 
@@ -55,52 +97,16 @@
 		</if>
 		order by mr.treatment_date 
 	</select>
-	<select id="get_medical_record_patient_id" resultType="staff.vo.MedicalRecordVO">
-		select mr.medical_record_id, p.name as patient_name, s.name as staff_name, mr.memo, 
-		to_char(mr.treatment_date, 'yyyy-mm-dd hh24:mi') as treatment_date, mr.admission, 
-		mr.treatment_name, pr.prescription_record_id
-		from patient p, staff s, medical_record mr, prescription_record pr 
-		where p.patient_id = mr.patient_id
+	<select id="get_prescription" resultType="staff.vo.PrescriptionVO">
+		select p.name as patient_name, p.social_id, s.name as staff_name, 
+		s.staff_id, to_char(mr.treatment_date, 'yyyy-mm-dd hh24:mi:ss') as treatment_date, pr.prescription_record_id, pr.prescription_name 
+		from patient p, staff s, prescription_record pr, medical_record mr
+		where mr.medical_record_id = pr.medical_record_id
+		and p.patient_id = mr.patient_id 
 		and s.staff_id = mr.staff_id 
-		and pr.medical_record_id(+) = mr.medical_record_id 
-		and p.patient_id = #{id} 
-		order by mr.treatment_date 
+		and mr.medical_record_id = #{id} 
 	</select>
 	
-	<select id="get_admission_record_patient_id" resultType="staff.vo.AdmissionRecordVO">
-		select ar.ward_id, ar.admission_record_id, p.patient_id, p.name as patient_name, s.name as staff_name, s.staff_id,  
-		d.department_name, mr.treatment_name, to_char(ar.admission_date, 'yyyy-mm-dd') as admission_date,
-		to_char(ar.discharge_date, 'yyyy-mm-dd') as discharge_date 
-		from medical_record mr, admission_record ar, ward w, patient p, staff s, department d 
-		where mr.medical_record_id = ar.medical_record_id
-		and s.staff_id = mr.staff_id 
-		and p.patient_id = mr.patient_id
-		and w.ward_id = ar.ward_id 
-		and s.department_id = d.department_id 
-		and p.patient_id = #{id} 
-		order by ar.admission_date 
-	</select>
-	<select id="get_medical_receipt" resultType="staff.vo.MedicalReceiptVO">
-		select mr.patient_id, p.name as patient_name, s.name as staff_name, to_char(mr.time, 'hh24:mi') as time, mr.memo 
-		from patient p, staff s, medical_receipt mr 
-		where p.patient_id = mr.patient_id 
-		and s.staff_id = mr.staff_id 
-		and to_char(mr.time, 'yyyy-mm-dd') = #{time}  
-		<choose>
-			<when test="option == 'department'">
-				and s.staff_id in (
-				select staff_id from staff where department_id = (select department_id from staff where staff_id = #{id}) and staff_level = 1
-				) 
-			</when>
-			<when test="option == 'doctor'">
-				and s.staff_id = #{id} 
-			</when>
-		</choose>
-		order by mr.time 
-	</select>
-	<select id="get_staff_list" resultType="staff.vo.StaffVO">
-		select d.department_name, s.* from staff s, department d where s.department_id = d.department_id order by s.staff_id 
-	</select>
 	<select id="get_admission_record_ward" resultType="staff.vo.AdmissionRecordVO">
 		select ar.ward_id, ar.admission_record_id, p.patient_id, p.name as patient_name, s.name as staff_name, s.staff_id,  
 		d.department_name, mr.treatment_name, to_char(ar.admission_date, 'yyyy-mm-dd') as admission_date,
@@ -154,6 +160,9 @@
 	<delete id="delete_admission_memo">
 		delete from admission_memo where admission_memo_id = #{id} 
 	</delete>
+	<update id="update_discharge_date">
+		update admission_record set discharge_date = #{date} where admission_record_id = #{id} 
+	</update>
 	
 	<select id="get_schedule_list" resultType="staff.vo.ScheduleVO">
 		<choose>
@@ -168,5 +177,39 @@
 				order by time  
 			</when>
 		</choose>
+	</select>
+	<delete id="delete_schedule">
+		<choose>
+			<when test="staff_level == 1">
+				delete from doctor_schedule where schedule_id = #{id} 
+			</when>
+			<when test="staff_level == 2">
+				delete from nurse_schedule where schedule_id = #{id} 
+			</when>
+		</choose>
+	</delete>
+	<insert id="insert_schedule">
+		<choose>
+			<when test="staff_level == 1">
+				insert into doctor_schedule values (1, #{id}, #{content}, to_date(#{date}, 'yyyy-mm-dd hh24:mi')) 
+			</when>
+			<when test="staff_level == 2">
+				insert into nurse_schedule values (1, #{id}, #{content}, 'N', to_date(#{date}, 'yyyy-mm-dd hh24:mi')) 
+			</when>
+		</choose>
+	</insert>
+	<update id="update_schedule">
+		<choose>
+			<when test="staff_level == 1">
+				update doctor_schedule set time = to_date(#{date}, 'yyyy-mm-dd hh24:mi'), content = #{content} where schedule_id = #{id} 
+			</when>
+			<when test="staff_level == 2">
+				update nurse_schedule set time = to_date(#{date}, 'yyyy-mm-dd hh24:mi'), content = #{content} where schedule_id = #{id} 
+			</when>
+		</choose>
+	</update>
+	
+	<select id="get_staff_list" resultType="staff.vo.StaffVO">
+		select d.department_name, s.* from staff s, department d where s.department_id = d.department_id order by s.staff_id 
 	</select>
 </mapper>

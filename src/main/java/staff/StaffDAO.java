@@ -13,6 +13,7 @@ import staff.vo.AdmissionMemoVO;
 import staff.vo.AdmissionRecordVO;
 import staff.vo.MedicalRecordVO;
 import staff.vo.PatientVO;
+import staff.vo.PrescriptionVO;
 import staff.vo.ScheduleVO;
 import staff.vo.StaffVO;
 
@@ -35,6 +36,9 @@ public class StaffDAO {
 		return sql.update("staff.update_staff_introduction", map);
 	}
 	
+	/**
+	 * 환자조회
+	 */
 	public List<PatientVO> get_patient_list() {
 		return sql.selectList("staff.get_patient_list");
 	}
@@ -51,22 +55,32 @@ public class StaffDAO {
 		return sql.update("staff.update_patient_memo", map);
 	}
 	
-	public List<MedicalRecordVO> get_medical_record(Map<String, String> map) {
-		return sql.selectList("staff.get_medical_record", map);
+	public List<AdmissionRecordVO> get_admission_record_patient_id(String id) {
+		return sql.selectList("staff.get_admission_record_patient_id", id);
 	}
 	
 	public List<MedicalRecordVO> get_medical_record_patient_id(String id) {
 		return sql.selectList("staff.get_medical_record_patient_id", id);
 	}
 	
-	public List<AdmissionRecordVO> get_admission_record_patient_id(String id) {
-		return sql.selectList("staff.get_admission_record_patient_id", id);
-	}
-	
+	/**
+	 * 진료
+	 */
 	public List<MedicalReceiptVO> get_medical_receipt(Map<String, String> map) {
 		return sql.selectList("staff.get_medical_receipt", map);
 	}
 	
+	public List<MedicalRecordVO> get_medical_record(Map<String, String> map) {
+		return sql.selectList("staff.get_medical_record", map);
+	}
+	
+	public PrescriptionVO get_prescription(String id) {
+		return sql.selectOne("staff.get_prescription", id);
+	}
+	
+	/**
+	 * 병동
+	 */
 	public List<AdmissionRecordVO> get_admission_record_ward(String ward_number) {
 		return sql.selectList("staff.get_admission_record_ward", ward_number);
 	}
@@ -87,10 +101,32 @@ public class StaffDAO {
 		return sql.selectList("staff.get_admission_memo", id);
 	}
 	
+	public int update_discharge_date(Map<String, String> map) {
+		return sql.update("staff.update_discharge_date", map);
+	}
+	
+	/**
+	 * 일정
+	 */
 	public List<ScheduleVO> get_schedule_list(Map<String, String> map) {
 		return sql.selectList("staff.get_schedule_list", map);
 	}
 	
+	public int delete_schedule(Map<String, String> map) {
+		return sql.delete("staff.delete_schedule", map);
+	}
+	
+	public int insert_schedule(Map<String, String> map) {
+		return sql.insert("staff.insert_schedule", map);
+	}
+	
+	public int update_schedule(Map<String, String> map) {
+		return sql.update("staff.update_schedule", map);
+	}
+	
+	/**
+	 * 채팅
+	 */
 	public List<StaffVO> get_staff_list() {
 		return sql.selectList("staff.get_staff_list");
 	}

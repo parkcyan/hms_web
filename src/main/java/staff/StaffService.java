@@ -15,6 +15,7 @@ import staff.vo.AdmissionRecordVO;
 import staff.vo.MedicalReceiptVO;
 import staff.vo.MedicalRecordVO;
 import staff.vo.PatientVO;
+import staff.vo.PrescriptionVO;
 import staff.vo.ScheduleVO;
 import staff.vo.StaffVO;
 
@@ -37,6 +38,9 @@ public class StaffService {
 		} else return null;
 	}
 	
+	/**
+	 * 환자조회
+	 */	
 	public List<PatientVO> getPatientList() {
 		return dao.get_patient_list();
 	}
@@ -87,6 +91,10 @@ public class StaffService {
 		return dao.get_medical_record(map);
 	}
 	
+	public PrescriptionVO getPrescription(String id) {
+		return dao.get_prescription(id);
+	}
+	
 	/**
 	 * 병동
 	 */
@@ -118,6 +126,13 @@ public class StaffService {
 		return dao.delete_admission_memo(id) == 1;
 	}
 	
+	public boolean updateDischargeDate(String date, String id) {
+		Map<String, String> map = new HashMap<>();
+		map.put("date", date);
+		map.put("id", id);
+		return dao.update_discharge_date(map) == 1;
+	}
+	
 	/**
 	 * 일정
 	 */
@@ -127,6 +142,27 @@ public class StaffService {
 		map.put("staff_level", String.valueOf(vo.getStaff_level()));
 		map.put("date", date);
 		return dao.get_schedule_list(map);
+	}
+	
+	public boolean deleteSchedule(StaffVO vo, String id) {
+		Map<String, String> map = new HashMap<>();
+		map.put("staff_level", String.valueOf(vo.getStaff_level()));
+		map.put("id", id);
+		return dao.delete_schedule(map) == 1;
+	}
+	
+	public boolean updateSchedule(StaffVO vo, String id, String date, String content, String action) {
+		Map<String, String> map = new HashMap<>();
+		map.put("staff_level", String.valueOf(vo.getStaff_level()));
+		map.put("date", date);
+		map.put("content", content);
+		if (action.equals("insert")) {
+			map.put("id", String.valueOf(vo.getStaff_id()));
+			return dao.insert_schedule(map) == 1;
+		} else {
+			map.put("id", id);
+			return dao.update_schedule(map) == 1;
+		}
 	}
 	
 	/**
