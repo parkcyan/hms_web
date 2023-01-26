@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 
 import Reception.ReceptionService;
 import Reception.vo.AcceptanceVO;
+import Reception.vo.MedicalReceiptVO;
 import Reception.vo.PatientVO;
 import Reception.vo.StaffVO;
 
@@ -85,11 +86,7 @@ public class ReceptionController {
 			service.patient_insert(vo);
 			return "redirect:patient_list.re";
 		}
-		//접수 조회
-		@RequestMapping("/receipt.re")
-		public String get_receipt() {
-			return "reception/receipt/receipt";
-		}
+	
 		//수납 조회
 		@RequestMapping(value = "/acceptance.re")
 		public String get_acceptance(String name, Model model) {
@@ -99,9 +96,47 @@ public class ReceptionController {
 			if(list != null) {				
 				System.out.println(list.size());
 			}
-		return "reception/acceptance/acceptance";
+			return "reception/acceptance/acceptance";
 		}
+			
+		//수납 업데이트
+		 @ResponseBody
+		 @RequestMapping("/acceptance_update.re")
+		 public boolean acceptance_update(String money, String id) {
+			 System.out.println(money);
+			 System.out.println(id);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("pay_amount", money);
+			map.put("id", id);
+			return service.acceptance_update(map) == 1;
+		 }
+		 
+		 @ResponseBody
+		 @RequestMapping("/test.re")
+		 public String test(String money) {
+			 System.out.println(money);
+			return "1";
+		 }
+		
+		//접수 조회
+		@RequestMapping("/receipt.re")
+		public String get_receipt() {
+			return "reception/receipt/receipt";
+		}
+		 //예약정보 가져오기
+		@RequestMapping("/receipt.re")
+		 public String get_receipt(String time, Model model) {
+			List<MedicalReceiptVO> list = service.get_medical_receipt(time);
+			model.addAttribute("list", list);
+			model.addAttribute("time", time);
+			if(list != null) {
+				System.out.println(list.size());
+			}
+			 return "reception/receipt/receipt";
+		 }
 
+		 
+	
 	
 
 }

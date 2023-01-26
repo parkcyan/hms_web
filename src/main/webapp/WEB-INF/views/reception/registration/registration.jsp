@@ -20,9 +20,7 @@
 .form-text{
 			display: flex;
 			justify-content:center;
-		
-		
-	
+				
 }
 #outpatient_record_table td, #outpatient_record_table th { padding: 0.3rem; }
 #outpatient_record_table tbody {

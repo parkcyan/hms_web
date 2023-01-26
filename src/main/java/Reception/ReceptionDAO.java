@@ -45,7 +45,11 @@ public class ReceptionDAO {
 		
 	}
 	public List<MedicalReceiptVO> get_medical_receipt(String time) {
-		return sql.selectList("staff.get_medical_receipt", time);
+		return sql.selectList("reception.get_medical_receipt", time);
+	}
+	public int acceptance_update(Map<String, String> map) {
+		return sql.update("reception.acceptance_update", map);
+		
 	}
 	
 }
