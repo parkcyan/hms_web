@@ -44,7 +44,12 @@ public class ReceptionService {
 	public  List<MedicalReceiptVO>get_medical_receipt(String time){
 		return dao.get_medical_receipt(time);
 	}
+	public void receipt_insert(MedicalReceiptVO vo){
+		return dao.receipt_insert(vo);
+	}
 	
+	
+
 	
 	
 }

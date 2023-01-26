@@ -119,23 +119,33 @@ public class ReceptionController {
 		 }
 		
 		//접수 조회
-		@RequestMapping("/receipt.re")
+	//	@RequestMapping("/receipt.re")
 		public String get_receipt() {
 			return "reception/receipt/receipt";
 		}
 		 //예약정보 가져오기
 		@RequestMapping("/receipt.re")
-		 public String get_receipt(String time, Model model) {
+		 public String get_receipt(String time, Model model , String name) {
 			List<MedicalReceiptVO> list = service.get_medical_receipt(time);
+			//List<PatientVO> list =service.get_patient(name); 	
 			model.addAttribute("list", list);
 			model.addAttribute("time", time);
+			model.addAttribute("name", name);			
 			if(list != null) {
 				System.out.println(list.size());
 			}
 			 return "reception/receipt/receipt";
 		 }
-
-		 
+		//예약목록 등록	
+		@RequestMapping(value="/new_receipt.re")
+		public String new_patient(MedicalReceiptVO vo) {
+			service.receipt_insert(vo);
+			return "redirect:receipt.re";
+		}
+	
+		
+		
+	
 	
 	
 

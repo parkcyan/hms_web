@@ -25,33 +25,36 @@ margin-right: 10px;
 
 .fa-calendar-alt{
 box-sizing: border-box;}
+.dropdown{
+ margin-top: 20px;
+}
 </style>
 </head>
 <body>
 	<input type="hidden" id="patient_id"/>
 	<input type="hidden" id="time"/>
 	<div class="container-fluid">
-		<h1 class="h3 mb-4 text-gray-800">접수 및 예약확인</h1>
+		<h1 class="h3 mb-4 text-gray-800">접수</h1>
 				<div class="row">
 			<div class="col-lg-3">
 		
 		</div>
 		</div>
-		<div class="card shadow mb-4 py-1 col-lg-4">			
-		<form
+		<div class="card shadow mb-4 py-1 col-lg-3">			
+		<form action="receipt.re" method="post"
 		class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-		<div class="input-group">
-			<input type="text" class="form-control bg-light border-3 small"
-				placeholder="환자명을 입력하세요" aria-label="Search"
-				aria-describedby="basic-addon2">
-			<div class="input-group-append">
-				<button class="btn btn-primary" type="button">
-					<i class="fas fa-search fa-calendar-alt"></i>
-				</button>
-			</div>			
-		</div>		
-	</form>	
-</div>
+					<div class="input-group">
+						<input type="text" class="form-control bg-light border-3 small"
+							placeholder="환자명을 입력하세요" aria-label="Search"  name="name" 
+							aria-describedby="basic-addon2" value="${name}">
+						<div class="input-group-append">
+							<a class="btn btn-primary" onclick="$('form').submit();"  >
+								<i class="fas fa-search fa-sm"></i>
+							</a>
+						</div>
+					</div>		
+				</form>	
+			</div>
 			<div class="row">		
 			<div class="col-lg-4 mb-4">
 				<div class="card shadow mb-4 py-1 border-left-info h600">
@@ -63,11 +66,11 @@ box-sizing: border-box;}
 								</div>								
 							<tr>
 								<td>이름</td>
-								<td><input class="form-control w-50" id="patient_name_mr" type="text" disabled /></td>
+								<td><input class="form-control w-50" type="text" disabled  value='${name}'/></td>
 							</tr>
 							<tr>
 								<td>접수 시간</td>
-								<td><input class="form-control w-150" id="memo_mr" type="text" disabled /></td>
+								<td><input class="form-control w-150" id="memo_mr" type="text" disabled  value='${current_time}'/></td>
 							</tr>
 							<tr>
 								<td>진료과</td>
@@ -95,27 +98,37 @@ box-sizing: border-box;}
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-4 mb-4">
+			<div class="col-lg-6 mb-4">
 				<div class="card shadow mb-4 h600">
 					<div class="card-header py-3">
 						<h6 class="m-0 font-weight-bold text-primary">대기현황</h6>
-					</div>				
+							<div>
+						  	
+								
+						  <select id='selected'>
+						    <option value="0">진료과목</option>
+						    <option value="1">Action</option>
+						    <option value="2">Another action</option>
+						    <option value="3">Something else here</option>
+						  </select>
+						</div>												
+					</div>									
 					<div class="card-body">
 						<table id="receipt_table" class="table">
 							<thead>
 								<tr>
 									<th scope="col">시간</th>
 									<th scope="col">환자명</th>	
-									<th scope="col">진료과</th>
-									<th scope="col">의사명</th>						
+									<th scope="col">의사명</th>
+									<th scope="col">진료과</th>						
 								</tr>
 							</thead>
 							<c:forEach items="${list}" var="vo">
 							<tr>
 									<th scope="col">${vo.reserve_time}</th>
 									<th scope="col">${vo.patient_name}</th>	
-									<th scope="col">진료과</th>
-									<th scope="col">의사명</th>						
+									<th scope="col">${vo.doctor_name}</th>
+									<th scope="col">${vo.department_name}</th>						
 								</tr>
 							</c:forEach>
 							<tbody id="receipt">
@@ -131,7 +144,19 @@ box-sizing: border-box;}
 	<script src="staff/js/calendar-picker/popper.min.js"></script>
 	<script src="staff/js/calendar-picker/picker.js"></script>
 	<script src="staff/js/calendar-picker/picker.date.js"></script>
+	
 	<script>
+	/* 
+	    $selected = $("#selected");
+		$selected.on("change", function(e){
+			let choice = e.target.value; // string type		
+			console.log($(choice);
+		});
+		
+		 */
+		
+		
+	
 		$(document).ready(function () {
 			let json = "";
 			(function poll() {

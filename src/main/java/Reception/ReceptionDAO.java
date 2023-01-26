@@ -39,6 +39,10 @@ public class ReceptionDAO {
 	public List<AcceptanceVO> get_acceptance(String name){
 		return sql.selectList("reception.get_acceptance", name);
 	}
+	public int acceptance_update(Map<String, String> map) {
+		return sql.update("reception.acceptance_update", map);
+		
+	}
 
 	public void patient_insert(PatientVO vo) {
 		sql.insert("reception.patient_insert", vo);
@@ -47,9 +51,12 @@ public class ReceptionDAO {
 	public List<MedicalReceiptVO> get_medical_receipt(String time) {
 		return sql.selectList("reception.get_medical_receipt", time);
 	}
-	public int acceptance_update(Map<String, String> map) {
-		return sql.update("reception.acceptance_update", map);
+	
+	public void receipt_insert(MedicalReceiptVO vo) {
+		sql.insert("reception.receipt_insert", vo);
 		
 	}
+
+	
 	
 }

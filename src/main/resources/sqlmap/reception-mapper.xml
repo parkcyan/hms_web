@@ -75,9 +75,11 @@ inner join staff s
 on m.staff_id = s.staff_id
 inner join department d
 on s.department_id =d.department_id
-where to_char(m.time,'yyyy-mm-dd')='2023-01-20'
+where to_char(m.time,'yyyy-mm-dd')='2023-01-11'
 order by time
 </select>
+
+<!--접수하기  -->
 
 
 </mapper>
