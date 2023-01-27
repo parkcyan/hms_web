@@ -170,7 +170,7 @@
 				dataType: 'json',
 				data: {
 					first_date: $("#date1").val(),
-					second_date: $("#date2").val(),
+					second_date: $("#date2").val() + ' 23:59:59',
 					patient_name: $("#patient_name_search").val(),
 					option: option	
 				}, 

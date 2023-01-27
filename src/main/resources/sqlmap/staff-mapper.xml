@@ -56,7 +56,7 @@
 	</select>
 	
 	<select id="get_medical_receipt" resultType="staff.vo.MedicalReceiptVO">
-		select mr.patient_id, p.name as patient_name, s.name as staff_name, to_char(mr.time, 'hh24:mi') as time, mr.memo 
+		select mr.patient_id, p.name as patient_name, s.name as staff_name, to_char(mr.time, 'yyyy-mm-dd hh24:mi') as time, mr.memo 
 		from patient p, staff s, medical_receipt mr 
 		where p.patient_id = mr.patient_id 
 		and s.staff_id = mr.staff_id 
@@ -81,7 +81,7 @@
 		where p.patient_id = mr.patient_id
 		and s.staff_id = mr.staff_id 
 		and pr.medical_record_id(+) = mr.medical_record_id 
-		and mr.treatment_date between #{first_date} and #{second_date} 
+		and mr.treatment_date between #{first_date} and to_date(#{second_date}, 'yyyy-mm-dd hh24:mi:ss')  
 		<choose>
 			<when test="option == 'department'">
 				and s.staff_id in (
@@ -106,6 +106,18 @@
 		and s.staff_id = mr.staff_id 
 		and mr.medical_record_id = #{id} 
 	</select>
+	<insert id="insert_medical_record" useGeneratedKeys="true" keyColumn="medical_record_id" keyProperty="medical_record_id">
+		insert into medical_record values (1, #{staff_id}, #{patient_id}, current_date, #{treatment_name}, #{admission}, #{memo})
+		<selectKey resultType="String" keyProperty="medical_record_id" order="AFTER">
+			select seq_medical_record_id.currval FROM DUAL 
+		</selectKey>
+	</insert>
+	<insert id="insert_prescription">
+		insert into prescription_record values (1, #{medical_record_id}, #{prescription_name}) 
+	</insert>
+	<delete id="delete_medical_receipt">
+		delete from medical_receipt where patient_id = #{patient_id} and to_char(time, 'yyyy-mm-dd hh24:mi') = #{time} 
+	</delete>
 	
 	<select id="get_admission_record_ward" resultType="staff.vo.AdmissionRecordVO">
 		select ar.ward_id, ar.admission_record_id, p.patient_id, p.name as patient_name, s.name as staff_name, s.staff_id,  

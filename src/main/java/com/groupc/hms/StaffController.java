@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 
 import staff.StaffService;
 import staff.vo.MedicalReceiptVO;
+import staff.vo.MedicalRecordVO;
 import staff.vo.PatientVO;
 import staff.vo.StaffChatVO;
 import staff.vo.StaffVO;
@@ -146,6 +147,16 @@ public class StaffController {
 	@ResponseBody @RequestMapping(value = "/getPrescription.st")
 	public String getPrescription(String id) {
 		return new Gson().toJson(service.getPrescription(id));
+	}
+	
+	@ResponseBody @RequestMapping(value = "/insertMedicalRecord.st")
+	public boolean insertMedicalRecord(HttpSession session, String patient_id, String treatment_name, String prescription_name, String admission, String memo) {
+		return service.insertMedicalRecord(getStaff(session), patient_id, treatment_name, prescription_name, admission, memo);
+	}
+	
+	@ResponseBody @RequestMapping(value = "/deleteMedicalReceipt.st")
+	public boolean insertMedicalRecord(String patient_id, String time) {
+		return service.deleteMedicalReceipt(patient_id, time);
 	}
 	
 	/**

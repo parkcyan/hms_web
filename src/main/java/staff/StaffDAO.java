@@ -78,6 +78,19 @@ public class StaffDAO {
 		return sql.selectOne("staff.get_prescription", id);
 	}
 	
+	public String insert_medical_record(Map<String, String> map) {
+		sql.insert("staff.insert_medical_record", map);
+		return map.get("medical_record_id");
+	}
+	
+	public int insert_prescription(Map<String, String> map) {
+		return sql.insert("staff.insert_prescription", map);
+	}
+	
+	public int delete_medical_receipt(Map<String, String> map) {
+		return sql.delete("staff.delete_medical_receipt", map);
+	}
+	
 	/**
 	 * 병동
 	 */

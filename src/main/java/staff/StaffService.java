@@ -95,6 +95,30 @@ public class StaffService {
 		return dao.get_prescription(id);
 	}
 	
+	public boolean insertMedicalRecord(StaffVO vo, String patient_id, String treatment_name, String prescription_name, String admission, String memo) {
+		Map<String, String> map = new HashMap<>();
+		map.put("staff_id", String.valueOf(vo.getStaff_id()));
+		map.put("patient_id", patient_id);
+		map.put("treatment_name", treatment_name);
+		map.put("admission", admission);
+		map.put("memo", memo);
+		String medical_record_id = dao.insert_medical_record(map);
+		if (!prescription_name.trim().equals("")) {
+			Map<String, String> pMap = new HashMap<>();
+			pMap.put("medical_record_id", medical_record_id);
+			pMap.put("prescription_name", prescription_name);
+			return dao.insert_prescription(pMap) == 1;
+		}
+		return medical_record_id != null;
+	}
+	
+	public boolean deleteMedicalReceipt(String patient_id, String time) {
+		Map<String, String> map = new HashMap<>();
+		map.put("patient_id", patient_id);
+		map.put("time", time);
+		return dao.delete_medical_receipt(map) == 1;
+	}
+	
 	/**
 	 * 병동
 	 */
