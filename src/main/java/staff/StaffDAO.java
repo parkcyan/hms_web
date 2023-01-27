@@ -91,6 +91,10 @@ public class StaffDAO {
 		return sql.delete("staff.delete_medical_receipt", map);
 	}
 	
+	public int update_medical_record_memo(Map<String, String> map) {
+		return sql.delete("staff.update_medical_record_memo", map);
+	}
+	
 	/**
 	 * 병동
 	 */

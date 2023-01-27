@@ -159,7 +159,7 @@
 							</tr>
 							<tr>
 								<td>알레르기</td>
-								<td colspan="3"><input class="form-control" id="allergy" type="text"disabled /></td>
+								<td colspan="3"><input class="form-control" id="allergy" type="text" disabled/></td>
 							</tr>
 						</table>
 					</div>

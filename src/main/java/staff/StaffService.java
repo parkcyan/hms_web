@@ -75,9 +75,8 @@ public class StaffService {
 	public List<MedicalReceiptVO> getMedicalReceipt(StaffVO vo) {
 		Map<String, String> map = new HashMap<>();
 		map.put("id", String.valueOf(vo.getStaff_id()));
-		map.put("time", "2023-01-05");
-		map.put("option", "doctor");
-		//map.put("date", getDate(new Timestamp(System.currentTimeMillis())));
+		map.put("date", getDate(new Timestamp(System.currentTimeMillis())));
+		map.put("time", "2023-01-05");	
 		return dao.get_medical_receipt(map);
 	}
 
@@ -89,6 +88,10 @@ public class StaffService {
 		map.put("patient_name", patient_name);
 		map.put("option", option);
 		return dao.get_medical_record(map);
+	}
+	
+	public List<MedicalRecordVO> getMedicalRecord(String id) {
+		return dao.get_medical_record_patient_id(id);
 	}
 	
 	public PrescriptionVO getPrescription(String id) {
@@ -117,6 +120,13 @@ public class StaffService {
 		map.put("patient_id", patient_id);
 		map.put("time", time);
 		return dao.delete_medical_receipt(map) == 1;
+	}
+	
+	public boolean updateMedicalRecordMemo(String memo, String id) {
+		Map<String, String> map = new HashMap<>();
+		map.put("memo", memo);
+		map.put("id", id);
+		return dao.update_medical_record_memo(map) == 1;
 	}
 	
 	/**

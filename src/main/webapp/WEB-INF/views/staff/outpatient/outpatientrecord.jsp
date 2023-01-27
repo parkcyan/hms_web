@@ -32,8 +32,12 @@
 </style>
 </head>
 <body>
+	<input type="hidden" id="medical_record_id"/>
 	<div class="container-fluid">
-		<h1 class="h3 mb-2 text-gray-800">진료 기록 조회</h1>
+		<div class="flex">
+			<h1 class="h3 mb-2 text-gray-800">진료 기록 조회</h1>
+			<div id="spinner" class="ml-2 spinner-border text-primary" role="status" style="display: none;"></div>
+		</div>
 		<p class="mb-4">
 			항목을 클릭하시면 환자의 자세한 정보, 진료기록을 볼 수 있습니다.			
 		</p>
@@ -114,13 +118,11 @@
 							</tr>
 							<tr class="tr-mr">
 								<td>진료</td>
-								<td><textarea class="form-control textarea-mr"
-										id="treatement_mr" disabled></textarea></td>
+								<td><textarea class="form-control textarea-mr" id="treatement_mr" disabled></textarea></td>
 							</tr>
 							<tr class="tr-mr">
 								<td>처방</td>
-								<td><textarea class="form-control textarea-mr"
-										id="prescription_mr" disabled></textarea></td>
+								<td><textarea class="form-control textarea-mr" id="prescription_mr" disabled></textarea></td>
 							</tr>
 							<tr class="tr-mr">
 								<td>의사소견 <i class="fas fa-pen"></i></td>
@@ -202,6 +204,7 @@
 						$(this).css('background-color', 'white');
 					});
 					$('#outpatient_record tr').click(function() {
+						$('#medical_record_id').val($(this).children('td:eq(0)').text());
 						$('#patient_name_mr').val($(this).children('td:eq(2)').text());
 						$('#staff_name_mr').val($(this).children('td:eq(3)').text());
 						$('#treatment_date_mr').val($(this).children('td:eq(1)').text());
@@ -239,6 +242,31 @@
 				},
 				complete: function() {
 					$('#spinner-mini').css('display', 'none');
+				}
+			});
+		}
+		
+		function updateMedicalRecordMemo() {
+			$('#spinner').css('display', 'inline');
+			$.ajax({
+				url: 'updateMedicalRecordMemo.st',
+				data: {
+					id: $('#medical_record_id').val(),
+					memo: $('#memo_mr').val()
+				},
+				success: function(res) {
+					if (res) {
+						toast('success', '진료기록의 의사소견을 수정했습니다.');
+						searchMedicalRecord();
+					} else {
+						toast('error', '진료기록의 의사소견을 수정하는데 실패했습니다.');
+					}
+				},
+				error: function(req, text) {
+					errorToast(req.status);
+				},
+				complete: function() {
+					$('#spinner').css('display', 'none');
 				}
 			});
 		}

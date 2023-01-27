@@ -60,7 +60,7 @@
 		from patient p, staff s, medical_receipt mr 
 		where p.patient_id = mr.patient_id 
 		and s.staff_id = mr.staff_id 
-		and to_char(mr.time, 'yyyy-mm-dd') = #{time}  
+		and to_char(mr.time, 'yyyy-mm-dd') = #{date}  
 		<choose>
 			<when test="option == 'department'">
 				and s.staff_id in (
@@ -118,6 +118,9 @@
 	<delete id="delete_medical_receipt">
 		delete from medical_receipt where patient_id = #{patient_id} and to_char(time, 'yyyy-mm-dd hh24:mi') = #{time} 
 	</delete>
+	<update id="update_medical_record_memo">
+		update medical_record set memo = #{memo} where medical_record_id = #{id} 
+	</update>
 	
 	<select id="get_admission_record_ward" resultType="staff.vo.AdmissionRecordVO">
 		select ar.ward_id, ar.admission_record_id, p.patient_id, p.name as patient_name, s.name as staff_name, s.staff_id,  

@@ -144,6 +144,11 @@ public class StaffController {
 		return new Gson().toJson(service.getMedicalRecord(getStaff(session), first_date, second_date, patient_name, option));
 	}
 	
+	@ResponseBody @RequestMapping(value = "/getOldMedicalRecord.st")
+	public String getMedicalRecord(String id) {
+		return new Gson().toJson(service.getMedicalRecord(id));
+	}
+	
 	@ResponseBody @RequestMapping(value = "/getPrescription.st")
 	public String getPrescription(String id) {
 		return new Gson().toJson(service.getPrescription(id));
@@ -157,6 +162,11 @@ public class StaffController {
 	@ResponseBody @RequestMapping(value = "/deleteMedicalReceipt.st")
 	public boolean insertMedicalRecord(String patient_id, String time) {
 		return service.deleteMedicalReceipt(patient_id, time);
+	}
+	
+	@ResponseBody @RequestMapping(value = "/updateMedicalRecordMemo.st")
+	public boolean updateMedicalRecordMemo(String memo, String id) {
+		return service.updateMedicalRecordMemo(memo, id);
 	}
 	
 	/**

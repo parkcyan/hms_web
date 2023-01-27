@@ -107,9 +107,15 @@ function getWard(id) {
 }
 
 function clearPatient() {
-	$("#info-mini").children("input").each(function(){
-		$(this).val("");
-	})
+	$("#patient_name").val('');
+	$("#age").val('');
+	$("#gender").val('');
+	$("#birthdate").val('');
+	$("#blood_type").val('');
+	$("#height").val('');
+	$("#weight").val('');
+	$("#underlying_disease").val('');
+	$("#allergy").val('');
 }
 
 function timeStampOperator(date, operator, num) {

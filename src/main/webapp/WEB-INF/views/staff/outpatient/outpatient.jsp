@@ -10,6 +10,22 @@
 <style>
 .tr-mr { height: 100px; }
 .textarea-mr { height: 100px !important; }
+#old_medical_record_table th, #old_medical_record_table td {
+	padding: 0.3rem;
+}
+#old_medical_record_table tbody {
+    display: block;
+    height: 100%;
+    overflow: auto;
+}
+#old_medical_record_table tbody::-webkit-scrollbar {
+	display: none;
+}
+#old_medical_record_table thead, #old_medical_record_table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
 </style>
 </head>
 <body>
@@ -67,14 +83,17 @@
 						<h6 class="m-0 font-weight-bold text-primary">과거 진료기록</h6>
 					</div>
 					<div class="card-body">
-						<table id="old_medical_record" class="table">
+						<table id="old_medical_record_table" class="table">
 							<thead>
 								<tr>
-									<th scope="col">시간</th>
-									<th scope="col">담당의</th>
-									<th scope="col">증상</th>
+									<th scope="col" style="width: 32%;">시간</th>
+									<th scope="col" style="width: 20%;">담당의</th>
+									<th scope="col" style="width: 48%;">진료</th>
 								</tr>
 							</thead>
+							<tbody id="old_medical_record">
+							
+							</tbody>
 						</table>
 					</div>
 				</div>
@@ -141,10 +160,11 @@
 		let json = "";
 		
 		$(document).ready(function () {
-			poll();
+			getMedicalReceipt(true);
 		});
 		
-		function poll() {
+		// 진료 예약/대기 목록 불러오기
+		function getMedicalReceipt(poll) {
 			$.ajax({
 				url: 'getMedicalReceipt.st',
 				dataType: 'json',
@@ -174,22 +194,57 @@
 							$(this).css('background-color', 'white');
 						})
 						$('#receipt tr').click(function () {
+							$('#spinner').css('display', 'inline');
 							$('#patient_id').val($(this).children("td:eq(0)").text());
 							$('#time').val($(this).children("td:eq(4)").text());
 							$('#patient_name_mr').val($(this).children("td:eq(2)").text());
 							$('#memo_mr').val($(this).children("td:eq(3)").text());
 							getPatient($(this).children("td:eq(0)").text());
+							getMedicalRecord($(this).children("td:eq(0)").text());
 						})
 					}
 					json = res;
 				},
 				timeout: 3000,
-				complete: setTimeout(function () {
-					poll();
-				}, 5000)
+				complete: function() {
+					if (poll) {
+						setTimeout(function () { getMedicalReceipt(true); }, 5000)
+					}
+ 				}
 			})
 		}
 		
+		// 환자의 과거 진료기록
+		function getMedicalRecord(id) {
+			$.ajax({
+				url: 'getOldMedicalRecord.st',
+				dataType: 'json',
+				data: {
+					id: id
+				},
+				success: function(res) {
+					$('#old_medical_record *').remove();
+					let str = "";
+					$.each(res, function(i){
+						str += "<tr>"
+						str += "<td style='display:none;'>" + res[i].medical_record_id + "</td>";
+						str += "<td style='width: 32%;'>" + getDate(res[i].treatment_date) + "</td>"
+						str += "<td style='width: 20%;'>" + res[i].staff_name + "</td>"
+						str += "<td style='width: 48%;'>" + res[i].treatment_name + "</td>";
+						str += "</tr>"
+					});
+					$('#old_medical_record').append(str);
+				},
+				error: function(req, text) {
+					errorToast(req.status);
+				}, 
+				complete: function() {
+					$('#spinner').css('display', 'none');
+				}
+			});
+		}
+		
+		// 진료기록 저장 (입력 체크)
 		function saveMedicalRecord() {
 			if ($('#patient_id').val() == '') {
 				toast('error', '선택된 환자가 없습니다.');
@@ -208,6 +263,7 @@
 			}
 		}
 		
+		// 진료기록 저장
 		function insertMedicalRecord() {
 			$('#spinner').css('display', 'inline');
 			$.ajax({
@@ -236,12 +292,32 @@
 			});
 		}
 		
+		// 진료기록 저장 후 form 초기화
 		function clearMedicalReceipt() {
 			$.ajax({
-				url: ''
+				url: 'deleteMedicalReceipt.st',
+				data: {
+					patient_id: $('#patient_id').val(),
+					time: $('#time').val()
+				},
+				success: function() {
+					clearPatient();
+					getMedicalReceipt(false);
+					$('#old_medical_record *').remove();
+					$('#patient_id').val('');
+					$('#time').val('');
+					$('#patient_name_mr').val('');
+					$('#memo_mr').val('');
+					$('#treatment_mr').val('');
+					$('#prescription_mr').val('');
+					$('#staff_memo_mr').val('');
+					$('#admission').attr('checked', false);
+				},
+				error: function(req, text) {
+					errorToast(req.status);
+				},
 			});
-			$('#patient_id').val('');
-			$('#time').val('');
+			
 		}
 	</script>
 </body>
