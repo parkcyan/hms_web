@@ -43,13 +43,20 @@ public class AdminController {
 	//직원조회
 	@RequestMapping(value = "/staffList.ad", method = RequestMethod.GET)
 	public String staffList(Model model) {
-		List<StaffVO> list = sql.selectList("staff_list");
+		List<StaffVO> list = sql.selectList("admin.staff_list");
 		model.addAttribute("list", list);
 		
 		return "admin/staff/list";
 	}
 	
 	//직원정보
+	@RequestMapping(value = "/staffInfo.ad", method = RequestMethod.GET)
+	public String staffInfo(int staff_id, Model model) {
+		StaffVO vo = sql.selectOne("admin.staff_info", staff_id);
+		model.addAttribute("vo", vo);
+		
+		return "admin/staff/info";
+	}
 	
 	//직원정보 수정
 	
@@ -81,6 +88,7 @@ public class AdminController {
 		}else {
 			
 		}
+		model.addAttribute("department_id", department_id);
 		
 		return "default/admin/qr/selectqr";
 	}
@@ -88,8 +96,11 @@ public class AdminController {
 	//QR생성
 	@RequestMapping(value = "/qr.ad", method = RequestMethod.GET)
     public String goQr(String staff_id, Model model) throws Exception {
+		StaffVO vo = sql.selectOne("staff_info", staff_id);
 		String img = getQRCodeImage(staff_id, 600, 600);
 		model.addAttribute("img", img);
+		model.addAttribute("department_name", vo.getDepartment_name());
+		model.addAttribute("name", vo.getName());
 		
 		return "default/admin/qr/qr";
     }

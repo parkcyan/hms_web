@@ -16,6 +16,13 @@
 		ORDER BY s.staff_id
 	</select>
 	
+	<select id="staff_info" resultType="staff.vo.StaffVO">
+		SELECT s.*, d.department_name
+		FROM staff s, department d
+		WHERE s.department_id = d.department_id
+		AND staff_id = #{staff_id}
+	</select>
+	
 	<select id="staff_select" resultType="staff.vo.StaffVO">
 		SELECT s.*, d.department_name
 		FROM staff s, department d
