@@ -69,7 +69,7 @@
 						<c:if test="${list eq null }">
 							<tr>
 								<td>이름</td>
-								<td><input class="form-control input-mini" id="gender"
+								<td><input class="form-control input-mini w-100" 
 									type="text" disabled" /></td>
 							</tr>
 							<tr>
@@ -263,10 +263,8 @@
 							</tr>
 							</c:if>			
 						</table>
-						<div class="d-sm-flex flex-row-reverse mt-3">
-								
-							<a  class="btn btn-primary ptient-insert" value="${pay_amount}" onclick="send_payment();">수납</a>
-				
+						<div class="d-sm-flex flex-row-reverse">								
+							<a  class="btn btn-primary ptient-insert" value="${pay_amount}" onclick="send_payment();">수납</a>				
 						</div>					
 					</div>
 				</div>
@@ -325,7 +323,7 @@
 				})
 			})();
 		});
-					
+		//데이터 보내기			
 		function send_payment() {
 			var money = $('#total_money').val();
 			console.log(money);

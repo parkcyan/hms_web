@@ -48,15 +48,30 @@ box-sizing: border-box;}
 							placeholder="환자명을 입력하세요" aria-label="Search"  name="name" 
 							aria-describedby="basic-addon2" value="${name}">
 						<div class="input-group-append">
-							<a class="btn btn-primary" onclick="$('form').submit();"  >
+							<a class="btn btn-primary" onclick="get_patientInfo()" >
 								<i class="fas fa-search fa-sm"></i>
 							</a>
 						</div>
 					</div>		
 				</form>	
 			</div>
-			<div class="row">		
-			<div class="col-lg-4 mb-4">
+			<div class="row">
+						<div class="card shadow mb-4">
+					<div class="card-header py-3">
+						<h6 class="m-0 font-weight-bold text-primary">수납 이력</h6>
+					</div>
+					<div class="card-body">
+						<table id="old_medical_record" class="table">
+							<thead>
+								<tr>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>			
+							
+			<div class="col-lg-3 mb-4">
 				<div class="card shadow mb-4 py-1 border-left-info h600">
 					<div class="card-body">
 						<table id="medical_record_table">
@@ -66,19 +81,36 @@ box-sizing: border-box;}
 								</div>								
 							<tr>
 								<td>이름</td>
-								<td><input class="form-control w-50" type="text" disabled  value='${name}'/></td>
-							</tr>
-							<tr>
-								<td>접수 시간</td>
-								<td><input class="form-control w-150" id="memo_mr" type="text" disabled  value='${current_time}'/></td>
+								<td><input class="form-control w-50" type="text" value='${name}'/></td>
 							</tr>
 							<tr>
 								<td>진료과</td>
-								<td><input class="form-control" id="memo_mr" type="text" /></td>
+								<td>
+								<form action="receipt.re" method="post">
+								<div >						  									
+						  			<select class="form-control" id='department_id' onchange="$('form').submit();">
+								    <option value="0">진료과목</option>
+								    <c:forEach items="${dept_list}" var="de">
+								     <option value="${de.department_id }">${de.department_name}</option> 
+								     </c:forEach>
+								  </select>
+								</div></form>
+								</td> 
+							</tr>
+							<tr>
+								<td>담당의</td>
+								<td><div >						  									
+						  			<select class="form-control" id='doctor'>
+								    <option value="0">담당의</option>
+								    <option value="1">Action</option>
+								    <option value="2">Another action</option>
+								    <option value="3">Something else here</option>
+								  </select>
+								</div></td>
 							</tr>
 						
 							<tr>
-								<td>담당의</td>
+								<td>접수시간</td>
 								<td><input class="form-control" id="memo_mr" type="text"  /></td>
 							</tr>
 							
@@ -102,12 +134,10 @@ box-sizing: border-box;}
 				<div class="card shadow mb-4 h600">
 					<div class="card-header py-3">
 						<h6 class="m-0 font-weight-bold text-primary">대기현황</h6>
-							<div>
-						  	
-								
-						  <select id='selected'>
+							<div>						  									
+						  <select id='selected'  class="form-control  w=50" >
 						    <option value="0">진료과목</option>
-						    <option value="1">Action</option>
+						    <option value="1">doctor</option>
 						    <option value="2">Another action</option>
 						    <option value="3">Something else here</option>
 						  </select>
@@ -146,6 +176,18 @@ box-sizing: border-box;}
 	<script src="staff/js/calendar-picker/picker.date.js"></script>
 	
 	<script>
+	
+	function get_patientInfo(){
+		alert("데이터 요청");
+		
+		  $.ajax({
+	            url: "ajax/db.jsp",	// 데이터를 가져올 경로 설정
+	            dataType: 'json',
+	            type: "post",// 데이터를 가져오는 방식
+	            
+	            success: function(data){	// 데이터를 가져왔을때 동작. 매개변수로 data 입력
+	                alert("연결성공");
+	}
 	/* 
 	    $selected = $("#selected");
 		$selected.on("change", function(e){
@@ -154,8 +196,8 @@ box-sizing: border-box;}
 		});
 		
 		 */
-		
-		
+		 
+
 	
 		$(document).ready(function () {
 			let json = "";

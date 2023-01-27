@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import Reception.vo.AcceptanceVO;
+import Reception.vo.DepartmentVO;
 import Reception.vo.MedicalReceiptVO;
 import Reception.vo.MedicalRecordVO;
 import Reception.vo.PatientVO;
@@ -56,6 +57,16 @@ public class ReceptionDAO {
 		sql.insert("reception.receipt_insert", vo);
 		
 	}
+	
+	public List<DepartmentVO>get_department(){
+		return sql.selectList("reception.get_department");
+	}
+	
+	public List<DepartmentVO>get_doctor(int department_id){
+		return sql.selectList("reception.get_doctor", department_id);
+	}
+	
+	
 
 	
 	

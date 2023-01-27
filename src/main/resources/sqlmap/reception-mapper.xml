@@ -79,7 +79,26 @@ where to_char(m.time,'yyyy-mm-dd')='2023-01-11'
 order by time
 </select>
 
+
+
 <!--접수하기  -->
+<insert id='receipt_insert'>
+  insert into patient (name, gender, phone_number, social_id)
+	values (#{name}, #{gender}, #{phone_number},#{social_id})	
+</insert> 
+
+<!--진료과목 정보 가져오기-->
+<select id='get_department' resultType="Reception.vo.DepartmentVO" >
+select department_name from department
+where department_id between 1 and 9
+</select>
+<!--의사 이름 가져오기-->
+<select id='get_doctor' resultType="Reception.vo.DepartmentVO" >
+select s.name 
+from department d inner join staff s 
+on d.department_id = s.department_id
+where d.department_id =#{department_id}
+</select>
 
 
 </mapper>

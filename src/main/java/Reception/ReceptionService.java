@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import Reception.vo.AcceptanceVO;
+import Reception.vo.DepartmentVO;
 import Reception.vo.MedicalReceiptVO;
 import Reception.vo.PatientVO;
 import Reception.vo.StaffVO;
@@ -45,7 +46,14 @@ public class ReceptionService {
 		return dao.get_medical_receipt(time);
 	}
 	public void receipt_insert(MedicalReceiptVO vo){
-		return dao.receipt_insert(vo);
+		 dao.receipt_insert(vo);
+	}
+	public List<DepartmentVO>get_department(){
+		return dao.get_department();
+	}
+	
+	public List<DepartmentVO>get_doctor(int department_id){
+		return dao.get_doctor(department_id);
 	}
 	
 	

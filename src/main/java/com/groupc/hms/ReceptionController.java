@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 
 import Reception.ReceptionService;
 import Reception.vo.AcceptanceVO;
+import Reception.vo.DepartmentVO;
 import Reception.vo.MedicalReceiptVO;
 import Reception.vo.PatientVO;
 import Reception.vo.StaffVO;
@@ -125,24 +126,36 @@ public class ReceptionController {
 		}
 		 //예약정보 가져오기
 		@RequestMapping("/receipt.re")
-		 public String get_receipt(String time, Model model , String name) {
+		 public String get_receipt(String time, Model model , String name ) {
 			List<MedicalReceiptVO> list = service.get_medical_receipt(time);
 			//List<PatientVO> list =service.get_patient(name); 	
 			model.addAttribute("list", list);
 			model.addAttribute("time", time);
 			model.addAttribute("name", name);			
+			model.addAttribute("dept_list", service.get_department());	
+			//model.addAttribute("department_id", service.get_doctor(department_id));	
 			if(list != null) {
 				System.out.println(list.size());
 			}
 			 return "reception/receipt/receipt";
 		 }
-		//예약목록 등록	
-		@RequestMapping(value="/new_receipt.re")
-		public String new_patient(MedicalReceiptVO vo) {
-			service.receipt_insert(vo);
-			return "redirect:receipt.re";
+
+			/*
+			 * //예약목록 등록
+			 * 
+			 * @RequestMapping(value="/new_receipt.re") public String
+			 * new_patient(MedicalReceiptVO vo) { service.receipt_insert(vo); return
+			 * "redirect:receipt.re"; }
+			 */
+		//진료과 및 담당의 정보 가져오기
+		@RequestMapping(value="/get_department.re")
+		public String get_department(Model model) {
+			List<DepartmentVO> list = service.get_department();
+			model.addAttribute("list",list);
+			System.out.println(list.size());
+			return "reception/receipt/receipt";
 		}
-	
+		
 		
 		
 	
