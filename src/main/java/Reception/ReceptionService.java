@@ -20,33 +20,42 @@ public class ReceptionService {
 	@Autowired
 	private ReceptionDAO dao;
 
-	public StaffVO login(Map<String, String> map) {
-		return dao.login(map);
+	public StaffVO staff_login(Map<String, String> map) {
+		return dao.staff_login(map);
 		}
+	
+	public List<StaffVO> getStaff() {
+		return dao.get_staff_list();
+	}
 	
 	
 	public List<PatientVO>getPatientList(){
 		return dao.get_patient_list();
 	}
 	
-
+	public PatientVO getPatientAjax(String id) {
+		return dao.get_patient(id);
+	}
+	
+	
 	public void patient_insert(PatientVO vo) {
 	   dao.patient_insert(vo);
 	}
 
-	public List<AcceptanceVO>getAcceptance(String name){
+	public List<AcceptanceVO>getAcceptance(int id){
 		
-		return dao.get_acceptance(name);
+		return dao.get_acceptance(id);
 		}
 	
 	public int acceptance_update(Map<String, String> map) {
 		return dao.acceptance_update(map);
 	}
-	public  List<MedicalReceiptVO>get_medical_receipt(String time){
-		return dao.get_medical_receipt(time);
+	public  List<MedicalReceiptVO>get_medical_receipt(){
+		return dao.get_medical_receipt();
 	}
-	public void receipt_insert(MedicalReceiptVO vo){
-		 dao.receipt_insert(vo);
+	public String receipt_insert(Map<String, Object> map){
+		 dao.receipt_insert(map);
+		return null;
 	}
 	public List<DepartmentVO>get_department(){
 		return dao.get_department();
@@ -54,6 +63,10 @@ public class ReceptionService {
 	
 	public List<DepartmentVO>get_doctor(int department_id){
 		return dao.get_doctor(department_id);
+	}
+	
+	public List<StaffVO>get_staff(){
+		return dao.get_staff();
 	}
 	
 	

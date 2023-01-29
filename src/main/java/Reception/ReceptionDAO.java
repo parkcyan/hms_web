@@ -1,5 +1,6 @@
 package Reception;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import Reception.vo.MedicalReceiptVO;
 import Reception.vo.MedicalRecordVO;
 import Reception.vo.PatientVO;
 import Reception.vo.StaffVO;
+import staff.vo.AdmissionRecordVO;
 
 
 @Repository
@@ -22,23 +24,23 @@ public class ReceptionDAO {
 	@Qualifier("cteam")
 	private SqlSession sql;
 	
-	public StaffVO login(Map<String, String> map) {
-		return sql.selectOne("reception.login", map);
+	public StaffVO staff_login(Map<String, String> map) {
+		return sql.selectOne("reception.staff_login", map);
 	}
 	
+	public List<StaffVO> get_staff_list() {
+		return sql.selectList("reception.get_staff_list");
+	}
 	public List<PatientVO> get_patient_list() {
 		return sql.selectList("reception.get_patient_list");
 	}
-	public PatientVO get_patient_info(String id) {
-		return sql.selectOne("reception.patient_info", id);
+	public PatientVO get_patient(String id) {
+		return sql.selectOne("staff.get_patient", id);
 	}
 	
-	public List<MedicalRecordVO> get_medical_record(Map<String, String> map) {
-		return sql.selectList("staff.get_medical_record", map);
-	}
 
-	public List<AcceptanceVO> get_acceptance(String name){
-		return sql.selectList("reception.get_acceptance", name);
+	public List<AcceptanceVO> get_acceptance(int id){
+		return sql.selectList("reception.get_acceptance",id);
 	}
 	public int acceptance_update(Map<String, String> map) {
 		return sql.update("reception.acceptance_update", map);
@@ -49,12 +51,12 @@ public class ReceptionDAO {
 		sql.insert("reception.patient_insert", vo);
 		
 	}
-	public List<MedicalReceiptVO> get_medical_receipt(String time) {
-		return sql.selectList("reception.get_medical_receipt", time);
+	public List<MedicalReceiptVO> get_medical_receipt() {
+		return sql.selectList("reception.get_medical_receipt");
 	}
 	
-	public void receipt_insert(MedicalReceiptVO vo) {
-		sql.insert("reception.receipt_insert", vo);
+	public void receipt_insert(Map<String, Object> map) {
+		sql.insert("reception.receipt_insert", map);
 		
 	}
 	
@@ -64,6 +66,9 @@ public class ReceptionDAO {
 	
 	public List<DepartmentVO>get_doctor(int department_id){
 		return sql.selectList("reception.get_doctor", department_id);
+	}
+	public List<StaffVO> get_staff() {
+		return sql.selectList("reception.get_staff");
 	}
 	
 	

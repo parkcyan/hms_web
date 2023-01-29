@@ -3,20 +3,22 @@
 <mapper namespace="reception">
 
 <!-- 로그인 -->
-<select id="login" resultType="Reception.vo.StaffVO">
-		select s.*, d.department_name from staff s, department d
-		where s.department_id = d.department_id  
-		and staff_id = #{id} and pw = #{pw}   
+<select id="staff_login" resultType="Reception.vo.StaffVO">
+select s.*, d.department_name
+from staff s inner join department d
+on s.department_id = d.department_id 
+where s.staff_id = #{id} and pw =#{pw}	
+</select>
+
+<select id="get_staff_list" resultType="Reception.vo.StaffVO">
+	select d.department_name, s.* from staff s, department d where s.department_id = d.department_id order by s.staff_id 
 </select>
 <!--환자리스트 -->
 <select id='get_patient_list' resultType="Reception.vo.PatientVO">
   		select * from patient order by patient_id
 </select>
 <!-- 환자검색: 이름으로 -->
-<select id='get_name' resultType="Reception.vo.PatientVO">
-		select * from patient 
-		where name=#{name}
-</select>
+
 <!-- 신규환자 -->
 <insert id='patient_insert'>
   insert into patient (name, gender, phone_number, social_id)
@@ -51,7 +53,7 @@ left join patient p
 on p.patient_id = m.patient_id
 left join staff s
 on s.staff_id =m.staff_id
-where p.name =#{name , jdbcType=VARCHAR}
+where p.patient_id =#{id,}
 order by acceptance_date desc
 </select> 
 
@@ -64,9 +66,9 @@ where acceptance_record_id =#{id}
 
 <!--예약정보가져오기 -->
 <select id ='get_medical_receipt' resultType="Reception.vo.MedicalReceiptVO">
-select to_char(m.time, 'day')reserve_today,to_char(m.time,'mm/dd')reserve_date_short, 
-to_char(m.time,'hh24:mm')reserve_time, to_char(m.time,'yyyy-mm-dd')time, to_char(m.time, 'yymmddhh24mm') reserve_time_count,
-to_char(current_date, 'yymmddhh24mm') current_time,
+select to_char(m.time, 'yyyy-mm-dd day')reserve_today,
+to_char(m.time,'hh24:mm')reserve_time, to_char(m.time,'yyyy-mm-dd')time, 
+to_char(m.time,'hh24mm')reserve_time_count,to_char(current_date, 'hh24mi') now_count,
 m.memo, p.name patient_name, s.name doctor_name,
 d.department_name department_name, d.location location
 from medical_receipt m inner join patient p
@@ -75,17 +77,11 @@ inner join staff s
 on m.staff_id = s.staff_id
 inner join department d
 on s.department_id =d.department_id
-where to_char(m.time,'yyyy-mm-dd')='2023-01-11'
-order by time
+where 
+ to_char(m.time,'yyyy-mm-dd') = to_char(current_date,'yyyy-mm-dd') 
+ AND to_char(m.time,'hh24:mi') &lt; '18:00'
+order by to_char(m.time,'hh24:mi') desc
 </select>
-
-
-
-<!--접수하기  -->
-<insert id='receipt_insert'>
-  insert into patient (name, gender, phone_number, social_id)
-	values (#{name}, #{gender}, #{phone_number},#{social_id})	
-</insert> 
 
 <!--진료과목 정보 가져오기-->
 <select id='get_department' resultType="Reception.vo.DepartmentVO" >
@@ -100,5 +96,17 @@ on d.department_id = s.department_id
 where d.department_id =#{department_id}
 </select>
 
+<select id='get_staff' resultType="Reception.vo.StaffVO">
+    select s.*, d.department_name
+    from staff s left outer join department d 
+    on  s.department_id =d.department_id
+    where staff_level=1
+</select>
+
+<insert id='receipt_insert'>
+  insert into medical_receipt(patient_id, staff_id, time, memo)
+	values( #{patient_id}, #{staff_id}, current_date, #{memo})
+</insert> 
 
 </mapper>
+

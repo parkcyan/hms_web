@@ -21,8 +21,8 @@
 
 	<!-- Nav Item - Dashboard -->
 	<li class="nav-item active">
-		<a class="nav-link" href="index.st">
-			<i class="fas fa-fw fa-tachometer-alt"></i> <span>Dashboard</span>
+		<a class="nav-link" href="re_patient_list.re">
+			<span>원무과</span>
 		</a>
 	</li>
 
@@ -33,33 +33,27 @@
 	<div class="sidebar-heading">메뉴</div>
 
 	<!-- Nav Item - Pages Collapse Menu -->
+	
 	<li class="nav-item">
-		<a class="nav-link" href="registration.re"> 
-		<i class="fas fa-fw fa-bed"></i> <span>신규등록</span>
+		<a class="nav-link" href="login.re"> 
+		 <span>로그인</span>
 		</a>
 	</li>
 	<li class="nav-item">
-		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" 
-		aria-expanded="true" aria-controls="collapsePages">
-			<i class="far fa-fw fa-clipboard"></i>
-			<span>환자정보</span>
-            </a>
-            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-				<div class="bg-white py-2 collapse-inner rounded">
-				<a class="collapse-item" href="patient_list.re">기본정보</a>
-				<a class="collapse-item" href="medical_record.re">진료기록 조회</a>
-			</div>
-		</div>
-    </li>
+		<a class="nav-link" href="registration.re"> 
+		 <span>신규등록</span>
+		</a>
+	</li>
 	<li class="nav-item">
-		<a class="nav-link" href="receipt.re"> 
-		<i class="far fa-fw fa-user"></i> <span>접수</span>
+		<a class="nav-link" href="patient_list.re"> 
+		 <span>환자정보</span>
 		</a>
 	</li>
 	
+	
 	<li class="nav-item">
-		<a class="nav-link" href="acceptance.re"> 
-		<i class="fas fa-fw fa-bed"></i> <span>수납</span>
+		<a class="nav-link" href="accep_patient_list.re"> 
+		<span>수납</span>
 		</a>
 	</li>
 

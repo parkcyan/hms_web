@@ -1,5 +1,6 @@
 package com.groupc.hms;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,47 +35,59 @@ public class ReceptionController {
 	
 	@Autowired
 	private ReceptionService service;	
+		
+	  @RequestMapping(value = "/login.re") public String login() { 
+		 return "reception/login"; 
+		 }
+	 
+	
+	  @ResponseBody @RequestMapping(value = "/staff_login.re")
+	  public boolean staff_login(HttpSession session, int id, int pw) { 
+		String staff_id= Integer.toString(id);
+		String staff_pw= Integer.toString(pw);
+		HashMap<String,String> map = new HashMap<>();
+		  map.put("id", staff_id); 
+		  map.put("pw", staff_pw); 
+		  StaffVO vo = service.staff_login(map); 
+		  session.setAttribute("loginInfo", vo); 
+		  if(vo!= null) 
+			  return true; 
+		  return false; 
+		  }
+	 
+
+	private String Integer(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	//환자 리스트 가져오기 
 	@RequestMapping(value ="/patient_list.re")
 	public String patient_list(HttpSession session, Model model) {
 		model.addAttribute("patientList",service.getPatientList());		
-		session.setAttribute("title", "환자 조회");
-		
+		session.setAttribute("title", "환자 조회");		
 		 return "reception/patient/patient_list";
 	}
 	
-	//환자 상세 정보
-	/*
-	 * @RequestMapping(value = "/patient_info.re") public String patient_info(String
-	 * id, Model model) { Map<String, Object> map = service.getPatientInfo(id); if
-	 * (map == null) return "staff/404"; else { for (String key : map.keySet()) {
-	 * model.addAttribute(key, map.get(key)); } return
-	 * "reception/patient/patient_info"; } }
-	 */
+	//접수-환자 리스트
+	@RequestMapping(value ="/re_patient_list.re")
+	public String re_patient_list(HttpSession session, Model model) {
+		model.addAttribute("patientList",service.getPatientList());		
+		session.setAttribute("title", "환자 조회");
+		
+		 return "reception/receipt/re_patient_list";
+				 
+	}
 	
-
-	/*
-	 * //환자 이름 받아오기_1
-	 * 
-	 * @RequestMapping(value="/patient_info") public String
-	 * search_patient(HttpSession session, Model model) { String name =(String)
-	 * session.getAttribute("name"); model.addAttribute("name",name);
-	 * System.out.println(); return "reception/patient/info"; }
-	 */
-	//환자 이름 받아오기_2
-		@RequestMapping(value="/patient_info.re")
-		public String get_info(@RequestParam String name, Model model) {
-			model.addAttribute("name",name);
-			return "reception/patient/info";
-		}
-		//진료기록 조회
-		@RequestMapping(value="/medical_record.re")
-		public String medical_record(){
+	//수납-환자 리스트
+	@RequestMapping(value ="/accep_patient_list.re")
+	public String acce_patient_list(HttpSession session, Model model) {
+		model.addAttribute("patientList",service.getPatientList());		
+		session.setAttribute("title", "환자 조회");
 		
-			return "reception/patient/medical_record";
-		}
-		
+		 return "reception/acceptance/accep_patient_list";
+	}
 
 		//신규 등록 화면 연결
 		@RequestMapping(value="registration.re")
@@ -90,11 +103,11 @@ public class ReceptionController {
 	
 		//수납 조회
 		@RequestMapping(value = "/acceptance.re")
-		public String get_acceptance(String name, Model model) {
-			List<AcceptanceVO> list = service.getAcceptance(name);
+		public String get_acceptance(Integer id, Model model) {
+			List<AcceptanceVO> list = service.getAcceptance(id);
 			model.addAttribute("list"  ,list);
-			model.addAttribute("name"  ,name);
-			if(list != null) {				
+			model.addAttribute("patient_id"  ,id);
+			if(list == null) {				
 				System.out.println(list.size());
 			}
 			return "reception/acceptance/acceptance";
@@ -112,41 +125,38 @@ public class ReceptionController {
 			return service.acceptance_update(map) == 1;
 		 }
 		 
+		 //접수
 		 @ResponseBody
-		 @RequestMapping("/test.re")
-		 public String test(String money) {
-			 System.out.println(money);
-			return "1";
+		 @RequestMapping("/receipt_insert.re")
+		 public String receipt_insert(Integer patient_id, Integer staff_id, String memo) {
+			 System.out.println(patient_id);
+			 System.out.println(staff_id);
+			 Map<String, Object>map = new HashMap<String, Object>();
+			 map.put("patient_id", patient_id);
+			 map.put("staff_id", staff_id);
+			 map.put( "time", new Date().getTime());
+			 map.put("memo", memo);
+			 return service.receipt_insert(map);
 		 }
-		
-		//접수 조회
-	//	@RequestMapping("/receipt.re")
-		public String get_receipt() {
-			return "reception/receipt/receipt";
-		}
+			
 		 //예약정보 가져오기
 		@RequestMapping("/receipt.re")
-		 public String get_receipt(String time, Model model , String name ) {
-			List<MedicalReceiptVO> list = service.get_medical_receipt(time);
-			//List<PatientVO> list =service.get_patient(name); 	
+		 public String get_receipt( Model model , String name, String id)  {
+			List<MedicalReceiptVO> list = service.get_medical_receipt();
 			model.addAttribute("list", list);
-			model.addAttribute("time", time);
-			model.addAttribute("name", name);			
-			model.addAttribute("dept_list", service.get_department());	
+			model.addAttribute("time", new Date().getTime());
+			model.addAttribute("name", name);	
+			model.addAttribute("patient_id", id);
+			model.addAttribute("staff_list", service.get_staff());		
+			
 			//model.addAttribute("department_id", service.get_doctor(department_id));	
 			if(list != null) {
 				System.out.println(list.size());
 			}
 			 return "reception/receipt/receipt";
 		 }
-
-			/*
-			 * //예약목록 등록
-			 * 
-			 * @RequestMapping(value="/new_receipt.re") public String
-			 * new_patient(MedicalReceiptVO vo) { service.receipt_insert(vo); return
-			 * "redirect:receipt.re"; }
-			 */
+		
+			
 		//진료과 및 담당의 정보 가져오기
 		@RequestMapping(value="/get_department.re")
 		public String get_department(Model model) {
@@ -155,11 +165,4 @@ public class ReceptionController {
 			System.out.println(list.size());
 			return "reception/receipt/receipt";
 		}
-		
-		
-		
-	
-	
-	
-
 }
