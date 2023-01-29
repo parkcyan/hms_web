@@ -172,8 +172,8 @@
 					if (JSON.stringify(res) != JSON.stringify(json)) {
 						$('#receipt *').remove();
 						let str = "";
-						if (res == "[]") 
-							str += "<tr><td>데이터가 없습니다.</td></tr>"
+						if (res.length == 0) 
+							str += "<tr><td>진료 예약 목록이 없습니다.</td></tr>"
 						else {
 							$.each(res, function (i) {
 								str += "<tr>"
@@ -225,14 +225,19 @@
 				success: function(res) {
 					$('#old_medical_record *').remove();
 					let str = "";
-					$.each(res, function(i){
-						str += "<tr>"
-						str += "<td style='display:none;'>" + res[i].medical_record_id + "</td>";
-						str += "<td style='width: 32%;'>" + getDate(res[i].treatment_date) + "</td>"
-						str += "<td style='width: 20%;'>" + res[i].staff_name + "</td>"
-						str += "<td style='width: 48%;'>" + res[i].treatment_name + "</td>";
-						str += "</tr>"
-					});
+					console.log(res);
+					if (res.length == 0) {
+						str += "<tr><td style='width: 50%;'>과거 진료기록이 없습니다.</td></tr>"
+					} else {
+						$.each(res, function(i){
+							str += "<tr>"
+							str += "<td style='display:none;'>" + res[i].medical_record_id + "</td>";
+							str += "<td style='width: 32%;'>" + getDate(res[i].treatment_date) + "</td>"
+							str += "<td style='width: 20%;'>" + res[i].staff_name + "</td>"
+							str += "<td style='width: 48%;'>" + res[i].treatment_name + "</td>";
+							str += "</tr>"
+						});
+					}
 					$('#old_medical_record').append(str);
 				},
 				error: function(req, text) {

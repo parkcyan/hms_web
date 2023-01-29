@@ -4,6 +4,10 @@
 <!DOCTYPE html>
 <style>
 .dropdown-header i { font-size: 16px; }
+#chatRoomNotice_div {
+	display: flex;
+	align-items: center;
+}
 </style>
 <input type="hidden" id="id" value="${loginInfo.staff_id}"/>
 <input type="hidden" id="name" value="${loginInfo.name}"/>
@@ -143,6 +147,10 @@
 			</button>
 		</div>
 	</div>
+	<div id="chatRoomNotice_div" class="popup-head card-header" style="display: none;"> 
+		<i class="fas fa-exclamation-circle"></i>
+		<p id="chatRoomNotice" class="mb-0 ml-2" style="font-size: 0.7rem;"></p>
+	</div>
 
 	<div id="chat" class="chat_box_wrapper chat_box_small chat_box_active"
 		style="opacity: 1; display: block; transform: translateX(0px);">
@@ -217,9 +225,9 @@
 				<input type="text" class="form-control" id="groupChatRoomTitle" placeholder="제목">
 				<small id="emailHelp" class="form-text text-muted">'#'은 입력할 수 없습니다.</small>
 			</div>
-			<label for="groupChatRoomTitle">채팅방 참가자</label> 
-			<div class="form-control mb-3" style="height: 60px;">
-				
+			<label>채팅방 참가자</label> 
+			<div id="groupChatRoomMember" class="form-control mb-3" style="height: 60px;">
+				<p></p>
 			</div>
 			<div class="form-control p-0" style="height: 180px;">
 				<div id="staff_box_group" class="h-100" style="overflow-y: scroll;">
@@ -242,7 +250,7 @@
 				</div>
 			</div>
 			<div class="d-sm-flex flex-row-reverse mb-3 mt-3">
-				<button type="submit" class="btn btn-primary">생성</button>
+				<button id="makeGroupChatRoom_button" class="btn btn-primary">생성</button>
 			</div>
 		</form>
 	</div>
@@ -265,6 +273,30 @@
 	getNotCheckedChatCount();
 	getChatRoom();
 	getNotification();
+	
+	let groupMember = {
+			[id] : {
+				'staff_id' : id,
+				'staff_level' : $("#staff_level").val(),
+				'department_id' : $("#department_id").val(),
+				'name' : name,
+				'department_name' : $("#department_name").val(),
+				'onChat' : false
+			}
+	}
+	
+	function groupInit() {
+		groupMember = {
+				[id] : {
+					'staff_id' : id,
+					'staff_level' : $("#staff_level").val(),
+					'department_id' : $("#department_id").val(),
+					'name' : name,
+					'department_name' : $("#department_name").val(),
+					'onChat' : false
+				}
+		};
+	}
 
 	// 메시지 창 열시 다른 창 종료
 	$('#messagesDropdown').click(function() {
@@ -301,8 +333,46 @@
 	
 	// 그룹 채팅방 개설창 
 	$('#createGroupChatRoomDialog').click(function() {
+		groupInit();
+		$('#groupChatRoomMember p').text(name);
 		$('#dialog_createGroupChatRoom').addClass('popup-box-on');
 		$('#staffListChat').removeClass('popup-box-on');
+	});
+	
+	// 그룹 채팅방 참가자 추가 
+	$('#staff_box_group a').click(function(e) {
+		e.preventDefault();
+		let staff_id_member = $(this).children('input:eq(0)').val();
+		let staff_level_member = $(this).children('input:eq(1)').val();
+		let department_id_member = $(this).children('input:eq(2)').val();
+		let name_member = $(this).children('input:eq(3)').val();
+		let department_name_member = $(this).children('input:eq(4)').val();
+		if (groupMember[staff_id_member] == null) {
+			groupMember[staff_id_member] = {
+					'staff_id' : staff_id_member,
+					'staff_level' : staff_level_member,
+					'department_id' : department_id_member,
+					'name' : name_member,
+					'department_name' : department_name_member,
+					'onChat' : false
+			};
+			$('#groupChatRoomMember p').text($('#groupChatRoomMember p').text() + ' / ' + name_member);
+		}	
+	});
+	
+	// 그룹 채팅방 참가자 개설
+	$('#makeGroupChatRoom_button').click(function(){
+		let title = $('#groupChatRoomTitle').val();
+		if (title.trim() == '') {
+			toast('error', '제목을 입력해 주세요.');
+		} else if (title.indexOf('#') != -1) {
+			toast('error', '"#"는 입력할 수 없습니다.');
+		} else if (Object.keys(groupMember).length == 1) {
+			toast('error', '참가자를 추가해 주세요.');
+		} else {
+			$('#dialog_createGroupChatRoom').removeClass('popup-box-on');
+			makeGroupChatRoom($('#groupChatRoomTitle').val(), groupMember);
+		}
 	});
 	
 	// 그룹 채팅방 개설창 종료

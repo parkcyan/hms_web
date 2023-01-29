@@ -80,6 +80,24 @@ function makeChatRoom(staff_id, staff_level, department_id, staff_name, departme
 }
 
 /**
+	그룹 채팅방 생성
+ */
+function makeGroupChatRoom(title, staffList) {
+	let key = self.crypto.randomUUID();
+	let json = {
+		chatRoomTitle: title,
+		member: staffList
+	}
+	db.ref('chatRoom/' + key).set(json, (error) => {
+		selectedRoomTitle = title;
+		selectedKey = key;
+		$('#chatroom_title').text(title);
+		getChat();
+		$('#staffListChat').removeClass('popup-box-on');
+	})
+}
+
+/**
 	채팅방 목록 불러오기
  */
 function getChatRoom() {
@@ -179,6 +197,7 @@ function removeGetChat() {
 }
 
 function setChatView(chatList) {
+	getNoticeChat();
 	$('#chat_box div').remove();
 	chatList.forEach((data, i) => {
 		let str = '';
@@ -201,6 +220,7 @@ function setChatView(chatList) {
 		} 	
 		else if (!isSystem && i == chatList.length - 1) str += '<span class="chat_message_time">' + getTime(data.time) + '</span>';
 		str += '</p></li></ul></div>';
+		if (data.name.indexOf('SYSTEM') != -1) getNoticeChat();
 		$('#chat_box').append(str);
 	});
 	$('#chatroom').addClass('popup-box-on');
@@ -208,8 +228,8 @@ function setChatView(chatList) {
 		if ((event.button == 2) || (event.which == 3)) {
 			let content = $(this).children('li').children('p').text().replace($(this).children('li').children('p').children('span').text(), '');
 			confirm('info', '공지사항 설정', '정말 "' + content + '"를 채팅방의 공지사항으로 등록하시겠습니까?', function(result) {
-				if (result) {
-					
+				if (result.isConfirmed) {
+					setNoticeChat(content);
 				}
 			});
 		}
@@ -360,8 +380,46 @@ function chatToast(lastChatRoom, content, writerName) {
    채팅방 입장/퇴장시 접속 상태를 변경
  */
 function setOnChat(onChat) {
-	db.ref('chatRoom/' + selectedKey + '/member/' + id + '/onChat').set(onChat);
-	if (!onChat) selectedKey == '';
+	if (selectedKey != '') {
+		db.ref('chatRoom/' + selectedKey + '/member/' + id + '/onChat').set(onChat);
+		if (!onChat) selectedKey == '';
+	}
+}
+
+/**
+   채팅방 공지사항 불러오기
+ */
+ function getNoticeChat() {
+	db.ref('chatRoom/' + selectedKey + '/noticeChat').on('value', (snapshot) => {
+		if (snapshot.exists()) {
+			$('#chatRoomNotice_div').css('display', 'flex')
+			$('#chatRoomNotice').text(snapshot.child('content').val());
+		} else {
+			$('#chatRoomNotice_div').css('display', 'none');
+			$('#chatRoomNotice').text('');
+		}
+	});
+}
+
+/**
+   채팅방 공지사항 설정하기
+ */
+function setNoticeChat(content) {
+	let chat = {
+		id: '00',
+		name: 'notice',
+		content: content,
+		time: getCurrentTimeStamp()
+	};
+	let systemChat = {
+		id: '0',
+		name: 'SYSTEM_NOTICE',
+		content: '채팅방의 공지사항이 설정되었습니다.',
+		time: getCurrentTimeStamp()
+	};
+	db.ref('chatRoom/' + selectedKey + '/noticeChat').set(chat, (error) => {
+		db.ref('chatRoom/' + selectedKey + '/chat').push(systemChat);
+	});
 }
 
 $(window).on("beforeunload", function() {

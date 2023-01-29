@@ -2,7 +2,7 @@
 	z-index: 99;
 	background: white;
 	display: none;
-	height: 466px;
+	height: 510px;
 	position: fixed !important;
 	right: 1.5rem;
 	width: 318px;
@@ -118,7 +118,7 @@
 }
 
 .chat_box_wrapper.chat_box_small.chat_box_active {
-	height: 342px;
+	height: 357px;
 	overflow-y: scroll;
 	width: 316px;
 }
@@ -340,7 +340,7 @@
 	font-size: x-large;
 }
 
-.chat_message_right ul li p, .chat_message_right span {
+.chat_message_right ul li p, .chat_message_right span, .chat_message_right a {
 	color: white !important;
 }
 
