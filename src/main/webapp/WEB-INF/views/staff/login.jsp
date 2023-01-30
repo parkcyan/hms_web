@@ -28,7 +28,7 @@
 												id="exampleInputEmail" placeholder="사번" name="id">
 										</div>
 										<div class="form-group">
-											<input type="password" class="form-control form-control-user chk"
+											<input type="password" class="form-control form-control-user chk" onkeyup="searchEnterKey()"
 												id="exampleInputPassword" placeholder="비밀번호" name="pw">
 										</div>
 										<div class="form-group">
@@ -38,7 +38,7 @@
 													class="custom-control-label" for="customCheck">로그인 정보 기억</label>
 											</div>
 										</div>
-										<a onclick="login()" class="btn btn-primary btn-user btn-block">로그인</a>
+										<a id="login_btn" class="btn btn-primary btn-user btn-block" onclick="login()" >로그인</a>
 									</form>
 								</div>
 							</div>
@@ -72,6 +72,12 @@
 						}
 					});
 				}
+			}
+		}
+		
+		function searchEnterKey(keyword) {
+			if (window.event.keyCode == 13) {
+				$("#login_btn").trigger("click");
 			}
 		}
 	</script>
