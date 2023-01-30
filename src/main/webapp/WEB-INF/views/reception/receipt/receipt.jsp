@@ -63,7 +63,7 @@ box-sizing: border-box;}
 						  			<select class="form-control" id='doctor'>
 								    <option value="0">담당의</option>
 								     <c:forEach items="${staff_list}" var="vo">
-								     <option id="staff_id" value="${vo.staff_id}">${vo.name} (${vo.department_name})</option> 
+								     <option value="${vo.staff_id}">${vo.name} (${vo.department_name})</option> 
 								     </c:forEach>
 								  </select>
 								</div></td>
@@ -90,13 +90,13 @@ box-sizing: border-box;}
 					<div class="card-header py-3">
 						<h6 class="m-0 font-weight-bold text-primary">대기현황</h6>
 							<div>
-							<div><th scope="col"> 대기 현황</th>${list.size()}</div>					  									
-						  <select id='selected'  class="form-control  w=50" >
+											  									
+						<%--   <select id='selected'  class="form-control  w=50" >
 						    <option value="0">담당의</option>
 						  <c:forEach items="${staff_list}" var="vo">
-								     <option id="staff_id" value="${vo.name}" onclick="get_doctor_receipt()"> ${vo.name} (${vo.department_name})</option> 
+								     <option value="${vo.staff_id}" onclick="get_doctor_receipt()"> ${vo.name} (${vo.department_name})</option> 
 								     </c:forEach>
-						  </select>
+						  </select> --%>
 						</div>												
 					</div>									
 					<div class="card-body">
@@ -107,7 +107,7 @@ box-sizing: border-box;}
 									<th scope="col">환자명</th>	
 									<th scope="col">의사명</th>
 									<th scope="col">진료과</th>
-									<th scope="col">시간계산</th>						
+									<th scope="col">대기현황</th>						
 								</tr>
 							</thead>
 							<c:forEach items="${list}" var="vo">
@@ -138,11 +138,11 @@ box-sizing: border-box;}
 	<script>
 	function send_receiptinfo(){
 		var patient_id =$('#patient_id').val();
-		var staff_id =$('#staff_id').val();
+		var staff_id =$('#doctor option:selected').val();
 		var memo=$('#memo').val();
 		console.log(patient_id);
 		console.log(staff_id);
-		console.log(memo);
+		console.log(memo);		
 		$.ajax({
 			  data : {
 				  patient_id :patient_id,

@@ -25,6 +25,7 @@ where s.staff_id = #{id} and pw =#{pw}
 	values (#{name}, #{gender}, #{phone_number},#{social_id})
 </insert> 
 
+<!--예약내역  -->
 <select id ='medical_receipt_time' resultType="Reception.vo.MedicalReceiptVO">
 select to_char(m.time, 'day')reserve_today,to_char(m.time,'mm/dd')reserve_date_short, 
 to_char(m.time,'hh24:mm')reserve_time, to_char(m.time,'yyyy-mm-dd')time, to_char(m.time, 'yymmddhh24mm') reserve_time_count,
@@ -53,7 +54,7 @@ left join patient p
 on p.patient_id = m.patient_id
 left join staff s
 on s.staff_id =m.staff_id
-where p.patient_id =#{id,}
+where p.patient_id =#{id}
 order by acceptance_date desc
 </select> 
 
@@ -66,6 +67,22 @@ where acceptance_record_id =#{id}
 
 <!--예약정보가져오기 -->
 <select id ='get_medical_receipt' resultType="Reception.vo.MedicalReceiptVO">
+select to_char(m.time, 'yyyy-mm-dd day')reserve_today,
+to_char(m.time,'hh24:mi')reserve_time, 
+m.memo, p.name patient_name, s.name doctor_name,
+d.department_name department_name, d.location location,
+case when m.time-(current_date-2/24)>=0 then '대기중' else ''  end status
+from medical_receipt m inner join patient p
+on m.patient_id= p.patient_id
+inner join staff s
+on m.staff_id = s.staff_id
+inner join department d
+on s.department_id =d.department_id
+where 
+ to_char(m.time,'yyyy-mm-dd') = to_char(current_date,'yyyy-mm-dd') 
+ AND to_char(m.time,'hh24:mi') &lt; '18:00'
+order by to_char(m.time,'hh24:mi')
+<!--  
 select to_char(m.time, 'yyyy-mm-dd day')reserve_today,
 to_char(m.time,'hh24:mm')reserve_time, to_char(m.time,'yyyy-mm-dd')time, 
 to_char(m.time,'hh24mm')reserve_time_count,to_char(current_date, 'hh24mi') now_count,
@@ -80,7 +97,8 @@ on s.department_id =d.department_id
 where 
  to_char(m.time,'yyyy-mm-dd') = to_char(current_date,'yyyy-mm-dd') 
  AND to_char(m.time,'hh24:mi') &lt; '18:00'
-order by to_char(m.time,'hh24:mi') desc
+order by to_char(m.time,'hh24:mi')
+-->
 </select>
 
 <!--진료과목 정보 가져오기-->
@@ -102,7 +120,7 @@ where d.department_id =#{department_id}
     on  s.department_id =d.department_id
     where staff_level=1
 </select>
-
+<!---->
 <insert id='receipt_insert'>
   insert into medical_receipt(patient_id, staff_id, time, memo)
 	values( #{patient_id}, #{staff_id}, current_date, #{memo})

@@ -53,9 +53,8 @@ public class ReceptionService {
 	public  List<MedicalReceiptVO>get_medical_receipt(){
 		return dao.get_medical_receipt();
 	}
-	public String receipt_insert(Map<String, Object> map){
-		 dao.receipt_insert(map);
-		return null;
+	public int receipt_insert(Map<String, Object> map){
+		 return dao.receipt_insert(map);
 	}
 	public List<DepartmentVO>get_department(){
 		return dao.get_department();

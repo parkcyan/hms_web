@@ -55,8 +55,8 @@ public class ReceptionDAO {
 		return sql.selectList("reception.get_medical_receipt");
 	}
 	
-	public void receipt_insert(Map<String, Object> map) {
-		sql.insert("reception.receipt_insert", map);
+	public int receipt_insert(Map<String, Object> map) {
+		return sql.insert("reception.receipt_insert", map);
 		
 	}
 	

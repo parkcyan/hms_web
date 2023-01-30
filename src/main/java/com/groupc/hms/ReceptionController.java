@@ -128,7 +128,7 @@ public class ReceptionController {
 		 //접수
 		 @ResponseBody
 		 @RequestMapping("/receipt_insert.re")
-		 public String receipt_insert(Integer patient_id, Integer staff_id, String memo) {
+		 public boolean receipt_insert(Integer patient_id, Integer staff_id, String memo) {
 			 System.out.println(patient_id);
 			 System.out.println(staff_id);
 			 Map<String, Object>map = new HashMap<String, Object>();
@@ -136,18 +136,18 @@ public class ReceptionController {
 			 map.put("staff_id", staff_id);
 			 map.put( "time", new Date().getTime());
 			 map.put("memo", memo);
-			 return service.receipt_insert(map);
+			 return service.receipt_insert(map)==1 ? true : false;
 		 }
 			
 		 //예약정보 가져오기
 		@RequestMapping("/receipt.re")
-		 public String get_receipt( Model model , String name, String id, String doctor)  {
+		 public String get_receipt( Model model , String name, String id)  {
 			List<MedicalReceiptVO> list = service.get_medical_receipt();
 			model.addAttribute("list", list);
 			model.addAttribute("time", new Date().getTime());
 			model.addAttribute("name", name);	
 			model.addAttribute("patient_id", id);
-			model.addAttribute("doctor", doctor);
+		//	model.addAttribute("doctor", doctor);
 			model.addAttribute("staff_list", service.get_staff());		
 			
 			//model.addAttribute("department_id", service.get_doctor(department_id));	
