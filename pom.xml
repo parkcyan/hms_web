@@ -181,6 +181,26 @@
 		    <version>8.1.0</version>
 		</dependency>
 		
+		<!-- Google Auth -->
+		<dependency>
+		    <groupId>com.google.auth</groupId>
+		    <artifactId>google-auth-library-oauth2-http</artifactId>
+		    <version>0.11.0</version>
+		</dependency>
+		
+		<!-- qr코드 생성 -->
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>core</artifactId>
+		    <version>3.5.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>javase</artifactId>
+		    <version>3.5.0</version>
+		</dependency>
+		
+		
 		
 		<!-- tile -->
 		<dependency>
