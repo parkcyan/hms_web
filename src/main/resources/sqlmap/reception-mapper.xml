@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reception">
+
+<!-- 로그인 -->
+<select id="login" resultType="Reception.vo.StaffVO">
+		select s.*, d.department_name from staff s, department d
+		where s.department_id = d.department_id  
+		and staff_id = #{id} and pw = #{pw}   
+</select>
+<!--환자리스트 -->
+<select id='get_patient_list' resultType="Reception.vo.PatientVO">
+  		select * from patient order by patient_id
+</select>
+<!-- 환자검색: 이름으로 -->
+<select id='get_name' resultType="Reception.vo.PatientVO">
+		select * from patient 
+		where name=#{name}
+</select>
+<!-- 신규환자 -->
+<insert id='patient_insert'>
+  insert into patient (name, gender, phone_number, social_id)
+	values (#{name}, #{gender}, #{phone_number},#{social_id})
+</insert> 
+
+<select id ='medical_receipt_time' resultType="Reception.vo.MedicalReceiptVO">
+select to_char(m.time, 'day')reserve_today,to_char(m.time,'mm/dd')reserve_date_short, 
+to_char(m.time,'hh24:mm')reserve_time, to_char(m.time,'yyyy-mm-dd')time, to_char(m.time, 'yymmddhh24mm') reserve_time_count,
+to_char(current_date, 'yymmddhh24mm') current_time,
+m.memo, p.name patient_name, s.name doctor_name,
+d.department_name department_name, d.location location
+from medical_receipt m inner join patient p
+on m.patient_id= p.patient_id
+inner join staff s
+on m.staff_id = s.staff_id
+inner join department d
+on s.department_id =d.department_id
+where  to_char(m.time,'yyyy-mm-dd')='2023-02-03'
+order by time desc
+</select>
+
+<!--수납정보가져오기 -->
+ <select id='get_acceptance' resultType="Reception.vo.AcceptanceVO">
+select a.medical_expenses, a.admission_fee, a.inspection_fee, a.operation_fee, a.acceptance_record_id,
+to_char(m.treatment_date, 'yyyy-mm-dd')acceptance_date, p.gender, p.phone_number, p.social_id,
+p.name patient, m.treatment_date, s.name doctor, a.pay_amount,
+to_char(current_date, 'yyyy-mm-dd hh24:mi') current_record
+from acceptance a left join medical_record m
+on a.medical_record_id =m.medical_record_id
+left join patient p 
+on p.patient_id = m.patient_id
+left join staff s
+on s.staff_id =m.staff_id
+where p.name =#{name , jdbcType=VARCHAR}
+order by acceptance_date desc
+</select> 
+
+<!-- 수납내역 업데이트 -->
+<update id='acceptance_update'>
+update acceptance 
+set pay_amount =#{pay_amount}
+where acceptance_record_id =#{id}
+</update>
+
+<!--예약정보가져오기 -->
+<select id ='get_medical_receipt' resultType="Reception.vo.MedicalReceiptVO">
+select to_char(m.time, 'day')reserve_today,to_char(m.time,'mm/dd')reserve_date_short, 
+to_char(m.time,'hh24:mm')reserve_time, to_char(m.time,'yyyy-mm-dd')time, to_char(m.time, 'yymmddhh24mm') reserve_time_count,
+to_char(current_date, 'yymmddhh24mm') current_time,
+m.memo, p.name patient_name, s.name doctor_name,
+d.department_name department_name, d.location location
+from medical_receipt m inner join patient p
+on m.patient_id= p.patient_id
+inner join staff s
+on m.staff_id = s.staff_id
+inner join department d
+on s.department_id =d.department_id
+where to_char(m.time,'yyyy-mm-dd')='2023-01-11'
+order by time
+</select>
+
+
+
+<!--접수하기  -->
+<insert id='receipt_insert'>
+  insert into patient (name, gender, phone_number, social_id)
+	values (#{name}, #{gender}, #{phone_number},#{social_id})	
+</insert> 
+
+<!--진료과목 정보 가져오기-->
+<select id='get_department' resultType="Reception.vo.DepartmentVO" >
+select department_name from department
+where department_id between 1 and 9
+</select>
+<!--의사 이름 가져오기-->
+<select id='get_doctor' resultType="Reception.vo.DepartmentVO" >
+select s.name 
+from department d inner join staff s 
+on d.department_id = s.department_id
+where d.department_id =#{department_id}
+</select>
+
+
+</mapper>

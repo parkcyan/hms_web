@@ -16,6 +16,7 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/customer/assets/**" location="/resources/customer/assets/"/>
 	<resources mapping="/staff/**" location="/resources/staff/"/>
+	<resources mapping="/reception/**" location="/resources/reception/"/>
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -31,6 +32,6 @@
 		<beans:property name="definitions" value="/WEB-INF/views/**/tiles/config.xml"/>
 	</beans:bean>
 	
-	<context:component-scan base-package="com.groupc.hms, app" />
+	<context:component-scan base-package="com.groupc.hms, app, staff, firebase" />
 	
 </beans:beans>

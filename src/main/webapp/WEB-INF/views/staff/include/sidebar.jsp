@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<style>
+#logo { width: 30px; }
+</style>
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-	<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-		<div class="sidebar-brand-icon rotate-n-15">
-			<i class="fas fa-laugh-wink"></i>
+	<a class="sidebar-brand d-flex align-items-center justify-content-center" href="<c:url value="/"/>">
+		<div class="sidebar-brand-icon">
+			<img id="logo" src="staff/img/logo.png"/>
 		</div>
-		<div class="sidebar-brand-text mx-3">
-			SB Admin <sup>2</sup>
+		<div class="sidebar-brand-text mx-3"> YM-HOSPITAL
 		</div>
 	</a>
 
@@ -19,8 +19,8 @@
 
 	<!-- Nav Item - Dashboard -->
 	<li class="nav-item active">
-		<a class="nav-link" href="index.html">
-			<i class="fas fa-fw fa-tachometer-alt"></i> <span>Dashboard</span>
+		<a class="nav-link" href="index.st">
+			<i class="fas fa-fw fa-tachometer-alt"></i> <span>Home</span>
 		</a>
 	</li>
 
@@ -28,81 +28,38 @@
 	<hr class="sidebar-divider">
 
 	<!-- Heading -->
-	<div class="sidebar-heading">Interface</div>
+	<div class="sidebar-heading">메뉴</div>
 
 	<!-- Nav Item - Pages Collapse Menu -->
 	<li class="nav-item">
-		<a class="nav-link collapsed" href="#"
-			data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-			aria-controls="collapseTwo"> 
-			<i class="fas fa-fw fa-cog"></i> <span>Components</span>
+		<a class="nav-link" href="lookup.st"> 
+		<i class="far fa-fw fa-user"></i> <span>환자 조회</span>
 		</a>
-		<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-			data-parent="#accordionSidebar">
-			<div class="bg-white py-2 collapse-inner rounded">
-				<h6 class="collapse-header">Custom Components:</h6>
-				<a class="collapse-item" href="buttons.html">Buttons</a> 
-				<a class="collapse-item" href="cards.html">Cards</a>
-			</div>
-		</div></li>
-		
-	<!-- Nav Item - Utilities Collapse Menu -->
+	</li>
+	
 	<li class="nav-item">
-		<a class="nav-link collapsed" href="#"
-			data-toggle="collapse" data-target="#collapseUtilities"
-			aria-expanded="true" aria-controls="collapseUtilities"> 
-			<i class="fas fa-fw fa-wrench"></i> <span>Utilities</span>
-	 	</a>
-		<div id="collapseUtilities" class="collapse"
-			aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-			<div class="bg-white py-2 collapse-inner rounded">
-				<h6 class="collapse-header">Custom Utilities:</h6>
-				<a class="collapse-item" href="utilities-color.html">Colors</a> 
-				<a class="collapse-item" href="utilities-border.html">Borders</a> 
-				<a class="collapse-item" href="utilities-animation.html">Animations</a>
-				<a class="collapse-item" href="utilities-other.html">Other</a>
-			</div>
-		</div></li>
-
-	<!-- Divider -->
-	<hr class="sidebar-divider">
-
-	<!-- Heading -->
-	<div class="sidebar-heading">Addons</div>
-
-	<!-- Nav Item - Pages Collapse Menu -->
-	<li class="nav-item">
-		<a class="nav-link collapsed" href="#"
-			data-toggle="collapse" data-target="#collapsePages"
-			aria-expanded="true" aria-controls="collapsePages"> 
-			<i class="fas fa-fw fa-folder"></i> <span>Pages</span>
-		</a>
-		<div id="collapsePages" class="collapse"
-			aria-labelledby="headingPages" data-parent="#accordionSidebar">
-			<div class="bg-white py-2 collapse-inner rounded">
-				<h6 class="collapse-header">Login Screens:</h6>
-				<a class="collapse-item" href="login.html">Login</a> 
-				<a class="collapse-item" href="register.html">Register</a> 
-				<a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-				<div class="collapse-divider"></div>
-				<h6 class="collapse-header">Other Pages:</h6>
-				<a class="collapse-item" href="404.html">404 Page</a> 
-				<a class="collapse-item" href="blank.html">Blank Page</a>
+		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" 
+		aria-expanded="true" aria-controls="collapsePages">
+			<i class="far fa-fw fa-clipboard"></i>
+			<span>진료</span>
+            </a>
+            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+				<div class="bg-white py-2 collapse-inner rounded">
+				<a class="collapse-item" href="outpatient.st">진료</a>
+				<a class="collapse-item" href="outpatientRecord.st">진료기록 조회</a>
 			</div>
 		</div>
-	</li>
+    </li>
 
-	<!-- Nav Item - Charts -->
 	<li class="nav-item">
-		<a class="nav-link" href="charts.html"> 
-			<i class="fas fa-fw fa-chart-area"></i> <span>Charts</span>
+		<a class="nav-link" href="ward.st"> 
+		<i class="fas fa-fw fa-bed"></i> <span>병동</span>
 		</a>
 	</li>
-
-	<!-- Nav Item - Tables -->
+	
 	<li class="nav-item">
-		<a class="nav-link" href="tables.html"> 
-		<i class="fas fa-fw fa-table"></i> <span>Tables</span>
+		<a class="nav-link" href="schedule.st"> 
+		<i class="fas fa-fw fa-calendar"></i> <span>일정</span>
 		</a>
 	</li>
 
@@ -112,19 +69,6 @@
 	<!-- Sidebar Toggler (Sidebar) -->
 	<div class="text-center d-none d-md-inline">
 		<button class="rounded-circle border-0" id="sidebarToggle"></button>
-	</div>
-
-	<!-- Sidebar Message -->
-	<div class="sidebar-card d-none d-lg-flex">
-		<img class="sidebar-card-illustration mb-2"
-			src="staff/img/undraw_rocket.svg" alt="...">
-		<p class="text-center mb-2">
-			<strong>SB Admin Pro</strong> is packed with premium features,
-			components, and more!
-		</p>
-		<a class="btn btn-success btn-sm"
-			href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to
-			Pro!</a>
 	</div>
 
 </ul>

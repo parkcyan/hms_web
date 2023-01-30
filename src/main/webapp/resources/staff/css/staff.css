@@ -1,0 +1,113 @@
+@charset "UTF-8";
+
+textarea {
+	resize: none;
+}
+
+.flex {
+	display: flex !important;
+}
+
+.flexb {
+	display: flex !important;
+	justify-content: space-between;
+}
+
+.flexc {
+	display: flex !important;
+	align-items: center;
+}
+
+.flexa {
+	display: flex !important;
+	justify-content: space-around;
+}
+
+.fwb {
+	font-weight: bold;
+}
+
+.h25 {
+	height: 25px;
+}
+
+.h400 {
+	height: 400px;
+}
+
+.h500 {
+	height: 500px;
+}
+
+.h600 {
+	height: 600px;
+}
+
+#spinner {
+	margin-left: 5px;
+	width: 28px;
+	height: 28px;
+	font-size: 15px;
+}
+
+#spinner-mini, #spinner-mini-art {
+	margin-left: 5px;
+	width: 19px;
+	height: 19px;
+	font-size: 12px;
+}
+
+/* patient info mini */
+
+.patient-mini-table {
+	padding: 10px 5px;
+	font-size: 13px;
+}
+
+#patient-mini-table td {
+	color: black;
+}
+
+#patient-mini-table td:first-child, #patient-mini-table td:nth-child(3) {
+	width: 65px;
+	font-weight: bold;
+	padding-left: 5px;
+}
+
+#patient-mini-table .form-control {
+	height: calc(1.0em + 0.5rem + 2px);
+	padding: 3px;
+	display: inline;
+	font-size: 13px;
+}
+
+#patient-mini-table .form-control:disabled {
+	background: white;
+}
+
+#patient-mini-table .input-mini {
+	width: 50px;
+}
+
+/* medical record */
+
+#receipt_table td, #receipt_table th, #old_medical_record td, #old_medical_record th {
+	padding: 3px;
+}
+
+#medical_record_table {
+	width: 100%;
+	border-collapse: separate;
+ 	border-spacing: 0 10px;
+}
+
+#medical_record_table td:first-child {
+	width: 20%;
+	color: black;
+	font-weight: bold;
+}
+
+#mediacl_record_table input:first-child, #mediacl_record_table input:nth-child(2) {
+	width: 40%;
+}
+

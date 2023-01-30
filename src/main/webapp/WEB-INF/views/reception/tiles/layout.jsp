@@ -10,6 +10,14 @@
 <link href="staff/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 <link href="staff/css/sb-admin-2.css" rel="stylesheet">
+<!-- Bootstrap core JavaScript-->
+<script src="staff/vendor/jquery/jquery.min.js"></script>
+<script src="staff/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Core plugin JavaScript-->
+<script src="staff/vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Custom scripts for all pages-->
+<script src="staff/js/sb-admin-2.js"></script>
+<script src="staff/js/reception.js"></script>
 <title>YH-HOSPITAL</title>
 </head>
 <body id="page-top">
@@ -50,13 +58,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- Bootstrap core JavaScript-->
-	<script src="staff/vendor/jquery/jquery.min.js"></script>
-	<script src="staff/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- Core plugin JavaScript-->
-	<script src="staff/vendor/jquery-easing/jquery.easing.min.js"></script>
-	<!-- Custom scripts for all pages-->
-	<script src="staff/js/sb-admin-2.js"></script>
 	<!-- Page level plugins -->
 	<script src="staff/vendor/chart.js/Chart.min.js"></script>
 	<!-- Page level custom scripts -->
