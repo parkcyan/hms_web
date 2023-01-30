@@ -29,7 +29,6 @@
 
 			pre[0].addEventListener('click', function() { that.preMonth(); });
 			next[0].addEventListener('click', function() { that.nextMonth(); });
-			reset.addEventListener('click', function() { that.reset(); });
 			while (daysLen--) {
 				days[daysLen].addEventListener('click', function() { that.clickDay(this); });
 			}
@@ -91,7 +90,7 @@
 				o.className = "selected";
 				selectedDay = new Date(year, month, o.innerHTML);
 				this.drawHeader(o.innerHTML);
-				getSchedule(selectedDay);
+				getSchedule(selectedDay, true);
 			}
 			//this.setCookie('selected_day', 1);
 
@@ -172,44 +171,5 @@
 
 })(jQuery);
 
-function getSchedule(date) {
-	$("#spinner-mini").css('display', 'block');
-	$.ajax({
-		url: 'getSchedule.st',
-		data: {
-			date: getDate(getTimeStamp(date))
-		},
-		dataType: 'json',
-		success: function(res) {
-			$('#schedule *').remove();
-			let str = "";
-			if (Object.keys(res).length == 0) {
-				str += "<tr><td>일정이 없습니다.</td></tr>"
-				$('#schedule').append(str);
-			}
-			else {
-				$.each(res, function(i) {
-					str += "<tr>"
-					str += "<td style='display:none;'>" + res[i].schedule_id + "</td>";
-					str += "<td>" + res[i].time + "</td>";
-					str += "<td>" + res[i].content + "</td>"
-					str += "</tr>"
-				});
-				$('#schedule').append(str);
-				$('#schedule tr').hover(function() {
-					$(this).css('background-color', '#D0E2F4');
-					$(this).css('cursor', 'pointer');
-				}, function() {
-					$(this).css('background-color', 'white');
-				})
-			}
-			$("#spinner-mini").css('display', 'none');
-		},
-		error: function(req, text) {
-			errorToast(req.status);
-			$("#spinner-mini").css('display', 'none');
-		}
-	})
-}
 
 

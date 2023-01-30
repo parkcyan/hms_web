@@ -40,10 +40,6 @@
 										</div>
 										<a onclick="login()" class="btn btn-primary btn-user btn-block">로그인</a>
 									</form>
-									<hr>
-                                    <div class="text-center">
-                                        <a class="small" href="forgot-password.html">비밀번호를 잊어버리셨나요?</a>
-                                    </div>
 								</div>
 							</div>
 						</div>

@@ -9,7 +9,6 @@
 <link href="staff/css/calendar-picker/classic.css" rel="stylesheet">
 <link href="staff/css/calendar-picker/classic.date.css" rel="stylesheet">
 <style>
-
 .form-control:disabled { background: white; }
 .textarea-mr { height: 100px !important; }
 .form-check { font-size: 0.8rem; }
@@ -22,6 +21,9 @@
     height: 200px;
     overflow: auto;
 }
+#outpatient_record_table tbody::-webkit-scrollbar {
+	display: none;
+}
 #outpatient_record_table thead, #outpatient_record_table tbody tr {
     display: table;
     width: 100%;
@@ -30,8 +32,12 @@
 </style>
 </head>
 <body>
+	<input type="hidden" id="medical_record_id"/>
 	<div class="container-fluid">
-		<h1 class="h3 mb-2 text-gray-800">진료 기록 조회</h1>
+		<div class="flex">
+			<h1 class="h3 mb-2 text-gray-800">진료 기록 조회</h1>
+			<div id="spinner" class="ml-2 spinner-border text-primary" role="status" style="display: none;"></div>
+		</div>
 		<p class="mb-4">
 			항목을 클릭하시면 환자의 자세한 정보, 진료기록을 볼 수 있습니다.			
 		</p>
@@ -55,12 +61,12 @@
 						<p class="fwb mb-1">날짜</p>
 						<div class="flexb flexc mb-1">
 							<div class="calendar form-group mb-0 flexb flexc">
-								<input type="text" class="form-control mb-0" id="date1" placeholder="Pick A Date">
+								<input type="text" class="form-control mb-0" id="date1">
 								<i class="far fa-calendar-alt ml-2"></i>
 							</div>
 							<p class="mb-0">~</p>
 							<div class="calendar form-group mb-0 flexb flexc">
-								<input type="text" class="form-control" id="date2" placeholder="Pick A Date">
+								<input type="text" class="form-control" id="date2">
 								<i class="far fa-calendar-alt ml-2"></i>
 							</div>
 						</div>
@@ -99,24 +105,24 @@
 					<div class="card-body">
 						<table id="medical_record_table">
 							<tr>
-								<td>이름</td>
-								<td><input class="form-control w-25" id="patient_name_mr"
-									type="text" disabled /></td>
+								<td>환자명</td>
+								<td><input class="form-control w-25" id="patient_name_mr" type="text" disabled /></td>
 							</tr>
 							<tr>
-								<td>환자 증상</td>
-								<td><input class="form-control" id="memo_mr" type="text"
-									disabled /></td>
+								<td>진료의</td>
+								<td><input class="form-control w-25" id="staff_name_mr" type="text" disabled /></td>
+							</tr>
+							<tr>
+								<td>진료 날짜</td>
+								<td><input class="form-control w-50" id="treatment_date_mr" type="text" disabled /></td>
 							</tr>
 							<tr class="tr-mr">
 								<td>진료</td>
-								<td><textarea class="form-control textarea-mr"
-										id="treatement_mr" disabled></textarea></td>
+								<td><textarea class="form-control textarea-mr" id="treatement_mr" disabled></textarea></td>
 							</tr>
 							<tr class="tr-mr">
 								<td>처방</td>
-								<td><textarea class="form-control textarea-mr"
-										id="prescription_mr" disabled></textarea></td>
+								<td><textarea class="form-control textarea-mr" id="prescription_mr" disabled></textarea></td>
 							</tr>
 							<tr class="tr-mr">
 								<td>의사소견 <i class="fas fa-pen"></i></td>
@@ -168,7 +174,7 @@
 				dataType: 'json',
 				data: {
 					first_date: $("#date1").val(),
-					second_date: $("#date2").val(),
+					second_date: $("#date2").val() + ' 23:59:59',
 					patient_name: $("#patient_name_search").val(),
 					option: option	
 				}, 
@@ -176,13 +182,18 @@
 					$('#outpatient_record *').remove();
 					let str = "";
 					$.each(res, function (i) {
+						let icon = '';
+						if (res[i].admission == 'Y') icon = '<i class="fas fa-fw fa-bed"></i>';
+						else if (res[i].prescription_record_id != 0) icon = '<i class="fas fa-clipboard-list"></i>';
 						str += "<tr>"
 						str += "<td style='display:none;'>" + res[i].medical_record_id + "</td>";
 						str += "<td style='width: 30%;'>" + res[i].treatment_date + "</td>"
 						str += "<td style='width: 15%'>" + res[i].patient_name+ "</td>"
 						str += "<td style='width: 15%'>" + res[i].staff_name + "</td>"
 						str += "<td style='width: 30%'>" + res[i].treatment_name + "</td>"
-						str += "<td style='width: 10%'>" + '*' + "</td>"
+						str += "<td style='width: 10%'>" + icon + "</td>"
+						str += "<td style='display:none;'>" + res[i].memo + "</td>"
+						str += "<td style='display:none;'>" + res[i].prescription_record_id + "</td>"
 						str += "</tr>"
 					});
 					$('#outpatient_record').append(str);
@@ -192,12 +203,70 @@
 					}, function() {
 						$(this).css('background-color', 'white');
 					});
+					$('#outpatient_record tr').click(function() {
+						$('#medical_record_id').val($(this).children('td:eq(0)').text());
+						$('#patient_name_mr').val($(this).children('td:eq(2)').text());
+						$('#staff_name_mr').val($(this).children('td:eq(3)').text());
+						$('#treatment_date_mr').val($(this).children('td:eq(1)').text());
+						$('#treatement_mr').val($(this).children('td:eq(4)').text());
+						if ($(this).children('td:eq(6)').text() == 'undefined') {
+							$('#memo_mr').val('');
+						} else $('#memo_mr').val($(this).children('td:eq(6)').text());
+						if ($(this).children('td:eq(7)').text() != 0) {
+							getPrescription($(this).children('td:eq(0)').text());
+						} else $('#prescription_mr').val('등록된 처방이 없습니다.');
+					})
 				},
 				error: function(req, text) {
 					errorToast(req.status);
 				},
 				complete: function() {
 					$('#spinner-mini').css('display', 'none');
+				}
+			});
+		}
+		
+		function getPrescription(id) {
+			$('#spinner-mini').css('display', 'inline');
+			$.ajax({
+				url: 'getPrescription.st',
+				dataType: 'json',
+				data: {
+					id: id
+				},
+				success: function(res) {
+					$('#prescription_mr').val(res.prescription_name);
+				},
+				error: function(req, text) {
+					errorToast(req.status);
+				},
+				complete: function() {
+					$('#spinner-mini').css('display', 'none');
+				}
+			});
+		}
+		
+		function updateMedicalRecordMemo() {
+			$('#spinner').css('display', 'inline');
+			$.ajax({
+				url: 'updateMedicalRecordMemo.st',
+				data: {
+					id: $('#medical_record_id').val(),
+					memo: $('#memo_mr').val()
+				},
+				success: function(res) {
+					if (res) {
+						toast('success', '진료기록의 의사소견을 수정했습니다.');
+						searchMedicalRecord();
+					} else {
+						toast('error', '진료기록의 의사소견을 수정하는데 실패했습니다.');
+					}
+				},
+				error: function(req, text) {
+					errorToast(req.status);
+				},
+				complete: function() {
+					$('#spinner').css('display', 'none');
 				}
 			});
 		}

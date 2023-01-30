@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 
 import staff.StaffService;
 import staff.vo.MedicalReceiptVO;
+import staff.vo.MedicalRecordVO;
 import staff.vo.PatientVO;
 import staff.vo.StaffChatVO;
 import staff.vo.StaffVO;
@@ -65,7 +66,6 @@ public class StaffController {
 	/**
 	 * 마이페이지
 	 */
-	
 	@RequestMapping(value = "/mypage.st")
 	public String mypage(HttpSession session) {
 		session.setAttribute("title", "마이페이지");
@@ -122,7 +122,7 @@ public class StaffController {
 	}
 	
 	/**
-	 * 진료(외래)
+	 * 진료
 	 */
 	@RequestMapping(value = "/outpatient.st")
 	public String outpatient() {
@@ -142,6 +142,31 @@ public class StaffController {
 	@ResponseBody @RequestMapping(value = "/getMedicalRecord.st")
 	public String getMedicalRecord(HttpSession session, String first_date, String second_date, String patient_name, String option) {
 		return new Gson().toJson(service.getMedicalRecord(getStaff(session), first_date, second_date, patient_name, option));
+	}
+	
+	@ResponseBody @RequestMapping(value = "/getOldMedicalRecord.st")
+	public String getMedicalRecord(String id) {
+		return new Gson().toJson(service.getMedicalRecord(id));
+	}
+	
+	@ResponseBody @RequestMapping(value = "/getPrescription.st")
+	public String getPrescription(String id) {
+		return new Gson().toJson(service.getPrescription(id));
+	}
+	
+	@ResponseBody @RequestMapping(value = "/insertMedicalRecord.st")
+	public boolean insertMedicalRecord(HttpSession session, String patient_id, String treatment_name, String prescription_name, String admission, String memo) {
+		return service.insertMedicalRecord(getStaff(session), patient_id, treatment_name, prescription_name, admission, memo);
+	}
+	
+	@ResponseBody @RequestMapping(value = "/deleteMedicalReceipt.st")
+	public boolean insertMedicalRecord(String patient_id, String time) {
+		return service.deleteMedicalReceipt(patient_id, time);
+	}
+	
+	@ResponseBody @RequestMapping(value = "/updateMedicalRecordMemo.st")
+	public boolean updateMedicalRecordMemo(String memo, String id) {
+		return service.updateMedicalRecordMemo(memo, id);
 	}
 	
 	/**
@@ -168,6 +193,21 @@ public class StaffController {
 		return new Gson().toJson(service.getAdmissionMemo(id));
 	}
 	
+	@ResponseBody @RequestMapping(value = "/insertAdmissionMemo.st")
+	public boolean insertAdmissionMemo(HttpSession session, String id, String memo) {
+		return service.insertAdmissionMemo(getStaff(session), id, memo);
+	}
+	
+	@ResponseBody @RequestMapping(value = "/deleteAdmissionMemo.st")
+	public boolean deleteAdmissionMemo(String id) {
+		return service.deleteAdmissionMemo(id);
+	}
+	
+	@ResponseBody @RequestMapping(value = "/updateDischargeDate.st")
+	public boolean updateDischargeDate(String date, String id) {
+		return service.updateDischargeDate(date, id);
+	}
+	
 	/**
 	 * 일정
 	 */
@@ -182,6 +222,16 @@ public class StaffController {
 		return new Gson().toJson(service.getSchedule(getStaff(session), date));
 	}
 	
+	@ResponseBody @RequestMapping(value = "/deleteSchedule.st")
+	public boolean deleteSchedule(HttpSession session, String id) {
+		return service.deleteSchedule(getStaff(session), id);
+	}
+	
+	@ResponseBody @RequestMapping(value = "/updateSchedule.st")
+	public boolean updateSchedule(HttpSession session, String id, String date, String content, String action) {
+		return service.updateSchedule(getStaff(session), id, date, content, action);
+	}
+
 	/**
 	 * 채팅
 	 */
