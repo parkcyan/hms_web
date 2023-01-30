@@ -33,7 +33,7 @@
 	<!-- Nav Item - Pages Collapse Menu -->
 	<li class="nav-item">
 		<a class="nav-link" href="lookup.st"> 
-		<i class="far fa-fw fa-user"></i> <span>환자 조회</span>
+		<i class="far fa-fw fa-user"></i> <span>환자정보</span>
 		</a>
 	</li>
 	

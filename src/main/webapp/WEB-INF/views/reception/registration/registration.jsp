@@ -17,11 +17,12 @@
 .fa-calendar-alt { font-size: 1.5rem; }
 .calendar { width: 45%; }
 .btn {margin-right: 20px;}
-.form-text{
-			display: flex;
-			justify-content:center;
+.small{ display: flex;
+		justify-content:center;	}
 				
-}
+.small div{
+				margin-top: 20px;
+				font-size: 20px; }				
 #outpatient_record_table td, #outpatient_record_table th { padding: 0.3rem; }
 #outpatient_record_table tbody {
     display: block;
@@ -51,10 +52,14 @@
 							<div id="spinner-mini" class="spinner-border text-primary" style="display: none;" role="status"> </div>
 						</div>
 					</div>
-				<small class="form-text text-muted mb-1">신규 등록을 해야 접수 및 진료가 가능합니다.</small>
-				<small class="form-text text-muted mb-1">이름, 성별, 생년월일, 연락처는 반드시 입력해야 합니다.</small>
-				<small class="form-text text-muted mb-1">메모는 신규환자의 특이사항(임신여부, 특이 체질 등)을 입력합니다.</small>
-				<small class="form-text text-muted mb-1">메모는 필수 입력사항은 아닙니다.</small>
+					<div class="small">
+						<div >
+						<small class="form-text text-muted mb-1">신규 등록을 해야 접수 및 진료가 가능합니다.</small>
+						<small class="form-text text-muted mb-1">이름, 성별, 생년월일, 연락처는 반드시 입력해야 합니다.</small>
+						<small class="form-text text-muted mb-1">메모는 신규환자의 특이사항(임신여부, 특이 체질 등)을 입력합니다.</small>
+						<small class="form-text text-muted mb-1">메모는 필수 입력사항은 아닙니다.</small>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="col-lg-5">

@@ -25,25 +25,17 @@
 									<form class="user" method="post">
 										<div class="form-group">
 											<input type="text" class="form-control form-control-user chk"
-												id="exampleInputEmail" placeholder="사번" name="id">
+												id="staff_id" placeholder="사번" name="id">
 										</div>
 										<div class="form-group">
 											<input type="password" class="form-control form-control-user chk"
-												id="exampleInputPassword" placeholder="비밀번호" name="pw">
+												id="staff_pw" placeholder="비밀번호" name="pw">
 										</div>
-										<div class="form-group">
-											<div class="custom-control custom-checkbox small">
-												<input type="checkbox" class="custom-control-input"
-													id="customCheck" name="rememberAccount"> <label
-													class="custom-control-label" for="customCheck">로그인 정보 기억</label>
-											</div>
-										</div>
+										
 										<a onclick="login()" class="btn btn-primary btn-user btn-block">로그인</a>
 									</form>
 									<hr>
-                                    <div class="text-center">
-                                        <a class="small" href="forgot-password.html">비밀번호를 잊어버리셨나요?</a>
-                                    </div>
+                                 
 								</div>
 							</div>
 						</div>
@@ -53,25 +45,30 @@
 		</div>
 	</div>
 	<script>
-		function login() {
+		function login() {		
 			if (emptyCheck()) {
-				$.ajax({
-					url: 'loginStaff.st',
-					data: { 
-						id : $("input[name=id]").val(), 
-						pw : $("input[name=pw]").val() 
-					},
-					success: function(response) {
-						if (response) {
-							location = '<c:url value="/index.st"/>';
-						} else {
-							swal("로그인 실패", "사번 또는 비밀번호가 일치하지 않습니다.", "error")
+				if (isNaN($("input[name=id]").val())) {
+					toast("error", "사번은 숫자만 입력할 수 있습니다.");
+				} else {
+					$.ajax({
+						url: 'staff_login.re',
+						data: { 
+					
+							id : $("input[name=id]").val(), 
+							pw : $("input[name=pw]").val() 
+						},
+						success: function(response) {
+							if (response) {
+								location = '<c:url value="/index.re"/>';
+							} else {
+								toast('error', '사번 또는 비밀번호를 확인해주세요.');
+							}
+						}, 
+						error: function(req,text) {
+							errorToast(req.status);
 						}
-					}, 
-					error: function(req,text) {
-						swal(text, req.status , "error")
-					}
-				});
+					});
+				}
 			}
 		}
 	</script>

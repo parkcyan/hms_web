@@ -10,9 +10,9 @@
 </head>
 <body>
 	<div class="container-fluid">
-		<h1 class="h3 mb-2 text-gray-800">환자 목록 조회</h1>
+		<h1 class="h3 mb-2 text-gray-800">접수</h1>
 		<p class="mb-4">
-			항목을 클릭하시면 환자의 자세한 정보, 진료기록을 볼 수 있습니다.			
+			항목을 클릭하시면 환자 접수등록이 가능합니다.			
 		</p>
 		<!-- DataTales Example -->
 		<div class="card shadow mb-4">
@@ -71,8 +71,8 @@
     	}, function(){
     		 $(this).css('background-color','white');
     	})
-    	$('#dataTable tr:not(:first-child)').click(function(){
-    		location.href = 'patientinfo.re?id=' + $(this).children('td:first-child').text()
+    	$('#dataTable tr').click(function(){
+    		location.href = 'receipt.re?name='+ $(this).children('td:eq(1)').text() + '&id=' + $(this).children('td:eq(0)').text();
     	})
     </script>
 </body>

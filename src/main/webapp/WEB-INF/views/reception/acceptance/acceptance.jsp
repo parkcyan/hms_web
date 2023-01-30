@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -36,7 +38,7 @@
 </style>
 </head>
 <body>
-	<input type="hidden" id="patient_id"/>
+	<input type="hidden" id="patient_id" value="${patient_id}"/>
 	<input type="hidden" id="time"/>
 	<div class="container-fluid">
 		<h1 class="h3 mb-4 text-gray-800">수납조회</h1>
@@ -47,34 +49,19 @@
 		
 		<div class="row">
 			<div class="col-lg-3">
-			
-		<div class="card shadow mb-4 py-1 border-left-primary">			
-		<form
-		class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-		<div class="input-group">
-			<input type="text" class="form-control bg-light border-3 small"
-				placeholder="환자명을 입력하세요" aria-label="Search" name="name"
-				aria-describedby="basic-addon2" value="${name}">
-			<div class="input-group-append">
-				<a class="btn btn-primary" onclick="$('form').submit();"  >
-					<i class="fas fa-search fa-sm"></i>
-				</a>
-			</div>
-		</div>
-	</form>
-		</div>
+
 				<div class="card shadow mb-4 py-1 border-left-primary">
 					<div class="card-body patient-mini-table">
 						<table id="patient-mini-table">
 						<c:if test="${list eq null }">
 							<tr>
 								<td>이름</td>
-								<td><input class="form-control input-mini w-100" 
+								<td><input class="form-control input-mini w-100" value="${vo.name}"
 									type="text" disabled" /></td>
 							</tr>
 							<tr>
 								<td>성별</td>
-								<td><input class="form-control input-mini" id="gender"
+								<td><input class="form-control input-mini" id="gender" 
 									type="text" disabled /></td>
 							</tr>
 							<td>연락처</td>
@@ -137,16 +124,7 @@
 								<c:if test="${vo.pay_amount ne 0 }">
 								<td>${"수납완료"}</td>
 								</c:if>
-			
-								<td style="display: none;">${vo.acceptance_date}</td>
-								<td style="display: none;">${vo.doctor}</td>
-								
-								<td style="display: none;">${vo.acceptance_record_id}</td>
-								<td style="display: none;">${vo.medical_expenses}</td>
-								<td style="display: none;">${vo.acceptance_record_id}</td>
-								<td style="display: none;">${vo.acceptance_record_id}</td>
-							</tr>
-							
+							</tr>							
 							</c:forEach>
 						</table>
 					</div>
@@ -168,6 +146,7 @@
 							</tr>
 
 							<tr>
+							
 								<td>총진료비</td>
 								<td><input class="form-control" id="" type="text" disabled /></td>
 							</tr>
@@ -199,11 +178,13 @@
 							</tr>
 							<tr>
 								<td>총진료비</td>
+								
 								<td><input class="form-control" id="total_cost" type="text" 
 								value="${list[0].medical_expenses + list[0].inspection_fee+list[0].admission_fee+list[0].operation_fee}"disabled /></td>
 							</tr>
 							<tr>
 								<td>진료비</td>
+								<fmt:formatNumber value="${list[0].medical_expenses}" pattern="#,###" />
 								<td><input class="form-control" id="" type="text" disabled 
 								value="${list[0].medical_expenses}"/></td>
 							</tr>

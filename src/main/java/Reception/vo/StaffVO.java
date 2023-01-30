@@ -1,18 +1,17 @@
 package Reception.vo;
 
-import java.io.Serializable;
+
 import java.sql.Date;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
 import lombok.Setter;
 
 @Getter @Setter
-public class StaffVO implements Serializable {
+public class StaffVO  {
 
-	private static final long serialVersionUID = 1L;
 	
-	private int staff_id, staff_level, department_id;
+	private int staff_id, staff_level, department_id,pw;
     private String name, department_name, lastChatCheckTime, social_id, email, phone_number, gender, introduction;
     private Date hire_date;
     

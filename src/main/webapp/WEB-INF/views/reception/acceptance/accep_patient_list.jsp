@@ -10,9 +10,9 @@
 </head>
 <body>
 	<div class="container-fluid">
-		<h1 class="h3 mb-2 text-gray-800">환자 목록 조회</h1>
+		<h1 class="h3 mb-2 text-gray-800">수납</h1>
 		<p class="mb-4">
-			항목을 클릭하시면 환자의 자세한 정보, 진료기록을 볼 수 있습니다.			
+			항목을 클릭하시면 환자의 수납정보를 확인 할 수 있습니다.			
 		</p>
 		<!-- DataTales Example -->
 		<div class="card shadow mb-4">
@@ -40,7 +40,7 @@
 									<td>${vo.name}</td>
 									<td id="age">${vo.social_id}</td>
 									<td id="birthdate">${vo.social_id}</td>
-									<td>${vo.phone_number}</td>
+									<td id="phone_number">${vo.phone_number}</td>
 									<td>${vo.gender eq 'M' ? '남' : '여'}</td>
 								</tr>
 							</c:forEach>
@@ -72,7 +72,7 @@
     		 $(this).css('background-color','white');
     	})
     	$('#dataTable tr:not(:first-child)').click(function(){
-    		location.href = 'patientinfo.re?id=' + $(this).children('td:first-child').text()
+    		location.href = 'acceptance.re?name='+ $(this).children('td:eq(1)').text() + '&id=' + $(this).children('td:eq(0)').text();
     	})
     </script>
 </body>
