@@ -38,7 +38,7 @@ on m.staff_id = s.staff_id
 inner join department d
 on s.department_id =d.department_id
 where  to_char(m.time,'yyyy-mm-dd')='2023-02-03'
-order by time desc
+order by time 
 </select>
 
 <!--수납정보가져오기 -->

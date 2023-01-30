@@ -141,12 +141,13 @@ public class ReceptionController {
 			
 		 //예약정보 가져오기
 		@RequestMapping("/receipt.re")
-		 public String get_receipt( Model model , String name, String id)  {
+		 public String get_receipt( Model model , String name, String id, String doctor)  {
 			List<MedicalReceiptVO> list = service.get_medical_receipt();
 			model.addAttribute("list", list);
 			model.addAttribute("time", new Date().getTime());
 			model.addAttribute("name", name);	
 			model.addAttribute("patient_id", id);
+			model.addAttribute("doctor", doctor);
 			model.addAttribute("staff_list", service.get_staff());		
 			
 			//model.addAttribute("department_id", service.get_doctor(department_id));	

@@ -30,12 +30,12 @@
 	<hr class="sidebar-divider">
 
 	<!-- Heading -->
-	<div class="sidebar-heading">메뉴</div>
+
 
 	<!-- Nav Item - Pages Collapse Menu -->
 	
 	<li class="nav-item">
-		<a class="nav-link" href="login.re"> 
+		<a class="nav-link" href="staff_login.re"> 
 		 <span>로그인</span>
 		</a>
 	</li>
