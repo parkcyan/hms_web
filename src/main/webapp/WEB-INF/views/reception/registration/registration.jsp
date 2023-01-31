@@ -133,7 +133,7 @@
     	}
 			
 		// 진료기록 검색
-		function searchMedicalRecord() {
+/* 		function searchMedicalRecord() {
 			$("#spinner-mini").css('display', 'inline');
 			let option = '';
 			if ($('#department_search').is(":checked")) option = 'department';
@@ -175,7 +175,7 @@
 					$('#spinner-mini').css('display', 'none');
 				}
 			});
-		}
+		} */
     </script>
 </body>
 </html>
