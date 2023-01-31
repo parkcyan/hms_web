@@ -56,7 +56,7 @@ p { margin: 0 !important; }
 						<p>의료진</p>
 					</div>
 				</div>
-				<div class="card shadow" style="width: 30%; height: 75%;" onclick="javascript:location.href='index.re'">
+				<div class="card shadow" style="width: 30%; height: 75%;" onclick="javascript:location.href='login.re'">
 					<div class="card-body menu">
 						<i class="fas fa-file-medical"></i>
 						<p>원무과</p>

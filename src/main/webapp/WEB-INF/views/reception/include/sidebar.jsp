@@ -21,7 +21,7 @@
 
 	<!-- Nav Item - Dashboard -->
 	<li class="nav-item active">
-		<a class="nav-link" href="re_patient_list.re">
+		<a class="nav-link" href="index.re">
 			<span>원무과</span>
 		</a>
 	</li>
@@ -33,12 +33,12 @@
 
 
 	<!-- Nav Item - Pages Collapse Menu -->
-	
+	 
 	<li class="nav-item">
-		<a class="nav-link" href="staff_login.re"> 
-		 <span>로그인</span>
+		<a class="nav-link" href="re_patient_list.re"> 
+		 <span>접수</span>
 		</a>
-	</li>
+	</li> 
 	<li class="nav-item">
 		<a class="nav-link" href="registration.re"> 
 		 <span>신규등록</span>

@@ -72,7 +72,7 @@
     		 $(this).css('background-color','white');
     	})
     	$('#dataTable tr:not(:first-child)').click(function(){
-    		location.href = 'patientinfo.re?id=' + $(this).children('td:first-child').text()
+    		location.href = 'patient_info.re?id=' + $(this).children('td:first-child').text()
     	})
     </script>
 </body>

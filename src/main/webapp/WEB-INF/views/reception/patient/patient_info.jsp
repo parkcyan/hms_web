@@ -22,65 +22,52 @@ textarea { height: 75% !important; }
 </style>
 </head>
 <body>
-	<input id="id" type="hidden" value="${patient.patient_id}" />
+	<input id="patient_id" type="hidden" value="${patient_id}" name='patient_id'/>
 	<div class="container-fluid">
 		<h1 class="h3 mb-2 text-gray-800">환자 상세정보 조회</h1>
-		<p class="mb-4">환자의 정보, 메모를 조회, 수정하거나 진료이력을 조회하실 수 있습니다.</p>
+		<p class="mb-4">환자의 정보, 진료이력을 조회하실 수 있습니다.</p>
 		<div class="row">
 			<div class="col-lg-6 mb-4">
-				<div class="card shadow py-1 border-left-primary" style="height: 24rem;">
+				<div class="card shadow py-1 border-left-primary" style="height: 14rem;">
 					<div class="card-body">
+					<form action= 'patient_info.re'  method='get'>
+					<input id="patient_id" type="hidden" value="${patient_id}" name="id" />
 						<table id="info">
 							<tr>
 								<td>이름</td>
 								<td><input class="form-control" type="text"
-									value="${patient.name}" disabled /></td>
+									value="${list[0].patient_name}" disabled /></td>
 							</tr>
 							<tr>
 								<td>나이</td>
 								<td><input class="form-control input-mini" id="age"
-									type="text" value="${patient.social_id}" disabled /> 세</td>
+									type="text" value="${list[0].social_id}" disabled /> 세</td>
 								<td>성별</td>
 								<td><input class="form-control input-mini" id="age"
-									type="text" value="${patient.gender eq 'M' ? '남' : '여'}"
+									type="text" value="${list[0].gender eq 'M' ? '남' : '여'}"
 									disabled /></td>
 							</tr>
 							<tr>
 								<td>생년월일</td>
 								<td><input class="form-control" id="birthdate" type="text"
-									value="${patient.social_id}" disabled /></td>
+									value="${list[0].social_id}" disabled /></td>
 							</tr>
 							<tr>
-								<td>혈액형 <i class="fas fa-pen"></i></td>
-								<td><input class="form-control input-mini" id="blood_type"
-									type="text" value="${patient.blood_type}" /></td>
+								<td>연락처</td>
+								<td><input class="form-control" id="birthdate" type="text"
+									value="${list[0].phone_number}" disabled /></td>
 							</tr>
-							<tr>
-								<td>신장 <i class="fas fa-pen"></i></td>
-								<td><input class="form-control input-mini" id="height"
-									type="number" value="${patient.height}" /> cm</td>
-								<td>체중 <i class="fas fa-pen"></i></td>
-								<td><input class="form-control input-mini" id="weight"
-									type="number" value="${patient.weight}" /> kg</td>
-							</tr>
-							<tr>
-								<td>기저질환 <i class="fas fa-pen"></i></td>
-								<td colspan="3"><input class="form-control"
-									id="underlying_disease" type="text"
-									value="${patient.underlying_disease}" /></td>
-							</tr>
-							<tr>
-								<td>알레르기 <i class="fas fa-pen"></i></td>
-								<td colspan="3"><input class="form-control" id="allergy"
-									type="text" value="${patient.allergy}" /></td>
-							</tr>
+					
+							
 						</table>
-						<div class="d-sm-flex flex-row-reverse mt-3">
-							<a onclick="updateInfo()" class="btn btn-primary">저장</a>
-						</div>
+						</form>
 					</div>
 				</div>
 			</div>
+		
+			
+		</div>
+		<div class="row">
 			<div class="col-lg-6 mb-4">
 				<div class="card shadow h-100"">
 					<div class="card-header py-3">
@@ -99,7 +86,7 @@ textarea { height: 75% !important; }
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${medical_record}" var="vo">
+									<c:forEach items="${list}" var="vo">
 										<tr>
 											<td>${vo.staff_name}</td>
 											<td>${vo.treatment_name}</td>
@@ -112,22 +99,7 @@ textarea { height: 75% !important; }
 					</div>
 				</div>
 			</div>
-			
-		</div>
-		<div class="row">
-			<div class="col-lg-6 mb-4">
-				<div class="card shadow" style="height: 24rem;">
-					<div class="card-header py-3">
-						<h6 class="m-0 font-weight-bold text-primary">메모</h6>
-					</div>
-					<div class="card-body">
-						<textarea id="memo" class="form-control">${patient.memo}</textarea>
-						<div class="d-sm-flex flex-row-reverse mt-2">
-							<a onclick="updateMemo()" class="btn btn-primary">저장</a>
-						</div>
-					</div>
-				</div>
-			</div>
+		
 			<div class="col-lg-6 mb-4">
 				<div class="card shadow h-100">
 					<div class="card-header py-3">
@@ -159,6 +131,34 @@ textarea { height: 75% !important; }
 		</div>
 	</div>
 	<script>
+	function send_payment() {
+		var patient_id = $('#patient_id').val();
+		console.log(patient_id);
+		console.log($('#total_money').val());
+		$.ajax({
+			  data : {
+			    	money : money, 
+			    	id : $('#acceptance_record_id').val() 
+				},
+		    url:'acceptance_update.re',
+		    type:"POST",
+		  
+		    success: function(result) {
+		    	if($('#confirm').val() != null){
+		    		alert('이미 수납처리 된 항목입니다.');
+		    	}else {
+						alert('수납 되었습니다.');
+        					location.reload();
+			
+						}
+		    	
+		    }
+		    	
+		   
+		});
+	}
+	
+	
 		$(document).ready(function() {
 			$('#age').val(getAge($('#age').val()));
 			$('#birthdate').val(getBirthDate($('#birthdate').val()));

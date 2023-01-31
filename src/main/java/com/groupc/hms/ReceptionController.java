@@ -1,3 +1,4 @@
+
 package com.groupc.hms;
 
 import java.util.Date;
@@ -23,6 +24,7 @@ import Reception.ReceptionService;
 import Reception.vo.AcceptanceVO;
 import Reception.vo.DepartmentVO;
 import Reception.vo.MedicalReceiptVO;
+import Reception.vo.MedicalRecordVO;
 import Reception.vo.PatientVO;
 import Reception.vo.StaffVO;
 
@@ -35,16 +37,18 @@ public class ReceptionController {
 	
 	@Autowired
 	private ReceptionService service;	
-		
-	  @RequestMapping(value = "/login.re") public String login() { 
-		 return "reception/login"; 
-		 }
+		//응답페이지 요청
+		@RequestMapping(value = "/login.re") 
+		public String login() { 
+		  return  "reception/login"; 
+	 }
 	 
-	
+	  	  
+		
 	  @ResponseBody @RequestMapping(value = "/staff_login.re")
-	  public boolean staff_login(HttpSession session, int id, int pw) { 
-		String staff_id= Integer.toString(id);
-		String staff_pw= Integer.toString(pw);
+	  public boolean staff_login(HttpSession session, String id, String pw) { 
+		String staff_id= id;
+		String staff_pw= pw;
 		HashMap<String,String> map = new HashMap<>();
 		  map.put("id", staff_id); 
 		  map.put("pw", staff_pw); 
@@ -54,12 +58,14 @@ public class ReceptionController {
 			  return true; 
 		  return false; 
 		  }
+	  
+		@RequestMapping(value = "/staff_logout.re")
+		public String logoutStaff(HttpSession session) {
+			session.removeAttribute("loginInfo");
+			session.setAttribute("title", "로그인");
+			return "reception/login";
+		}
 	 
-
-	private String Integer(String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 	//환자 리스트 가져오기 
@@ -68,6 +74,25 @@ public class ReceptionController {
 		model.addAttribute("patientList",service.getPatientList());		
 		session.setAttribute("title", "환자 조회");		
 		 return "reception/patient/patient_list";
+	}
+	
+	/*
+	 * @RequestMapping(value = "/patientInfo.st") public String patientInfo(String
+	 * id, Model model) { Map<String, Object> map = service.getPatient(id); if (map
+	 * == null) return "staff/404"; else { for (String key : map.keySet()) {
+	 * model.addAttribute(key, map.get(key)); } return "staff/lookup/patientinfo"; }
+	 * }
+	 */
+	
+	//환자 상세정보 가져오기 
+	@RequestMapping(value ="/patient_info.re")
+	public String patient_info( Model model, String id) {	
+	//model.addAttribute("id", service.get_patient(id));
+	List<MedicalRecordVO> list =service.get_medical_record(id); 
+	model.addAttribute("list"  ,list);
+	model.addAttribute("patient_id"  ,id);
+		
+		 return "reception/patient/patient_info";
 	}
 	
 	//접수-환자 리스트
@@ -97,6 +122,7 @@ public class ReceptionController {
 		//신규 등록 저장	
 		@RequestMapping(value="/new_patient.re")
 		public String new_patient(PatientVO vo) {
+			vo.setSocial_id(vo.getSocial_id().substring(2).replaceAll("-", ""));
 			service.patient_insert(vo);
 			return "redirect:patient_list.re";
 		}
@@ -128,7 +154,7 @@ public class ReceptionController {
 		 //접수
 		 @ResponseBody
 		 @RequestMapping("/receipt_insert.re")
-		 public boolean receipt_insert(Integer patient_id, Integer staff_id, String memo) {
+		 public boolean receipt_insert(String patient_id, Integer staff_id, String memo) {
 			 System.out.println(patient_id);
 			 System.out.println(staff_id);
 			 Map<String, Object>map = new HashMap<String, Object>();
@@ -141,12 +167,13 @@ public class ReceptionController {
 			
 		 //예약정보 가져오기
 		@RequestMapping("/receipt.re")
-		 public String get_receipt( Model model , String name, String id)  {
-			List<MedicalReceiptVO> list = service.get_medical_receipt();
+		 public String get_receipt( Model model , String name, String id , String doctor_id)  {
+			List<MedicalReceiptVO> list = service.get_medical_receipt(doctor_id);
 			model.addAttribute("list", list);
 			model.addAttribute("time", new Date().getTime());
 			model.addAttribute("name", name);	
 			model.addAttribute("patient_id", id);
+			model.addAttribute("doctor_id", doctor_id);
 		//	model.addAttribute("doctor", doctor);
 			model.addAttribute("staff_list", service.get_staff());		
 			

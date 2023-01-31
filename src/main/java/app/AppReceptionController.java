@@ -34,14 +34,14 @@ public class AppReceptionController {
 			return vo;
 		}
 
-	//로그인 하기	
-		@RequestMapping(value ="/login.re", produces ="text/html;charset=utf-8")
-		public String login(String id, String pw) {
-				HashMap<String, String> map = new HashMap<>();
-				map.put("id", id);
-				map.put("pw", pw);
-			return new Gson().toJson(service.login_staff(map));
-		}
+//	//로그인 하기	
+//		@RequestMapping(value ="/login.re", produces ="text/html;charset=utf-8")
+//		public String login(String id, String pw) {
+//				HashMap<String, String> map = new HashMap<>();
+//				map.put("id", id);
+//				map.put("pw", pw);
+//			return new Gson().toJson(service.login_staff(map));
+//		}
 
 
 
