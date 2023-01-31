@@ -121,7 +121,7 @@ textarea { height: 75% !important; }
 						<h6 class="m-0 font-weight-bold text-primary">메모</h6>
 					</div>
 					<div class="card-body">
-						<textarea id="memo" class="form-control">${patient.memo}</textarea>
+						<textarea id="memo" class="form-control" spellcheck="false">${patient.memo}</textarea>
 						<div class="d-sm-flex flex-row-reverse mt-2">
 							<a onclick="updateMemo()" class="btn btn-primary">저장</a>
 						</div>
