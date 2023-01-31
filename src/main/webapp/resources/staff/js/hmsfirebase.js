@@ -240,7 +240,7 @@ function setChatView(chatList) {
 function setLinkChat(content) {
 	let arr = content.split("##");
 	if (arr[1] == 'patient') {
-		return '<a href="' + 'http://' + window.location.host + '/hmsweb/patientInfo.st?id=' + arr[2] + '">'
+		return '<a href="' + 'http://' + window.location.host + '/hmsw/patientInfo.st?id=' + arr[2] + '">'
 		+ '→ 환자정보(' + arr[3] + ')</a>'; 
 	}
 }
