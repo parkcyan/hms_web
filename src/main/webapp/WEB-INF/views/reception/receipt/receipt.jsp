@@ -30,6 +30,13 @@ box-sizing: border-box;}
  margin-top: 20px;
 }
 
+.form-control {
+	height: calc(1.0em + 0.5rem + 2px);
+	padding: 3px;
+	display: inline;
+	font-size: 15px;
+}
+
 </style>
 </head>
 <body>
@@ -39,8 +46,8 @@ box-sizing: border-box;}
 	<div class="container-fluid">
 		<h1 class="h3 mb-4 text-gray-800">접수</h1>
 		
-				<div class="row">
-			<div class="col-lg-3">		
+<div class="row">
+	<div class="col-lg-3">		
 		</div>
 		</div>	
 		<form action="receipt.re" method="get">	
@@ -61,7 +68,7 @@ box-sizing: border-box;}
 								</div>								
 							<tr>
 								<td>이름</td>
-								<td><input class="form-control w-50" type="text" value='${name}'/></td>
+								<td><input class="form-control w-50 form-control" type="text" value='${name}' disabled/></td>
 							</tr>
 							<tr>
 								</td> 

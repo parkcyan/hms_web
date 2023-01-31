@@ -42,7 +42,7 @@
 			<h1 class="h3 mb-0 text-gray-800">메인</h1>
 		</div>
 		<div class="row">
-			<div class="col-lg-7 mb-4">
+			<div class="col-lg-8 mb-4">
 				<div class="card shadow h400">
 					<div class="card-header py-3">
 						<div class="flex">
@@ -88,7 +88,20 @@
 									</div>
 								</div>
 							</div>
+							<div class="col-lg-3 mb-4" onclick="location.href ='patient_list.re';">
+								<div class="card shadow h-100 py-2" style="background: lightblue">
+									<div class="main-button-card card-body">
+										<div class="w-100 h-100 main-button">
+											<div class="h3 mb-0 font-weight-bold">환자 조회</div>
+											<div class="main-button-img">
+												<i class="far fa-fw fa-clipboard"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
+							
 						
 						<div class="row">
 							<!-- Earnings (Monthly) Card Example -->

@@ -28,7 +28,7 @@ textarea { height: 75% !important; }
 		<p class="mb-4">환자의 정보, 진료이력을 조회하실 수 있습니다.</p>
 		<div class="row">
 			<div class="col-lg-6 mb-4">
-				<div class="card shadow py-1 border-left-primary" style="height: 12rem;">
+				<div class="card shadow py-1 border-left-primary" style="height: 14rem;">
 					<div class="card-body">
 					<form action= 'patient_info.re'  method='get'>
 					<input id="patient_id" type="hidden" value="${patient_id}" name="id" />

@@ -56,8 +56,8 @@
 						<c:if test="${list eq null }">
 							<tr>
 								<td>이름</td>
-								<td><input class="form-control input-mini w-100" value="${vo.name}"
-									type="text" disabled" /></td>
+								<td><input class="form-control input-mini w-100" value="${vo.patient}"
+									type="text" disabled /></td>
 							</tr>
 							<tr>
 								<td>성별</td>
@@ -75,7 +75,7 @@
 							<c:if test="${list ne null }">
 							<tr>
 								<td>이름</td>
-								<td><input class="form-control input-mini" id="gender"
+								<td><input class="form-control input-mini" id="gender" style="000000";
 									type="text" value="${list[0].patient}" disabled /></td>
 							</tr>
 							<tr>
@@ -119,11 +119,12 @@
 								<c:if test="${vo.pay_amount ne 0 }">
 								<td  id="confirm"><fmt:formatNumber value="${vo.pay_amount}"/></td>
 								</c:if>
+
 								<c:if test="${vo.pay_amount eq 0 }">
-								<td >${"미납"}</td>
+								<td id="item1">${"미납"}</td>
 								</c:if>
 								<c:if test="${vo.pay_amount ne 0 }">
-								<td>${"수납완료"}</td>
+								<td id="item2">${"수납완료"}</td>
 								</c:if>
 								<td style='display:none;'>${vo.doctor}</td>
 								<td style='display:none;'><fmt:formatNumber value="${vo.medical_expenses + vo.inspection_fee+vo.admission_fee+vo.operation_fee}"/></td>
@@ -141,11 +142,11 @@
 			</div>
 			<div class="col-lg-6 mb-4">
 					
-				<div class="card shadow mb-4 py-1 border-left-info h1000">
+				<div class="card shadow mb-4 py-1 ">
 					<div class="card-body">
 						<table id="medical_record_table">
 						<div class="py-3">
-						<h6 class="m-0 font-weight-bold text-primary">진료비 내역</h6>
+						<h6 class="m-0 font-weight-bold text-primary">진료비 상세 내역</h6>
 					</div>
 						<c:if test="${list eq null }">
 						<tr>
@@ -217,8 +218,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="card shadow mb-4 py-1 border-left-primary">
+			<div class="card shadow mb-4 py-1 border-left-primary" style="height: 16rem;">
 					<div class="card-body patient-mini-table">
+						<div class="py-3">
+						<h6 class="m-0 font-weight-bold text-primary"> 납부 금액 </h6>
+					</div>
 						<input type="hidden" id="acceptance_record_id" value="${list[0].acceptance_record_id}">
 						<table id="patient-mini-table">
 			
@@ -301,58 +305,11 @@
 		return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	};
 
-		$(document).ready(function () {
-			let json = "";
-			(function poll() {
-				$.ajax({
-					url: 'getMedicalReceipt.st',
-					dataType: 'json',
-					success: function (res) {
-						if (JSON.stringify(res) != JSON.stringify(json)) {
-							$('#receipt *').remove();
-							let str = "";
-							if (res == "[]") 
-								str += "<tr><td>데이터가 없습니다.</td></tr>"
-							else {
-								$.each(res, function (i) {
-									str += "<tr>"
-									str += "<td style='display:none;'>" + res[i].patient_id + "</td>";
-									str += "<td>" + res[i].time + "</td>"
-									str += "<td>" + res[i].patient_name + "</td>"
-									if (typeof res[i].memo == "undefined") 
-										str += "<td>-</td>";
-									else 
-										str += "<td>" + res[i].memo + "</td>"
-									str += "</tr>"
-								});
-							}
-							$('#receipt').append(str);
-							$('#receipt tr').hover(function () {
-								$(this).css('background-color', '#D0E2F4');
-								$(this).css('cursor', 'pointer');
-							}, function () {
-								$(this).css('background-color', 'white');
-							})
-							$('#receipt tr').click(function () {
-								$('#patient_id').val($(this).children("td:eq(0)").text());
-								$('#time').val($(this).children("td:eq(1)").text());
-								$('#patient_name_mr').val($(this).children("td:eq(2)").text());
-								$('#memo_mr').val($(this).children("td:eq(3)").text());
-								getPatient($(this).children("td:eq(0)").text());
-							})
-						}
-						json = res;
-					},
-					timeout: 3000,
-					complete: setTimeout(function () {
-						poll();
-					}, 5000)
-				})
-			})();
-		});
+
+// 		});
 		//데이터 보내기			
 		function send_payment() {
-			var money = $('#total_money').val();
+			var money = $('#total_money').val().replace(/,/g, '');
 			console.log(money);
 			console.log($('#total_money').val());
 			$.ajax({
