@@ -44,17 +44,17 @@ function makeChatRoom(staff_id, staff_level, department_id, staff_name, departme
 				chatRoomTitle : selectedRoomTitle,
 				member : {
 					[staff_id] : {
-						'staff_id' : staff_id,
-						'staff_level' : staff_level,
-						'department_id' : department_id,
+						'staff_id' : parseInt(staff_id),
+						'staff_level' : parseInt(staff_level),
+						'department_id' : parseInt(department_id),
 						'name' : staff_name,
 						'department_name' : department_name,
 						'onChat' : false
 					},
 					[id] : {
-						'staff_id' : id,
-						'staff_level' : $("#staff_level").val(),
-						'department_id' : $("#department_id").val(),
+						'staff_id' : parseInt(id),
+						'staff_level' : parseInt($("#staff_level").val()),
+						'department_id' : parseInt($("#department_id").val()),
 						'name' : name,
 						'department_name' : $("#department_name").val(),
 						'onChat' : false

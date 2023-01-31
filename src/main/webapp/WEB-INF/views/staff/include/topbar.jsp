@@ -250,10 +250,10 @@
 					</c:forEach>
 				</div>
 			</div>
-			<div class="d-sm-flex flex-row-reverse mb-3 mt-3">
-				<button id="makeGroupChatRoom_button" class="btn btn-primary">생성</button>
-			</div>
 		</form>
+		<div class="d-sm-flex flex-row-reverse mb-3 mr-3 mt-3">
+				<button id="makeGroupChatRoom_button" class="btn btn-primary">생성</button>
+		</div>
 	</div>
 </aside>
 <!-- End of createGroupChatRoom-->
@@ -277,9 +277,9 @@
 	
 	let groupMember = {
 			[id] : {
-				'staff_id' : id,
-				'staff_level' : $("#staff_level").val(),
-				'department_id' : $("#department_id").val(),
+				'staff_id' : parseInt(id),
+				'staff_level' : parseInt($("#staff_level").val()),
+				'department_id' : parseInt($("#department_id").val()),
 				'name' : name,
 				'department_name' : $("#department_name").val(),
 				'onChat' : false
@@ -289,9 +289,9 @@
 	function groupInit() {
 		groupMember = {
 				[id] : {
-					'staff_id' : id,
-					'staff_level' : $("#staff_level").val(),
-					'department_id' : $("#department_id").val(),
+					'staff_id' : parseInt(id),
+					'staff_level' : parseInt($("#staff_level").val()),
+					'department_id' : parseInt($("#department_id").val()),
 					'name' : name,
 					'department_name' : $("#department_name").val(),
 					'onChat' : false
@@ -350,9 +350,9 @@
 		let department_name_member = $(this).children('input:eq(4)').val();
 		if (groupMember[staff_id_member] == null) {
 			groupMember[staff_id_member] = {
-					'staff_id' : staff_id_member,
-					'staff_level' : staff_level_member,
-					'department_id' : department_id_member,
+					'staff_id' : parseInt(staff_id_member),
+					'staff_level' : parseInt(staff_level_member),
+					'department_id' : parseInt(department_id_member),
 					'name' : name_member,
 					'department_name' : department_name_member,
 					'onChat' : false
