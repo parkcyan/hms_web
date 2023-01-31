@@ -23,7 +23,7 @@ public class Scheduler {
 	@Qualifier("cteam")
 	private SqlSession sql;
 	
-	@Scheduled(cron = "0 10 16 * * *")
+	@Scheduled(cron = "0 10 01 * * *")
 	public void sendPush() {
 		PushAdmin push = new PushAdmin();
 		List<PushListVO> list = sql.selectList("admin.push_list");
