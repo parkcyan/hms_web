@@ -21,7 +21,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/index.ad", method = RequestMethod.GET)
 	public String adminHome(HttpSession session, Model model) {
-		return "admin/index";
+		return "admin/staff/list";
 	}
 	
 	@RequestMapping(value = "/index.st", method = RequestMethod.GET)
