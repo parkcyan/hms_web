@@ -34,9 +34,20 @@ public class ReceptionDAO {
 	public List<PatientVO> get_patient_list() {
 		return sql.selectList("reception.get_patient_list");
 	}
+	
 	public PatientVO get_patient(String id) {
-		return sql.selectOne("staff.get_patient", id);
+		return sql.selectOne("reception.get_patient", id);
 	}
+	
+	public List<AdmissionRecordVO> get_admission_record_patient_id(String id) {
+		return sql.selectList("reception.get_admission_record_patient_id", id);
+	}
+	
+	public List<MedicalRecordVO> get_medical_record(String id) {
+		return sql.selectList("reception.get_medical_record", id);
+	}
+	
+	
 	
 
 	public List<AcceptanceVO> get_acceptance(int id){
@@ -51,8 +62,8 @@ public class ReceptionDAO {
 		sql.insert("reception.patient_insert", vo);
 		
 	}
-	public List<MedicalReceiptVO> get_medical_receipt() {
-		return sql.selectList("reception.get_medical_receipt");
+	public List<MedicalReceiptVO> get_medical_receipt(String doctor_id) {
+		return sql.selectList("reception.get_medical_receipt",doctor_id);
 	}
 	
 	public int receipt_insert(Map<String, Object> map) {

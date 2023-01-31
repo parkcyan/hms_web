@@ -16,9 +16,10 @@
 <!-- Core plugin JavaScript-->
 <script src="staff/vendor/jquery-easing/jquery.easing.min.js"></script>
 <!-- Custom scripts for all pages-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
 <script src="staff/js/sb-admin-2.js"></script>
 <script src="staff/js/reception.js"></script>
-<title>YH-HOSPITAL</title>
+<title>YM-HOSPITAL</title>
 </head>
 <body id="page-top">
 	<div id="wrapper">
@@ -26,7 +27,7 @@
 		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content">
 				<tiles:insertAttribute name="topbar" />
-				<tiles:insertAttribute name="container" />
+				<tiles:insertAttribute name="container"/>
 				<tiles:insertAttribute name="footer" />
 			</div>
 		</div>
@@ -58,11 +59,12 @@
 			</div>
 		</div>
 	</div>
-	<!-- Page level plugins -->
+	<!-- 
 	<script src="staff/vendor/chart.js/Chart.min.js"></script>
-	<!-- Page level custom scripts -->
 	<script src="staff/js/demo/chart-area-demo.js"></script>
 	<script src="staff/js/demo/chart-pie-demo.js"></script>
+	-->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 </body>
 </html>
 

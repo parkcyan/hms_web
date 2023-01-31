@@ -34,6 +34,7 @@
     width: 100%;
     table-layout: fixed;
 }
+.picker__select--month, .picker__select--year { height: 2.5em !important; }
 </style>
 </head>
 <body>
@@ -65,11 +66,11 @@
 			<div class="col-lg-5">
 				<div class="card shadow py-1 border-left-info h600">
 					<div class="card-body">
-					<form action= 'new_patient.re' method="post">
+					<form action= 'new_patient.re' method="post" onsubmit="if( $('#birthdate').val()=='' ){ alert('생년월일을 선택하세요'); return false }">
 						<table id="medical_record_table">
 							<tr>
 								<td>이름</td>
-								<td><input class="form-control w-150" id="patient_name_mr" name='name' type="text" /></td>
+								<td><input class="form-control w-150" id="patient_name_mr" name='name' type="text" required  /></td>
 							</tr>
 							<tr>
 								<td>성별</td>
@@ -78,11 +79,15 @@
 							</tr>
 							<tr class="tr-mr">
 								<td>생년월일</td>
-								<td><input class="form-control w-100" id="birthdate" type="text" name ='social_id'
-								 placeholder="yymmdd" maxlength="6"/></td>
+								<td><input type="text" class="form-control w-100 picker__input" id="birthdate" required
+									name ='social_id'  >
+								</td>
+								
+<!-- 								<td><input class="form-control w-100" id="birthdate" type="text" name ='social_id' required -->
+<!-- 								 placeholder="yymmdd" maxlength="6"/></td> -->
 							<tr class="tr-mr">
 								<td>연락처</td>
-								<td><input class="form-control w-100 input-mini" id="phone_number" name ='phone_number'  type="text" 
+								<td><input class="form-control w-100 input-mini" id="phone_number" name ='phone_number' required type="text" 
 								placeholder="-없이 입력하세요" maxlength="13" /></td>
 							</tr>
 							<tr class="tr-mr">
@@ -105,12 +110,11 @@
 	<script src="staff/js/calendar-picker/popper.min.js"></script>
 	<script src="staff/js/calendar-picker/picker.js"></script>
 	<script src="staff/js/calendar-picker/picker.date.js"></script>
-    <script>
+    <script>    
     	$(document).ready(function(){
-    		$('#date1').pickadate();
-    		$('#date2').pickadate();
-    		$('#date1').val(getDate(timeStampOperator(getCurrentTimeStamp(), 'month', -2)));
-    		$('#date2').val(getDate(getCurrentTimeStamp()))
+    		$('#birthdate').css('background-color', '#fff');
+    		$('#birthdate').pickadate({selectYears: true});
+    		$('#birthdate').val(getDate(getCurrentTimeStamp()))
     	});
     	
     	// 항목 hover, click 이벤트

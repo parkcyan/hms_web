@@ -17,7 +17,36 @@ where s.staff_id = #{id} and pw =#{pw}
 <select id='get_patient_list' resultType="Reception.vo.PatientVO">
   		select * from patient order by patient_id
 </select>
-<!-- 환자검색: 이름으로 -->
+<!-- 환자정보 -->
+
+<select id="get_patient" resultType="Reception.vo.PatientVO">
+		select * from patient where patient_id = #{id} 
+	</select>
+
+<select id="get_admission_record_patient_id" resultType="Reception.vo.AdmissionRecordVO">
+		select ar.ward_id, ar.admission_record_id, p.patient_id, p.name as patient_name, s.name as staff_name, s.staff_id,  
+		d.department_name, mr.treatment_name, to_char(ar.admission_date, 'yyyy-mm-dd') as admission_date,
+		to_char(ar.discharge_date, 'yyyy-mm-dd') as discharge_date 
+		from medical_record mr, admission_record ar, ward w, patient p, staff s, department d 
+		where mr.medical_record_id = ar.medical_record_id
+		and s.staff_id = mr.staff_id 
+		and p.patient_id = mr.patient_id
+		and w.ward_id = ar.ward_id 
+		and s.department_id = d.department_id 
+		and p.patient_id = #{id} 
+		order by ar.admission_date 
+	</select>
+	<select id="get_medical_record" resultType="Reception.vo.MedicalRecordVO">
+		select mr.medical_record_id, p.name as patient_name, s.name as staff_name, mr.memo, p.gender ,p.social_id ,p.phone_number,
+		to_char(mr.treatment_date, 'yyyy-mm-dd hh24:mi') as treatment_date, mr.admission, 
+		mr.treatment_name, pr.prescription_record_id
+		from patient p, staff s, medical_record mr, prescription_record pr 
+		where p.patient_id = mr.patient_id
+		and s.staff_id = mr.staff_id 
+		and pr.medical_record_id(+) = mr.medical_record_id 
+		and p.patient_id = #{id}
+		order by mr.treatment_date 
+	</select>
 
 <!-- 신규환자 -->
 <insert id='patient_insert'>
@@ -69,9 +98,10 @@ where acceptance_record_id =#{id}
 <select id ='get_medical_receipt' resultType="Reception.vo.MedicalReceiptVO">
 select to_char(m.time, 'yyyy-mm-dd day')reserve_today,
 to_char(m.time,'hh24:mi')reserve_time, 
+to_char(current_date,' yyyy-mm-dd day hh24:mi') now, 
 m.memo, p.name patient_name, s.name doctor_name,
 d.department_name department_name, d.location location,
-case when m.time-(current_date-2/24)>=0 then '대기중' else ''  end status
+case when m.time-(current_date)>=0 then '대기중' else '진료완료' end status
 from medical_receipt m inner join patient p
 on m.patient_id= p.patient_id
 inner join staff s
@@ -80,7 +110,10 @@ inner join department d
 on s.department_id =d.department_id
 where 
  to_char(m.time,'yyyy-mm-dd') = to_char(current_date,'yyyy-mm-dd') 
- AND to_char(m.time,'hh24:mi') &lt; '18:00'
+
+ <if test="doctor_id != null">
+	 and s.staff_id= #{doctor_id}
+ </if>
 order by to_char(m.time,'hh24:mi')
 <!--  
 select to_char(m.time, 'yyyy-mm-dd day')reserve_today,
