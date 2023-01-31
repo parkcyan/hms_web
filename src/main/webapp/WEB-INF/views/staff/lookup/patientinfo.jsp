@@ -67,12 +67,12 @@ textarea { height: 75% !important; }
 								<td>기저질환 <i class="fas fa-pen"></i></td>
 								<td colspan="3"><input class="form-control"
 									id="underlying_disease" type="text"
-									value="${patient.underlying_disease}" /></td>
+									value="${patient.underlying_disease}" placeholder="없음" /></td>
 							</tr>
 							<tr>
 								<td>알레르기 <i class="fas fa-pen"></i></td>
 								<td colspan="3"><input class="form-control" id="allergy"
-									type="text" value="${patient.allergy}" /></td>
+									type="text" value="${patient.allergy}" placeholder="없음"/></td>
 							</tr>
 						</table>
 						<div class="d-sm-flex flex-row-reverse mt-3">
@@ -121,7 +121,7 @@ textarea { height: 75% !important; }
 						<h6 class="m-0 font-weight-bold text-primary">메모</h6>
 					</div>
 					<div class="card-body">
-						<textarea id="memo" class="form-control">${patient.memo}</textarea>
+						<textarea id="memo" class="form-control" spellcheck="false">${patient.memo}</textarea>
 						<div class="d-sm-flex flex-row-reverse mt-2">
 							<a onclick="updateMemo()" class="btn btn-primary">저장</a>
 						</div>
