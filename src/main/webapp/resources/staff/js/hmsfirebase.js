@@ -312,8 +312,9 @@ function sendDateBeforeChat(content) {
 function getNotification() {
 	db.ref('member/' + id + '/lastChat').on('value', (lastChat) => {
 		db.ref('member/' + id + '/lastChatRoom').once('value', (snapshot) => {
-			if (new Date().getTime() - new Date(lastChat.child('time').val()).getTime() < 3000 
-				&& snapshot.val().indexOf(selectedKey) != -1)  {
+			if (new Date().getTime() - new Date(lastChat.child('time').val()).getTime() < 20000
+				&& snapshot.val().indexOf(selectedKey) != -1 && sessionStorage.getItem("lastChat") != lastChat.child('content').val()) {
+				sessionStorage.setItem("lastChat", lastChat.child('content').val())
 				chatToast(snapshot.val(), lastChat.child('content').val(), lastChat.child('name').val());
 			}
 		});
