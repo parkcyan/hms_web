@@ -44,17 +44,17 @@ function makeChatRoom(staff_id, staff_level, department_id, staff_name, departme
 				chatRoomTitle : selectedRoomTitle,
 				member : {
 					[staff_id] : {
-						'staff_id' : staff_id,
-						'staff_level' : staff_level,
-						'department_id' : department_id,
+						'staff_id' : parseInt(staff_id),
+						'staff_level' : parseInt(staff_level),
+						'department_id' : parseInt(department_id),
 						'name' : staff_name,
 						'department_name' : department_name,
 						'onChat' : false
 					},
 					[id] : {
-						'staff_id' : id,
-						'staff_level' : $("#staff_level").val(),
-						'department_id' : $("#department_id").val(),
+						'staff_id' : parseInt(id),
+						'staff_level' : parseInt($("#staff_level").val()),
+						'department_id' : parseInt($("#department_id").val()),
 						'name' : name,
 						'department_name' : $("#department_name").val(),
 						'onChat' : false
@@ -312,8 +312,9 @@ function sendDateBeforeChat(content) {
 function getNotification() {
 	db.ref('member/' + id + '/lastChat').on('value', (lastChat) => {
 		db.ref('member/' + id + '/lastChatRoom').once('value', (snapshot) => {
-			if (new Date().getTime() - new Date(lastChat.child('time').val()).getTime() < 3000 
-				&& snapshot.val().indexOf(selectedKey) != -1)  {
+			if (new Date().getTime() - new Date(lastChat.child('time').val()).getTime() < 20000
+				&& snapshot.val().indexOf(selectedKey) != -1 && sessionStorage.getItem("lastChat") != lastChat.child('content').val()) {
+				sessionStorage.setItem("lastChat", lastChat.child('content').val())
 				chatToast(snapshot.val(), lastChat.child('content').val(), lastChat.child('name').val());
 			}
 		});

@@ -40,7 +40,7 @@
 									<td>${vo.name}</td>
 									<td id="age">${vo.social_id}</td>
 									<td id="birthdate">${vo.social_id}</td>
-									<td>${vo.phone_number}</td>
+									<td id="phone_number">${vo.phone_number}</td>
 									<td>${vo.gender eq 'M' ? '남' : '여'}</td>
 								</tr>
 							</c:forEach>
@@ -56,12 +56,20 @@
     <!-- Page level custom scripts -->
     <script src="staff/js/demo/datatables-demo.js"></script>
     <script>
+
     	// 나이, 생일 format
     	$('#dataTable #age').each(function(){
-    		$(this).text(getAge($(this).text()) + "세")
+    		$(this).text(getAge($(this).text()))
     	})
     	$('#dataTable #birthdate').each(function(){
     		$(this).text(getBirthDate($(this).text()))
+    	})
+    	$('#dataTable #phone_number').each(function(){
+    		let number = $(this).text();
+    		if (number.indexOf('-') == -1) {
+    			let number_new = number.slice(0, 3) + '-' + number.slice(3, 6) + '-' + number.slice(6, 10);
+    			$(this).text(number_new);
+    		}
     	})
     	
     	// 항목 hover, click 이벤트

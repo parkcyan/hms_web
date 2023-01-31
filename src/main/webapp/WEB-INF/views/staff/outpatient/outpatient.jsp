@@ -73,7 +73,7 @@
 							</tr>
 							<tr>
 								<td>알레르기</td>
-								<td colspan="3"><input class="form-control" id="allergy" type="text"disabled /></td>
+								<td colspan="3"><input class="form-control" id="allergy" type="text" disabled/></td>
 							</tr>
 						</table>
 					</div>
@@ -112,15 +112,15 @@
 							</tr>
 							<tr class="tr-mr">
 								<td>진료</td>
-								<td><textarea id="treatment_mr" class="form-control textarea-mr"></textarea></td>
+								<td><textarea id="treatment_mr" class="form-control textarea-mr" spellcheck="false"></textarea></td>
 							</tr>
 							<tr class="tr-mr">
 								<td>처방</td>
-								<td><textarea id="prescription_mr" class="form-control textarea-mr"></textarea></td>
+								<td><textarea id="prescription_mr" class="form-control textarea-mr" spellcheck="false"></textarea></td>
 							</tr>
 							<tr class="tr-mr">
 								<td>의사소견</td>
-								<td><textarea id="staff_memo_mr" class="form-control textarea-mr"></textarea></td>
+								<td><textarea id="staff_memo_mr" class="form-control textarea-mr" spellcheck="false"></textarea></td>
 							</tr>
 						</table>
 						<div class="flexb flexc mt-3">

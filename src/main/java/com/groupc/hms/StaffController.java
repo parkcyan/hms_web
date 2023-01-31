@@ -46,14 +46,16 @@ public class StaffController {
 		map.put("id", id);
 		map.put("pw", pw);
 		StaffVO vo = service.loginStaff(map);
-		List<StaffVO> list = service.getStaff();
-		LinkedHashMap<Integer, StaffChatVO> staffMap = new LinkedHashMap<>();
-		for (StaffVO staff : list) {
-			if (vo.getStaff_id() != staff.getStaff_id()) staffMap.put(staff.getStaff_id(), new StaffChatVO(staff));
-		}
-		session.setAttribute("loginInfo", vo);
-		session.setAttribute("staffMap", staffMap);
-		return vo != null;
+		if (vo != null) {
+			List<StaffVO> list = service.getStaff();
+			LinkedHashMap<Integer, StaffChatVO> staffMap = new LinkedHashMap<>();
+			for (StaffVO staff : list) {
+				if (vo.getStaff_id() != staff.getStaff_id()) staffMap.put(staff.getStaff_id(), new StaffChatVO(staff));
+			}
+			session.setAttribute("loginInfo", vo);
+			session.setAttribute("staffMap", staffMap);
+			return true;
+		} else return false;
 	}
 	
 	@RequestMapping(value = "/logoutStaff.st")

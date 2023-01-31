@@ -30,7 +30,7 @@ body {
 }
 
 .qr-card {
-	height: 400px;
+	height: 600px;
 }
 .qr-card:last-child {
 	float: right;
@@ -92,17 +92,19 @@ body {
 										<c:when test="${department_id eq 8}">신경과</c:when>
 										<c:when test="${department_id eq 9}">치과</c:when>
 										<c:otherwise>진료과를 선택하세요</c:otherwise>
-									
 									</c:choose>
 								</p>
 							</div>
 						</div>
 						<div class="card-body qr-card">
 							<div class="row">
-								<c:forEach items="${list}" var="list">
+								<c:forEach items="${list}" var="list" varStatus="st">
 									<div class="card mr-5" style="width: 18rem;">
 										<a href="qr.ad?staff_id=${list.staff_id}" class="a-none"> 
-											<img src="admin/img/doctor_profile1.jpg" class="card-img-top" alt="...">
+											<c:choose>
+												<c:when test="${st.index eq 0}"><img src="admin/img/profile7.png" class="card-img-top" alt="..."></c:when>
+												<c:when test="${st.index eq 1}"><img src="admin/img/profile6.png" class="card-img-top" alt="..."></c:when>
+											</c:choose> 
 											<div class="card-body">
 												<h4 class="a-name card-title text-center text-black">${list.name}</h4>
 												<p class="a-intro card-text">${list.introduction}</p>

@@ -1,8 +1,5 @@
 package com.groupc.hms;
 
-import java.io.FileInputStream;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -11,13 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.google.api.services.storage.model.Notification;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.Message;
 
 @Controller
 public class HomeController {
@@ -31,8 +21,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/index.ad", method = RequestMethod.GET)
 	public String adminHome(HttpSession session, Model model) {
-
-		return "admin/index";
+		return "admin/staff/list";
 	}
 	
 	@RequestMapping(value = "/index.st", method = RequestMethod.GET)
@@ -45,9 +34,5 @@ public class HomeController {
 	public String recptionHome() {
 		return "reception/index";
 	}
-	
 
-
-	
-	
 }

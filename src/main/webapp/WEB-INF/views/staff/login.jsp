@@ -25,20 +25,19 @@
 									<form class="user" method="post">
 										<div class="form-group">
 											<input type="text" class="form-control form-control-user chk"
-												id="exampleInputEmail" placeholder="사번" name="id">
+												id="id_staff" placeholder="사번" name="id">
 										</div>
 										<div class="form-group">
-											<input type="password" class="form-control form-control-user chk"
-												id="exampleInputPassword" placeholder="비밀번호" name="pw">
+											<input type="password" class="form-control form-control-user chk" onkeyup="searchEnterKey()"
+												id="pw_staff" placeholder="비밀번호" name="pw">
 										</div>
 										<div class="form-group">
 											<div class="custom-control custom-checkbox small">
-												<input type="checkbox" class="custom-control-input"
-													id="customCheck" name="rememberAccount"> <label
-													class="custom-control-label" for="customCheck">로그인 정보 기억</label>
+												<input type="checkbox" class="custom-control-input" id="loginCheck"> 
+												<label class="custom-control-label" for="loginCheck">로그인 정보 기억</label>
 											</div>
 										</div>
-										<a onclick="login()" class="btn btn-primary btn-user btn-block">로그인</a>
+										<a id="login_btn" class="btn btn-primary btn-user btn-block" onclick="login()" >로그인</a>
 									</form>
 								</div>
 							</div>
@@ -49,6 +48,15 @@
 		</div>
 	</div>
 	<script>
+		$('document').ready(function(){
+			let id = getCookie('id_staff');
+			let pw = getCookie('pw_staff');
+			let autoLogin = getCookie('autoLogin_staff');
+			if (id != null) $("input[name=id]").val(id);
+			if (pw != null) $("input[name=pw]").val(pw);
+			if (autoLogin != null && autoLogin == 'Y') $('#loginCheck').prop('checked', true);
+		});
+		
 		function login() {		
 			if (emptyCheck()) {
 				if (isNaN($("input[name=id]").val())) {
@@ -62,6 +70,17 @@
 						},
 						success: function(response) {
 							if (response) {
+								// cookie 저장
+								if ($('#loginCheck').is(':checked')) {
+									console.log('checked');
+									setCookie('id_staff', $("input[name=id]").val(), 30);
+									setCookie('pw_staff', $("input[name=pw]").val(), 30);
+									setCookie('autoLogin_staff', 'Y', 30);
+								} else {
+									deleteCookie('id_staff');
+									deleteCookie('pw_staff');
+									deleteCookie('autoLogin_staff');
+								}
 								location = '<c:url value="/index.st"/>';
 							} else {
 								toast('error', '사번 또는 비밀번호를 확인해주세요.');
@@ -72,6 +91,12 @@
 						}
 					});
 				}
+			}
+		}
+		
+		function searchEnterKey(keyword) {
+			if (window.event.keyCode == 13) {
+				$("#login_btn").trigger("click");
 			}
 		}
 	</script>

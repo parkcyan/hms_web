@@ -62,7 +62,7 @@ p { margin: 0 !important; }
 						<p>원무과</p>
 					</div>
 				</div>
-				<div class="card shadow" style="width: 30%; height: 75%;" onclick="javascript:location.href='index.ad'">
+				<div class="card shadow" style="width: 30%; height: 75%;" onclick="javascript:location.href='staffList.ad'">
 					<div class="card-body menu">
 						<i class="fas fa-cogs"></i>
 						<p>관리자</p>
