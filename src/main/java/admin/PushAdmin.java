@@ -46,7 +46,6 @@ public class PushAdmin {
 			Request request = new Request.Builder().header("Authorization", "key=" + FCM_KEY)
 					.url("https://fcm.googleapis.com/fcm/send").post(body).build();
 			res = client.newCall(request).execute();
-			System.out.println("예약 알림");
 		} catch (Exception e) {
 			e.printStackTrace();	
 			return false;
