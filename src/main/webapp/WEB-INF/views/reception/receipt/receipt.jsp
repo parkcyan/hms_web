@@ -66,14 +66,14 @@ box-sizing: border-box;}
 								<div class="py-3">
 								<h6 class="m-0 font-weight-bold text-primary">접수</h6>
 								</div>								
-							<tr>
-								<td>이름</td>
-								<td><input class="form-control w-50 form-control" type="text" value='${name}' disabled/></td>
+							<tr style="height: 40px;">
+								<td style="width: 25%">이름</td>
+								<td style="width: 75%"><input class="form-control w-50 form-control" type="text" value='${name}' disabled/></td>
 							</tr>
 							<tr>
 								</td> 
 							</tr>
-							<tr>
+							<tr style="height: 40px;">
 								<td>담당의</td>
 								<td><div >						  									
 						  			<select class="form-control" id='doctor'>
@@ -89,7 +89,7 @@ box-sizing: border-box;}
 								  </select>
 								</div></td>
 							</tr>						
-							<tr>
+							<tr style="height: 120px;">
 								<td>메모</td>
 								<td><textarea class="form-control textarea-mr" id="memo"></textarea></td>
 							</tr>
@@ -109,7 +109,7 @@ box-sizing: border-box;}
 			<div class="col-lg-6 mb-4">
 				<div class="card shadow mb-4 h600">
 					<div class="card-header py-3">
-						<h6 class="m-0 font-weight-bold text-primary">대기현황</h6> 
+						<h6 class="mb-3 font-weight-bold text-primary">대기현황</h6> 
 						
 							<div>
 							<div  class="doctor">			
