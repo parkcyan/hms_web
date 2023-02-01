@@ -61,16 +61,7 @@
 		where p.patient_id = mr.patient_id 
 		and s.staff_id = mr.staff_id 
 		and to_char(mr.time, 'yyyy-mm-dd') = #{date}  
-		<choose>
-			<when test="option == 'department'">
-				and s.staff_id in (
-				select staff_id from staff where department_id = (select department_id from staff where staff_id = #{id}) and staff_level = 1
-				) 
-			</when>
-			<when test="option == 'doctor'">
-				and s.staff_id = #{id} 
-			</when>
-		</choose>
+		and s.staff_id = #{id} 
 		order by mr.time 
 	</select>
 	<select id="get_medical_record" resultType="staff.vo.MedicalRecordVO">
