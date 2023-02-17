@@ -110,7 +110,8 @@ box-sizing: border-box;}
 				<div class="card shadow mb-4 h600">
 					<div class="card-header py-3">
 						<h6 class="m-0 font-weight-bold text-primary">대기현황</h6> 
-						
+							<div>   LocalDate now = LocalDate.now();
+       					
 							<div>
 							<div  class="doctor">			
 							

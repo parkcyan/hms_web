@@ -72,17 +72,16 @@ order by time
 
 <!--수납정보가져오기 -->
  <select id='get_acceptance' resultType="Reception.vo.AcceptanceVO">
-select p.*, a.*, s.name doctor, p.name patient,
-to_char(m.treatment_date, 'yyyy-mm-dd')acceptance_date
-from patient p left outer join medical_record m 
-on p.patient_id= m.patient_id
-left outer join acceptance a 
-on m.medical_record_id = a.medical_record_id
-left outer join staff s
-on s.staff_id=m.staff_id
-where p.patient_id =#{id}
-order by acceptance_date desc
 
+select p.* , to_char(m.treatment_date, 'yyyy-mm-dd')acceptance_date, p.name patient, s.name doctor
+from patient p left outer join medical_record m
+on p.patient_id = m.patient_id
+left outer join staff s 
+on s.staff_id= m.staff_id
+left outer join acceptance a
+on a.medical_record_id= m.medical_record_id
+where p.patient_id= #{id}
+order by acceptance_date desc
 </select> 
 
 

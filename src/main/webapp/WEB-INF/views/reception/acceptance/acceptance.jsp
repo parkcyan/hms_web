@@ -75,7 +75,7 @@
 							<c:if test="${list ne null }">
 							<tr>
 								<td>이름</td>
-								<td><input class="form-control input-mini" id="gender" style="000000";
+								<td><input class="form-control input-mini" id="gender" 
 									type="text" value="${list[0].patient}" disabled /></td>
 							</tr>
 							<tr>

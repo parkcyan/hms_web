@@ -135,6 +135,7 @@ public class ReceptionController {
 			model.addAttribute("patient_id"  ,id);
 			if(list == null) {				
 				System.out.println(list.size());
+				
 			}
 			return "reception/acceptance/acceptance";
 		}
